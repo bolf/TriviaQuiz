@@ -1,11 +1,13 @@
 <resources>
-
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="TriviaQuiz" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#00c853</item>
+        <item name="colorPrimaryDark">#009624</item>
+        <item name="android:colorAccent">#ffd600</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:colorBackground">#faf6f6</item>
+        <!-- font settings -->
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="fontFamily">@font/roboto_regular</item>
     </style>
-
 </resources>
