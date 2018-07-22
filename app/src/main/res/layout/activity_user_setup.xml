@@ -17,7 +17,10 @@
             android:id="@+id/include"
             layout="@layout/toolbar_base"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView"
@@ -93,6 +96,7 @@
             android:layout_marginTop="36dp"
             android:background="@drawable/next_nav_button"
             android:text="@string/next_button_text"
+            android:onClick="goToCategoryChoosing"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
