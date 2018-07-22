@@ -1,5 +1,6 @@
 package b.lf.triviaquiz.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,5 +16,6 @@ public class UserSetupActivity extends AppCompatActivity {
 
         setSupportActionBar((Toolbar) findViewById(R.id.app_toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
     }
 }

@@ -1,13 +1,30 @@
 <resources>
-    <!-- Base application theme. -->
     <style name="TriviaQuiz" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">#00c853</item>
-        <item name="colorPrimaryDark">#009624</item>
-        <item name="android:colorAccent">#ffd600</item>
-        <item name="android:textColorPrimary">#000000</item>
-        <item name="android:colorBackground">#faf6f6</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:windowBackground">@color/app_background_color</item>
+
         <!-- font settings -->
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="fontFamily">@font/roboto_regular</item>
     </style>
+
+    <style name="TextViewDisplay1" parent="@style/TextAppearance.AppCompat.Display1">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="editTextHintBlack" parent="@style/TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="editTextHintGreen" parent="@style/TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+
 </resources>

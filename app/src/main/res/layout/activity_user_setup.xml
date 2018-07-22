@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.UserSetupActivity"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        tools:context=".ui.UserSetupActivity">
 
         <include
             android:id="@+id/include"
@@ -27,8 +27,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/choose_your_avatar"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/text_color_primary"
+            android:textAppearance="@style/TextViewDisplay1"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/include" />
@@ -39,84 +39,58 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="32dp"
+            android:contentDescription="@string/first_girl_avatar_descr"
             app:layout_constraintEnd_toStartOf="@+id/imageView_second_girl"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:srcCompat="@drawable/ic_girl0"
-            android:contentDescription="@string/first_girl_avatar_descr"/>
+            app:srcCompat="@drawable/ic_girl0" />
 
         <ImageView
             android:id="@+id/imageView_second_girl"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="32dp"
+            android:contentDescription="@string/second_girl_avatar_descr"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView_first_girl"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:srcCompat="@drawable/ic_girl1"
-            android:contentDescription="@string/second_girl_avatar_descr"/>
+            app:srcCompat="@drawable/ic_girl1" />
 
         <ImageView
             android:id="@+id/imageView_first_man"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/first_man_avatar_descr"
             app:layout_constraintEnd_toStartOf="@+id/imageView_second_man"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView_first_girl"
-            app:srcCompat="@drawable/ic_man0"
-            android:contentDescription="@string/first_man_avatar_descr"/>
+            app:srcCompat="@drawable/ic_man0" />
 
         <ImageView
             android:id="@+id/imageView_second_man"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/second_man_avatar_descr"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView_first_man"
             app:layout_constraintTop_toBottomOf="@+id/imageView_second_girl"
-            app:srcCompat="@drawable/ic_man1"
-            android:contentDescription="@string/second_man_avatar_descr"/>
-
-        <TextView
-            android:id="@+id/textView_nick"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="45dp"
-            android:text="@string/nick"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/text_color_primary"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_first_man"
-            android:labelFor="@+id/editText_nick"/>
-
-        <EditText
-            android:id="@+id/editText_nick"
-            android:layout_width="195dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/edittext_bottom_line"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/default_users_name"
-            app:layout_constraintBottom_toBottomOf="@+id/textView_nick"
-            app:layout_constraintStart_toEndOf="@+id/textView_nick" />
+            app:srcCompat="@drawable/ic_man1" />
 
         <Button
             android:id="@+id/next_btn"
-            android:layout_width="110dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
+            android:layout_marginBottom="40dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="36dp"
             android:background="@drawable/next_nav_button"
             android:text="@string/next_button_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -124,6 +98,31 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_nick" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="32dp"
+            android:textColorHint="@android:color/black"
+            app:hintAnimationEnabled="true"
+            app:hintTextAppearance="@style/editTextHintGreen"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_first_man">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_bottom_line"
+                android:hint="@string/nick"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textAppearance="@style/editTextHintGreen"
+                android:textColorHint="@color/colorPrimaryDark" />
+        </android.support.design.widget.TextInputLayout>
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
