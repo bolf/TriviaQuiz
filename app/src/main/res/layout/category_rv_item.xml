@@ -1,29 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/card_view"-->
+    <!--android:layout_width="150dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:background="@android:color/white"-->
+    <!--card_view:cardCornerRadius="4dp"-->
+    <!--card_view:cardUseCompatPadding="true"-->
+    <!--&gt;-->
+
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/edittext_bottom_line">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/imageView_category"
-        android:layout_width="256dp"
-        android:layout_height="256dp"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/darker_gray"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_margin="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/app_background_color"
         android:contentDescription="@string/category_icon"
-        app:layout_constraintBottom_toTopOf="@+id/textView_categoryName"
-        app:srcCompat="@drawable/ic_four_o_four"
-        tools:layout_editor_absoluteX="8dp" />
+        android:src="@drawable/ic_four_o_four"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_categoryName"
-        android:layout_width="256dp"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="72dp"
+        android:background="@color/app_background_color"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:padding="8dp"
         android:text="@string/test_category_name"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        app:layout_constraintStart_toStartOf="@+id/imageView_category"
-        tools:layout_editor_absoluteY="470dp" />
+        android:textAppearance="@style/categoryName"
+        card_view:layout_constraintStart_toStartOf="@+id/imageView_category"
+        card_view:layout_constraintTop_toBottomOf="@+id/imageView_category" />
 </android.support.constraint.ConstraintLayout>
+
+<!--</android.support.v7.widget.CardView>-->

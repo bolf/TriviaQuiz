@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import b.lf.triviaquiz.R;
@@ -26,6 +26,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     @Override
     public CategoryItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_rv_item, parent, false);
+        layoutView.setTag(mCategoriesList);
         return new CategoryItemViewHolder(layoutView);
     }
 
@@ -41,7 +42,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         return mCategoriesList.size();
     }
 
-    class CategoryItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class CategoryItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView mCategoryImage;
         TextView mCategoryName;
@@ -50,12 +51,19 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             super(itemView);
             itemView.setOnClickListener(this);
             mCategoryImage = itemView.findViewById(R.id.imageView_category);
-            mCategoryName  = itemView.findViewById(R.id.textView_categoryName);
+            mCategoryName = itemView.findViewById(R.id.textView_categoryName);
         }
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(view.getContext(), "eeee", Toast.LENGTH_SHORT).show();
+            //TODO: set the category's chosen field here
+            QuestionCategory tappedCategory = ((ArrayList<QuestionCategory>) itemView.getTag()).get(getAdapterPosition());
+            tappedCategory.setmCategoryIsChosen(!tappedCategory.getmCategoryIsChosen());
+            if(tappedCategory.getmCategoryIsChosen()){
+                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(R.color.colorPrimaryDark));
+            }else{
+                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(android.R.color.black));
+            }
         }
     }
 }

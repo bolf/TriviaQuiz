@@ -6,7 +6,7 @@ public class QuestionCategory {
     int mId;
     String mName;
     int mIcon;
-    Boolean mCategoryIsChosen;
+    boolean mCategoryIsChosen;
 
     public String getmName() {
         return mName;
@@ -22,6 +22,10 @@ public class QuestionCategory {
 
     public int getmId() {
         return mId;
+    }
+
+    public void setmCategoryIsChosen(Boolean mCategoryIsChosen) {
+        this.mCategoryIsChosen = mCategoryIsChosen;
     }
 
     public QuestionCategory(int id, String name) {
