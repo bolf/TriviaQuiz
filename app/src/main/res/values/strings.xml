@@ -12,4 +12,11 @@
     <string name="choose_questions_categories">Choose questions categories</string>
     <string name="test_category_name">Entertainment: Japanese Anime + Manga</string>
     <string name="category_icon">Category icon</string>
+
+    <string-array name="difficulties_array">
+        <item></item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
 </resources>

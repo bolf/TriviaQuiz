@@ -67,6 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/recyclerView_categories"
         app:srcCompat="@drawable/ic_move_to_next"
-        android:contentDescription="@app:string/next_button_text"/>
+        android:contentDescription="@app:string/next_button_text"
+        android:onClick="goToQuizSetupActivity"/>
 
 </android.support.constraint.ConstraintLayout>
