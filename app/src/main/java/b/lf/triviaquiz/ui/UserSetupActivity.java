@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import b.lf.triviaquiz.ChoosingQuestionsCategoriesActivity;
 import b.lf.triviaquiz.R;
 
 public class UserSetupActivity extends AppCompatActivity {

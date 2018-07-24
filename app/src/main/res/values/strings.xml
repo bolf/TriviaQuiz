@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Trivia Quiz</string>
     <string name="default_users_name">Mr.Fox</string>
-    <string name="next_button_text">Next</string>
-    <string name="prev_button_text">Prev.</string>
+    <string name="next_button_text">Next button</string>
+    <string name="prev_button_text">Previous button</string>
     <string name="choose_your_avatar">Choose your avatar</string>
     <string name="nick">Your nick</string>
     <string name="first_girl_avatar_descr">first girl avatar</string>

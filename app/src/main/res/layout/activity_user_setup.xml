@@ -13,6 +13,21 @@
         android:focusableInTouchMode="true"
         tools:context=".ui.UserSetupActivity">
 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:elevation="4dp"
+            android:onClick="goToCategoryChoosing"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include"
+            app:srcCompat="@drawable/ic_move_to_next"
+            android:contentDescription="@app:string/next_button_text"/>
+
         <include
             android:id="@+id/include"
             layout="@layout/toolbar_base"
@@ -84,25 +99,6 @@
             app:layout_constraintStart_toEndOf="@+id/imageView_first_man"
             app:layout_constraintTop_toBottomOf="@+id/imageView_second_girl"
             app:srcCompat="@drawable/ic_man1" />
-
-        <Button
-            android:id="@+id/next_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginBottom="40dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="36dp"
-            android:background="@drawable/next_nav_button"
-            android:text="@string/next_button_text"
-            android:onClick="goToCategoryChoosing"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/textInputLayout"

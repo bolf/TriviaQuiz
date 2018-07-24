@@ -32,8 +32,9 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="categoryNameCosen" parent="@style/TextAppearance.AppCompat.Headline">
+    <style name="categoryNameChosen" parent="@style/TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
     </style>
 </resources>
