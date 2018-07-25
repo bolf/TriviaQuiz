@@ -40,7 +40,7 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
         });
     }
 
-    ArrayList<QuestionCategory> getFakeCategoryList() {
+    public static ArrayList<QuestionCategory> getFakeCategoryList() {
         ArrayList<QuestionCategory> aL = new ArrayList<>();
         aL.add(new QuestionCategory(9, "General Knowledge"));
         aL.add(new QuestionCategory(10, "Entertainment: Books"));

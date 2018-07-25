@@ -10,7 +10,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".ui.QuizSetupActivity"
         android:focusableInTouchMode="true">
 
@@ -21,7 +21,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="8dp"
             android:contentDescription="@app:string/next_button_text"
-            android:onClick="goToQuizSetupActivity"
+            android:onClick="goToQuestionActivity"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/include"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="Questions difficulty"
             android:textAppearance="@style/TextViewDisplay1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="32dp"
             android:text="Chosen categories"
             android:textAppearance="@style/TextViewDisplay1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +111,8 @@
                 android:maxLines="1"
                 android:textAlignment="center"
                 android:textAppearance="@style/editTextHintGreen"
-                android:textColorHint="@color/colorPrimaryDark" />
+                android:textColorHint="@color/colorPrimaryDark"
+                android:digits="0123456789"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatSpinner
@@ -124,15 +125,19 @@
             android:entries="@array/difficulties_array"
             android:textAlignment="center"
             android:theme="@style/Spinner"
+            android:spinnerMode="dropdown"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/chosen_categories_rv"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

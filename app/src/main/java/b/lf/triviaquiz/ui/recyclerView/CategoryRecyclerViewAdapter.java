@@ -23,7 +23,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     private final View mHeader;
     private List<QuestionCategory> mCategoriesList;
 
-    public CategoryRecyclerViewAdapter(List<QuestionCategory> mCategoriesList,View header) {
+    public CategoryRecyclerViewAdapter(List<QuestionCategory> mCategoriesList, View header) {
         this.mCategoriesList = mCategoriesList;
         this.mHeader = header;
     }
@@ -38,19 +38,25 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         if (viewType == ITEM_VIEW_TYPE_HEADER) {
             return new CategoryItemViewHolder(mHeader);
         }
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_rv_item, parent, false);
-        layoutView.setTag(mCategoriesList);
+        View layoutView = null;
+        if (mHeader != null) {
+            layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_rv_item, parent, false);
+            layoutView.setTag(mCategoriesList);
+        } else {
+            layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.chosen_category_rv_item, parent, false);
+        }
         return new CategoryItemViewHolder(layoutView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CategoryItemViewHolder holder, int position) {
-        if (isHeader(position)) {
+        if (mHeader != null && isHeader(position)) {
             return;
         }
-        holder.mCategoryName.setText(mCategoriesList.get(position-1).getmName());
-        holder.mCategoryImage.setImageResource(mCategoriesList.get(position-1).getmIcon());
-        setChosenAppearance(holder,mCategoriesList.get(position-1));
+        int minus = mHeader == null ? 0 : 1;
+        holder.mCategoryName.setText(mCategoriesList.get(position-minus).getmName());
+        holder.mCategoryImage.setImageResource(mCategoriesList.get(position-minus).getmIcon());
+        setChosenAppearance(holder,mCategoriesList.get(position-minus));
     }
 
     private void setChosenAppearance(CategoryItemViewHolder holder, QuestionCategory questionCategory) {
@@ -65,12 +71,12 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
 
     @Override
     public int getItemViewType(int position) {
-        return isHeader(position) ? ITEM_VIEW_TYPE_HEADER : ITEM_VIEW_TYPE_ITEM;
+        return (isHeader(position)&& mHeader != null) ? ITEM_VIEW_TYPE_HEADER : ITEM_VIEW_TYPE_ITEM;
     }
 
     @Override
     public int getItemCount() {
-        return mCategoriesList.size() + 1;
+        return mCategoriesList.size() + (mHeader == null ? 0 : 1);
     }
 
     class CategoryItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -80,7 +86,9 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
 
         public CategoryItemViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
+            if (mHeader != null){
+                itemView.setOnClickListener(this);
+            }
             mCategoryImage = itemView.findViewById(R.id.imageView_category);
             mCategoryName = itemView.findViewById(R.id.textView_categoryName);
         }
