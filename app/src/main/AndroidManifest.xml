@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".ui.ChoosingQuestionsCategoriesActivity" />
         <activity android:name=".ui.QuizSetupActivity" />
-        <activity android:name=".ui.QuestionActivity"></activity>
+        <activity android:name=".ui.QuestionActivity" />
+        <activity android:name=".ui.ScoreActivity"></activity>
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@
         android:layout_marginTop="8dp"
         android:contentDescription="@app:string/next_button_text"
         android:elevation="4dp"
-        android:onClick="goToCategoryChoosing"
+        android:onClick="goToNextQuestion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Q 16 of 32"
+        android:text="Question 16 of 32"
         android:textAppearance="@style/TextViewDisplay1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +69,8 @@
         android:id="@+id/textView8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:text="Difficulty - medium"
         android:textAppearance="@style/userBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,8 +82,8 @@
         android:id="@+id/textView9"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:text="Category - Science: Computers"
         android:textAppearance="@style/userBar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,8 +95,8 @@
         android:id="@+id/textView10"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="What was the name given  to Android 4.3"
         android:textAppearance="@style/TextViewDisplay1"
@@ -178,17 +178,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_share" />
 
 
 </android.support.constraint.ConstraintLayout>
