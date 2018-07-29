@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -15,29 +18,25 @@
             android:id="@+id/imageView8"
             android:layout_width="34dp"
             android:layout_height="34dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="48dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
             android:contentDescription="@app:string/next_button_text"
             android:elevation="4dp"
             android:onClick="goToNextQuestion"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include"
             app:srcCompat="@drawable/ic_move_to_next" />
 
         <ImageView
             android:id="@+id/imageView7"
             android:layout_width="34dp"
             android:layout_height="34dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="48dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:contentDescription="@app:string/prev_button_text"
             android:onClick="goToUserSetUpActivity"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/include2"
             app:srcCompat="@drawable/ic_move_to_prev" />
 
         <include
@@ -184,4 +183,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
     </android.support.constraint.ConstraintLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

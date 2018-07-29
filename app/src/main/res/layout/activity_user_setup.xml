@@ -17,16 +17,14 @@
             android:id="@+id/imageView3"
             android:layout_width="34dp"
             android:layout_height="34dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="48dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
+            android:contentDescription="@app:string/next_button_text"
             android:elevation="4dp"
             android:onClick="goToCategoryChoosing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include"
-            app:srcCompat="@drawable/ic_move_to_next"
-            android:contentDescription="@app:string/next_button_text"/>
+            app:srcCompat="@drawable/ic_move_to_next" />
 
         <include
             android:id="@+id/include"

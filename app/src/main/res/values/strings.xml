@@ -12,6 +12,10 @@
     <string name="choose_questions_categories">Choose questions categories</string>
     <string name="test_category_name">Entertainment: Japanese Anime + Manga</string>
     <string name="category_icon">Category icon</string>
+    <string name="navigation_drawer_open">Open DC</string>
+    <string name="navigation_drawer_close">Close DC</string>
+    <string name="questions_quantity_difficulty"><![CDATA[Questions quantity & difficulty]]></string>
+    <string name="questions_categories">Questions categories</string>
 
     <string-array name="difficulties_array">
         <item></item>

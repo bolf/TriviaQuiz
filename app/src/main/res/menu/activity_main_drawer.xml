@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_achievements"
+            android:icon="@drawable/ic_show_chart_black"
+            android:title="My achievements" />
+        <item
+            android:id="@+id/nav_restart_current"
+            android:icon="@drawable/ic_restart_black"
+            android:title="Restart current quiz" />
+
+        <item
+            android:id="@+id/nav_reset_total"
+            android:icon="@drawable/ic_clear_all_black"
+            android:title="Reset total scores" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info_outline_black"
+            android:title="About TriviaQuiz" />
+    </group>
+
+    <item android:title="Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_set_questions_categories"
+                android:icon="@drawable/ic_settings_black"
+                android:title="@string/questions_categories" />
+            <item
+                android:id="@+id/nav_set_questions_quantity_difficulty"
+                android:icon="@drawable/ic_settings_black"
+                android:title="@string/questions_quantity_difficulty" />
+        </menu>
+    </item>
+
+</menu>
