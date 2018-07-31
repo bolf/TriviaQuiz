@@ -7,6 +7,27 @@ public class User implements Parcelable {
     private String mNick;
     private int mAvatarId;
 
+    public String getmNick() {
+        return mNick;
+    }
+
+    public void setmNick(String mNick) {
+        this.mNick = mNick;
+    }
+
+    public int getmAvatarId() {
+        return mAvatarId;
+    }
+
+    public void setmAvatarId(int mAvatarId) {
+        this.mAvatarId = mAvatarId;
+    }
+
+    public User(String mNick, int mAvatarId) {
+        this.mNick = mNick;
+        this.mAvatarId = mAvatarId;
+    }
+
     private User(Parcel in) {
         mNick = in.readString();
         mAvatarId = in.readInt();

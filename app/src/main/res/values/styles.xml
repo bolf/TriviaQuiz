@@ -24,6 +24,11 @@
 
     <style name="editTextHintGreen" parent="@style/TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="editTextGreen" parent="@style/TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">26sp</item>
     </style>
 

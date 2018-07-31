@@ -14,7 +14,7 @@
         tools:context=".ui.UserSetupActivity">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/user_setup_iv_move_to_next_screen"
             android:layout_width="34dp"
             android:layout_height="34dp"
             android:layout_marginBottom="48dp"
@@ -36,7 +36,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/user_setup_tv_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -51,67 +51,77 @@
 
 
         <ImageView
-            android:id="@+id/imageView_first_girl"
+            android:id="@+id/user_setup_iv_first_girl"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="32dp"
             android:contentDescription="@string/first_girl_avatar_descr"
-            app:layout_constraintEnd_toStartOf="@+id/imageView_second_girl"
+            android:paddingBottom="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/user_setup_iv_second_girl"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:srcCompat="@drawable/ic_girl0" />
+            app:layout_constraintTop_toBottomOf="@+id/user_setup_tv_header"
+            app:srcCompat="@drawable/ic_girl0"
+            android:onClick="onChoosingAvatar"/>
 
         <ImageView
-            android:id="@+id/imageView_second_girl"
+            android:id="@+id/user_setup_iv_second_girl"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="32dp"
             android:contentDescription="@string/second_girl_avatar_descr"
+            android:paddingBottom="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageView_first_girl"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:srcCompat="@drawable/ic_girl1" />
+            app:layout_constraintStart_toEndOf="@+id/user_setup_iv_first_girl"
+            app:layout_constraintTop_toBottomOf="@+id/user_setup_tv_header"
+            app:srcCompat="@drawable/ic_girl1"
+            android:onClick="onChoosingAvatar"/>
 
         <ImageView
-            android:id="@+id/imageView_first_man"
+            android:id="@+id/user_setup_iv_first_man"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="32dp"
             android:contentDescription="@string/first_man_avatar_descr"
-            app:layout_constraintEnd_toStartOf="@+id/imageView_second_man"
+            android:paddingBottom="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/user_setup_iv_second_man"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_first_girl"
-            app:srcCompat="@drawable/ic_man0" />
+            app:layout_constraintTop_toBottomOf="@+id/user_setup_iv_first_girl"
+            app:srcCompat="@drawable/ic_man0"
+            android:onClick="onChoosingAvatar"/>
 
         <ImageView
-            android:id="@+id/imageView_second_man"
+            android:id="@+id/user_setup_iv_second_man"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="32dp"
             android:contentDescription="@string/second_man_avatar_descr"
+            android:paddingBottom="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageView_first_man"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_second_girl"
-            app:srcCompat="@drawable/ic_man1" />
+            app:layout_constraintStart_toEndOf="@+id/user_setup_iv_first_man"
+            app:layout_constraintTop_toBottomOf="@+id/user_setup_iv_second_girl"
+            app:srcCompat="@drawable/ic_man1"
+            android:onClick="onChoosingAvatar"/>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/user_setup_ti_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="32dp"
-            android:textColorHint="@android:color/black"
+
+        app:hintTextAppearance="@style/editTextHintGreen"
+        android:textColorHint="@color/colorPrimaryDark"
             app:hintAnimationEnabled="true"
-            app:hintTextAppearance="@style/editTextHintGreen"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_first_man">
+            app:layout_constraintEnd_toEndOf="@+id/user_setup_tv_header"
+            app:layout_constraintStart_toStartOf="@+id/user_setup_tv_header"
+            app:layout_constraintTop_toBottomOf="@+id/user_setup_iv_first_man">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/user_setup_ti_nick"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bottom_line"
@@ -119,8 +129,11 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:textAlignment="center"
-                android:textAppearance="@style/editTextHintGreen"
-                android:textColorHint="@color/colorPrimaryDark" />
+                android:textAppearance="@style/editTextGreen"
+                android:textColorHint="@color/colorPrimaryDark"/>
         </android.support.design.widget.TextInputLayout>
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
+
+    <!--app:hintTextAppearance="@style/editTextHintGreen"-->
+    <!--android:textColorHint="@android:color/black"-->
