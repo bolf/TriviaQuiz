@@ -1,10 +1,7 @@
 package b.lf.triviaquiz.ui;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +30,7 @@ public class UserSetupActivity extends AppCompatActivity {
             if (userInJson != null) {
                 mUser = new Gson().fromJson(userInJson, User.class);
             } else {
-                mUser = new User("Mr.Fox", 10);
+                mUser = User.getDefaultUser();
             }
         }
 
@@ -42,21 +39,21 @@ public class UserSetupActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        mUser.setmNick(((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).getText().toString());
+        mUser.setNick(((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).getText().toString());
         SharedPreferencesUtils.writeStringValue(this, SharedPreferencesUtils.SHARED_PREF_USER,new Gson().toJson(mUser));
         super.onSaveInstanceState(outState);
     }
 
     private void setUIAccordingToUserObject() {
-        ((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).setText(mUser.getmNick());
-        if (mUser.getmAvatarId() == 0) {
-            findViewById(R.id.user_setup_iv_first_girl).setBackground(getDrawable(R.drawable.edittext_bottom_line));
-        } else if (mUser.getmAvatarId() == 1) {
-            findViewById(R.id.user_setup_iv_second_girl).setBackground(getDrawable(R.drawable.edittext_bottom_line));
-        } else if (mUser.getmAvatarId() == 10) {
-            findViewById(R.id.user_setup_iv_first_man).setBackground(getDrawable(R.drawable.edittext_bottom_line));
-        } else if (mUser.getmAvatarId() == 11) {
-            findViewById(R.id.user_setup_iv_second_man).setBackground(getDrawable(R.drawable.edittext_bottom_line));
+        ((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).setText(mUser.getNick());
+        if (mUser.getAvatarId() == 0) {
+            findViewById(R.id.user_setup_iv_first_girl).setBackground(getDrawable(R.drawable.two_dp_bottom_line));
+        } else if (mUser.getAvatarId() == 1) {
+            findViewById(R.id.user_setup_iv_second_girl).setBackground(getDrawable(R.drawable.two_dp_bottom_line));
+        } else if (mUser.getAvatarId() == 10) {
+            findViewById(R.id.user_setup_iv_first_man).setBackground(getDrawable(R.drawable.two_dp_bottom_line));
+        } else if (mUser.getAvatarId() == 11) {
+            findViewById(R.id.user_setup_iv_second_man).setBackground(getDrawable(R.drawable.two_dp_bottom_line));
         }
     }
 
@@ -74,13 +71,13 @@ public class UserSetupActivity extends AppCompatActivity {
         view.setBackground(getDrawable(R.drawable.two_dp_bottom_line));
 
         if(view.getId() == R.id.user_setup_iv_first_man){
-            mUser.setmAvatarId(10);
+            mUser.setAvatarId(10);
         }else if(view.getId() == R.id.user_setup_iv_second_man){
-            mUser.setmAvatarId(11);
+            mUser.setAvatarId(11);
         }else if(view.getId() == R.id.user_setup_iv_first_girl){
-            mUser.setmAvatarId(0);
+            mUser.setAvatarId(0);
         }else if(view.getId() == R.id.user_setup_iv_second_girl){
-            mUser.setmAvatarId(1);
+            mUser.setAvatarId(1);
         }
     }
 }

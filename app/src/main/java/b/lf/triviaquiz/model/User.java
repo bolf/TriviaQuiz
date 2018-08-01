@@ -1,36 +1,49 @@
 package b.lf.triviaquiz.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@Entity(tableName = "user")
 public class User implements Parcelable {
-    private String mNick;
-    private int mAvatarId;
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+    private String nick;
+    private int avatarId;
 
-    public String getmNick() {
-        return mNick;
+    public String getNick() {
+        return nick;
     }
 
-    public void setmNick(String mNick) {
-        this.mNick = mNick;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
-    public int getmAvatarId() {
-        return mAvatarId;
+    public int getAvatarId() {
+        return avatarId;
     }
 
-    public void setmAvatarId(int mAvatarId) {
-        this.mAvatarId = mAvatarId;
+    public void setAvatarId(int avatarId) {
+        this.avatarId = avatarId;
     }
 
-    public User(String mNick, int mAvatarId) {
-        this.mNick = mNick;
-        this.mAvatarId = mAvatarId;
+    public static User getDefaultUser(){
+        return new User("Mr.Fox", 10);
     }
 
+    @Ignore
+    private User(String nick, int avatarId) {
+        this.nick = nick;
+        this.avatarId = avatarId;
+    }
+
+    @Ignore
     private User(Parcel in) {
-        mNick = in.readString();
-        mAvatarId = in.readInt();
+        nick = in.readString();
+        avatarId = in.readInt();
     }
 
     @Override
@@ -40,8 +53,8 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mNick);
-        dest.writeInt(mAvatarId);
+        dest.writeString(nick);
+        dest.writeInt(avatarId);
     }
 
     @SuppressWarnings("unused")

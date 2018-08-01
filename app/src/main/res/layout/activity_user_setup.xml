@@ -134,6 +134,3 @@
         </android.support.design.widget.TextInputLayout>
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
-
-    <!--app:hintTextAppearance="@style/editTextHintGreen"-->
-    <!--android:textColorHint="@android:color/black"-->
