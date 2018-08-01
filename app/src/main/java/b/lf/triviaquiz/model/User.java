@@ -1,6 +1,5 @@
 package b.lf.triviaquiz.model;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
@@ -9,10 +8,23 @@ import android.os.Parcelable;
 
 @Entity(tableName = "user")
 public class User implements Parcelable {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private long id;
     private String nick;
     private int avatarId;
+
+    @Override
+    public String toString() {
+        return getNick();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getNick() {
         return nick;
@@ -34,10 +46,13 @@ public class User implements Parcelable {
         return new User("Mr.Fox", 10);
     }
 
+    public User(){}
+
     @Ignore
-    private User(String nick, int avatarId) {
+    public User(String nick, int avatarId) {
         this.nick = nick;
         this.avatarId = avatarId;
+        this.id = System.currentTimeMillis();
     }
 
     @Ignore

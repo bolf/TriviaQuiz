@@ -9,7 +9,7 @@
         android:roundIcon="@drawable/ic_quiz"
         android:supportsRtl="true"
         android:theme="@style/TriviaQuiz">
-        <activity android:name=".ui.UserSetupActivity">
+        <activity android:name=".ui.StarterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +20,7 @@
         <activity android:name=".ui.QuizSetupActivity" />
         <activity android:name=".ui.QuestionActivity" />
         <activity android:name=".ui.ScoreActivity" />
-        <activity android:name=".ui.NavActivity"></activity>
+        <activity android:name=".ui.NavActivity" />
     </application>
 
 </manifest>

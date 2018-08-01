@@ -37,6 +37,11 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="black_20sp" parent="@style/TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="userBar" parent="@style/TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">12sp</item>
@@ -53,5 +58,11 @@
         <item name="android:paddingEnd">0dp</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">26sp</item>
+    </style>
+
+    <style name="customSpinnerTheme" parent="TriviaQuiz">
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">#000000</item>
+        <item name="colorControlHighlight">#000000</item>
     </style>
 </resources>
