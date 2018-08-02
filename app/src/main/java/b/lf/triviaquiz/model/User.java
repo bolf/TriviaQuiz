@@ -6,6 +6,8 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import b.lf.triviaquiz.R;
+
 @Entity(tableName = "user")
 public class User implements Parcelable {
     @PrimaryKey
@@ -84,4 +86,19 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    public int getDrawableID(){
+        int id = -1;
+        if(avatarId == 0){
+            id = R.drawable.ic_girl0;
+        }else if(avatarId == 1){
+            id = R.drawable.ic_girl1;
+        }else if(avatarId == 10){
+            id = R.drawable.ic_man0;
+        }else if(avatarId == 11){
+            id = R.drawable.ic_man1;
+        }
+
+        return id;
+    }
 }

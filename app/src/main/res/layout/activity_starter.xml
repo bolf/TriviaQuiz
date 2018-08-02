@@ -51,7 +51,7 @@
 
 
         <ImageView
-            android:id="@+id/starter_iv_first_girl"
+            android:id="@+id/starter_iv_current_user"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
@@ -74,7 +74,7 @@
             android:textAppearance="@style/black_20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/starter_iv_first_girl" />
+            app:layout_constraintTop_toBottomOf="@+id/starter_iv_current_user" />
 
         <Spinner
             android:id="@+id/starter_spinner_users"
@@ -86,18 +86,34 @@
             android:theme="@style/customSpinnerTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+            app:layout_constraintTop_toBottomOf="@+id/starter_spinner_header" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/starter_spinner_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
-            android:text="Available users"
+            android:layout_marginTop="32dp"
             android:popupBackground="@android:color/holo_green_dark"
+            android:text="Available users"
             android:textAppearance="@style/black_20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button3" />
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/app_background_color"
+            android:onClick="addUser"
+            android:text="add user"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/starter_current_user_nick" />

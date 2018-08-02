@@ -9,7 +9,10 @@ import android.view.View;
 import com.google.gson.Gson;
 
 import b.lf.triviaquiz.R;
+import b.lf.triviaquiz.database.TQ_DataBase;
+import b.lf.triviaquiz.database.UserDao;
 import b.lf.triviaquiz.model.User;
+import b.lf.triviaquiz.utils.DiskIOExecutor;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
 
 public class UserSetupActivity extends AppCompatActivity {
@@ -25,15 +28,7 @@ public class UserSetupActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (mUser == null) {
-            String userInJson = SharedPreferencesUtils.readStringFromSharedPreferences(this, SharedPreferencesUtils.SHARED_PREF_USER);
-            if (userInJson != null) {
-                mUser = new Gson().fromJson(userInJson, User.class);
-            } else {
-                mUser = User.getDefaultUser();
-            }
-        }
-
+        mUser = User.getDefaultUser();
         setUIAccordingToUserObject();
     }
 
@@ -58,6 +53,20 @@ public class UserSetupActivity extends AppCompatActivity {
     }
 
     public void goToCategoryChoosing(View view) {
+        //save current user to SharedPref
+        mUser.setNick(((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).getText().toString());
+        SharedPreferencesUtils.writeStringValue(this, SharedPreferencesUtils.SHARED_PREF_USER,new Gson().toJson(mUser));
+
+        //save user to DB
+        final UserDao userDao = TQ_DataBase.getInstance(UserSetupActivity.this).userDao();
+
+        DiskIOExecutor.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                userDao.insertUser(mUser);
+            }
+        });
+
         Intent intent = new Intent(this, ChoosingQuestionsCategoriesActivity.class);
         startActivity(intent);
     }
