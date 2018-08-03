@@ -15,13 +15,14 @@ import b.lf.triviaquiz.model.QuestionCategory;
 import b.lf.triviaquiz.ui.recyclerView.CategoryRecyclerViewAdapter;
 
 public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
-
     private GridLayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choosing_questions_categories);
+
+
 
         RecyclerView categoryRecyclerView = findViewById(R.id.recyclerView_categories);
         mLayoutManager = new GridLayoutManager(this, 2);
@@ -57,8 +58,13 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
         return aL;
     }
 
-    public void goToUserSetUpActivity(View view) {
-        Intent intent = new Intent(this,UserSetupActivity.class);
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    public void goToStarterActivity(View view) {
+        Intent intent = new Intent(this,StarterActivity.class);
         startActivity(intent);
     }
 

@@ -6,6 +6,8 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 import b.lf.triviaquiz.R;
 
 @Entity(tableName = "user")
@@ -14,6 +16,20 @@ public class User implements Parcelable {
     private long id;
     private String nick;
     private int avatarId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
 
     @Override
     public String toString() {

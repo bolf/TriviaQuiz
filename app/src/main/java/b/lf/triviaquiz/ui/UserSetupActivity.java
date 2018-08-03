@@ -69,6 +69,7 @@ public class UserSetupActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, ChoosingQuestionsCategoriesActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void onChoosingAvatar(View view){

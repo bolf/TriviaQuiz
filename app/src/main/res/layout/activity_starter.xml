@@ -52,12 +52,10 @@
 
         <ImageView
             android:id="@+id/starter_iv_current_user"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/first_girl_avatar_descr"
-            android:onClick="onChoosingAvatar"
-            android:paddingBottom="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/starter_tv_header"
@@ -113,7 +111,7 @@
             android:layout_marginTop="32dp"
             android:background="@color/app_background_color"
             android:onClick="addUser"
-            android:text="add user"
+            android:text="new user"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/starter_current_user_nick" />

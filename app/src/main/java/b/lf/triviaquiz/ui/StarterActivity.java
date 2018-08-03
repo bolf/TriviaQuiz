@@ -51,8 +51,12 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
         if (mUser == null) {
             mUser = getCurrentUser();
         }
+        processCurrentUserChange();
+    }
+
+    private void processCurrentUserChange(){
         ImageView curUserIV = findViewById(R.id.starter_iv_current_user);
-        curUserIV.setImageDrawable(getDrawable(mUser.getDrawableID()));
+        curUserIV.setImageResource(mUser.getDrawableID());
         ((TextView)findViewById(R.id.starter_current_user_nick)).setText(mUser.getNick());
     }
 
@@ -88,6 +92,7 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
             adapter.setDropDownViewResource(R.layout.spiner_item_textview);
             spinner.setAdapter(adapter);
             spinner.setOnItemSelectedListener(this);
+            spinner.setSelection(users.indexOf(mUser));
         }else{
             findViewById(R.id.starter_spinner_header).setVisibility(View.GONE);
             findViewById(R.id.starter_spinner_users).setVisibility(View.GONE);
@@ -97,16 +102,18 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Snackbar.make(view, mUserLst.get(position).getNick(), Snackbar.LENGTH_SHORT).show();
+        mUser = mUserLst.get(position);
+        processCurrentUserChange();
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        processCurrentUserChange();
     }
 
     public void goToCategoryChoosing(View view) {
         Intent intent = new Intent(this, ChoosingQuestionsCategoriesActivity.class);
+        intent.putExtra("ButtonPreviousVisibility", View.VISIBLE);
         startActivity(intent);
     }
 

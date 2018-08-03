@@ -42,13 +42,13 @@
         app:layout_constraintTop_toBottomOf="@+id/include" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/choosing_act_iv_goto_previous"
         android:layout_width="34dp"
         android:layout_height="34dp"
         android:layout_marginBottom="48dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@app:string/prev_button_text"
-        android:onClick="goToUserSetUpActivity"
+        android:onClick="goToStarterActivity"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView_categories"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_move_to_prev" />
