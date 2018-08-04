@@ -69,13 +69,13 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     }
 
     private void setChosenAppearance(CategoryItemViewHolder holder, QuestionCategory questionCategory) {
-//        if(questionCategory.getCategoryIsChosen()){
-//            holder.mCategoryName.setTextColor(holder.mCategoryName.getResources().getColor(R.color.colorPrimaryDark));
-//            holder.mCategoryName.setTypeface(null, Typeface.BOLD);
-//        }else{
-//            holder.mCategoryName.setTextColor(holder.mCategoryName.getResources().getColor(android.R.color.black));
-//            holder.mCategoryName.setTypeface(null, Typeface.NORMAL);
-//        }
+        if(questionCategory.isChosen()){
+            holder.mCategoryName.setTextColor(holder.mCategoryName.getResources().getColor(R.color.colorPrimaryDark));
+            holder.mCategoryName.setTypeface(null, Typeface.BOLD);
+        }else{
+            holder.mCategoryName.setTextColor(holder.mCategoryName.getResources().getColor(android.R.color.black));
+            holder.mCategoryName.setTypeface(null, Typeface.NORMAL);
+        }
     }
 
     @Override
@@ -104,15 +104,15 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
 
         @Override
         public void onClick(View view) {
-//            QuestionCategory tappedCategory = ((ArrayList<QuestionCategory>) itemView.getTag()).get(getAdapterPosition()-1);
-//            tappedCategory.setCategoryIsChosen(!tappedCategory.getCategoryIsChosen());
-//            if(tappedCategory.getCategoryIsChosen()){
-//                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(R.color.colorPrimaryDark));
-//                ((TextView) view.findViewById(R.id.textView_categoryName)).setTypeface(null, Typeface.BOLD);
-//            }else{
-//                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(android.R.color.black));
-//                ((TextView) view.findViewById(R.id.textView_categoryName)).setTypeface(null, Typeface.NORMAL);
-//            }
+            QuestionCategory tappedCategory = ((ArrayList<QuestionCategory>) itemView.getTag()).get(getAdapterPosition()-1);
+            tappedCategory.setChosen(!tappedCategory.isChosen());
+            if(tappedCategory.isChosen()){
+                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(R.color.colorPrimaryDark));
+                ((TextView) view.findViewById(R.id.textView_categoryName)).setTypeface(null, Typeface.BOLD);
+            }else{
+                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(android.R.color.black));
+                ((TextView) view.findViewById(R.id.textView_categoryName)).setTypeface(null, Typeface.NORMAL);
+            }
         }
     }
 }

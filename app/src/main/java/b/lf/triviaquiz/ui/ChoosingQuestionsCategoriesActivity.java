@@ -33,7 +33,6 @@ import retrofit2.Response;
 
 public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
     private Session mSession;
-    private List<QuestionCategory> chosenCategoriesList;
     private GridLayoutManager mLayoutManager;
     private CategoryRecyclerViewAdapter mAdapter;
     private boolean shouldGetCategoriesFromNet = true;
@@ -42,6 +41,8 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choosing_questions_categories);
+
+        mSession = SharedPreferencesUtils.retrieveSession(this);
 
         //recycler initialization
         mLayoutManager = new GridLayoutManager(this, 2);
@@ -61,7 +62,6 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
             }
         });
 
-
         setupViewModel();
     }
 
@@ -70,8 +70,17 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
         categoriesViewModel.getAllCategories().observe(this, new Observer<List<QuestionCategory>>() {
             @Override
             public void onChanged(@Nullable List<QuestionCategory> questionCategories) {
-                //read from db categories
+                //for correct setting appearance let us set the chosen field
+                List<QuestionCategory> tmpLst = mSession.getQuestionsCategories();
+                for(QuestionCategory sessionCategory : tmpLst){
+                    for(QuestionCategory categoryForAdapter : questionCategories) {
+                        if(categoryForAdapter.equals(sessionCategory)){
+                            categoryForAdapter.setChosen(true);
+                        }
+                    }
+                }
                 mAdapter.setCategoriesList(questionCategories);
+                mAdapter.notifyDataSetChanged();
                 //if today we already have asked the remote server for categories then won't do this again
                 if ((System.currentTimeMillis() - SharedPreferencesUtils.retrieveCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this)) > 86400000)
                     if (NetworkUtils.networkIsAvailable(ChoosingQuestionsCategoriesActivity.this)) {
@@ -102,7 +111,6 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
                             categoriesForDbPersistence.add(category);
                         }
                     }
-
                     if (categoriesForDbPersistence.size() > 0) {
                         final CategoryDao categoryDao = TQ_DataBase.getInstance(ChoosingQuestionsCategoriesActivity.this).categoryDao();
                         for (final QuestionCategory category : categoriesForDbPersistence) {
@@ -131,14 +139,29 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        mSession = SharedPreferencesUtils.retrieveSession(this);
     }
 
     public void goToStarterActivity(View view) {
+        fillSessionQuestionsCategories();
+        SharedPreferencesUtils.persistSession(this, mSession);
         Intent intent = new Intent(this,StarterActivity.class);
         startActivity(intent);
     }
 
+    private void fillSessionQuestionsCategories() {
+        mSession.getQuestionsCategories().clear();
+        List<QuestionCategory> tmpLst = mAdapter.getmCategoriesList();
+        for(QuestionCategory category : tmpLst){
+            if(category.isChosen()){
+                mSession.getQuestionsCategories().add(category);
+            }
+        }
+    }
+
     public void goToQuizSetupActivity(View view) {
+        fillSessionQuestionsCategories();
+        SharedPreferencesUtils.persistSession(this, mSession);
         Intent intent = new Intent(this,QuizSetupActivity.class);
         startActivity(intent);
     }

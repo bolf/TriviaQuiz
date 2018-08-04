@@ -14,6 +14,16 @@ public class QuestionCategory{
     private int id;
     private String name;
     private int iconId;
+    @Ignore
+    private boolean isChosen;
+
+    public boolean isChosen() {
+        return isChosen;
+    }
+
+    public void setChosen(boolean chosen) {
+        isChosen = chosen;
+    }
 
     @Override
     public boolean equals(Object o) {
