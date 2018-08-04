@@ -1,52 +1,76 @@
 package b.lf.triviaquiz.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import b.lf.triviaquiz.R;
 
-public class QuestionCategory {
-    int mId;
-    String mName;
-    int mIcon;
-    boolean mCategoryIsChosen;
+@Entity(tableName = "category")
+public class QuestionCategory{
+    @PrimaryKey
+    private int id;
+    private String name;
+    private int iconId;
 
-    public String getmName() {
-        return mName;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getmIcon() {
-        return mIcon;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Boolean getmCategoryIsChosen() {
-        return mCategoryIsChosen;
+    public void setIconId(int iconId) {
+        this.iconId = iconId;
     }
 
-    public int getmId() {
-        return mId;
+    public String getName() {
+        return name;
     }
 
-    public void setmCategoryIsChosen(Boolean mCategoryIsChosen) {
-        this.mCategoryIsChosen = mCategoryIsChosen;
+    public int getIconId() {
+        return iconId;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public QuestionCategory(){}
+
+    @Ignore
     public QuestionCategory(int id, String name) {
-        this.mId = id;
-        this.mName = name;
-        mIcon = getIconById(id);
+        this.id = id;
+        this.name = name;
+        iconId = getIconById(id);
     }
 
-    public static int getIconById(int id){
-        if(id == 9) return R.drawable.ic_general_knowledge;
-        if(id == 10) return R.drawable.ic_books;
-        if(id == 11) return R.drawable.ic_film;
-        if(id == 12) return R.drawable.ic_music;
-        if(id == 13) return R.drawable.ic_theatre;
-        if(id == 14) return R.drawable.ic_television;
-        if(id == 15) return R.drawable.ic_video_game;
-        if(id == 16) return R.drawable.ic_board_game;
-        if(id == 17) return R.drawable.ic_nat_science;
-        if(id == 18) return R.drawable.ic_computer;
-        if(id == 19) return R.drawable.ic_math;
-        //TODO: add icons
-        return R.drawable.ic_four_o_four;
+    private static int getIconById(int id){
+        if(id == 9) return R.drawable._general_knowledge;
+        if(id == 10) return R.drawable._books;
+        if(id == 11) return R.drawable._film;
+        if(id == 12) return R.drawable._music;
+        if(id == 13) return R.drawable._theatre;
+        if(id == 14) return R.drawable._television;
+        if(id == 15) return R.drawable._video_game;
+        if(id == 16) return R.drawable._board_game;
+        if(id == 17) return R.drawable._nat_science;
+        if(id == 18) return R.drawable._computer;
+        if(id == 19) return R.drawable._math;
+        if(id == 20) return R.drawable._mythology;
+        if(id == 21) return R.drawable._sports;
+        if(id == 22) return R.drawable._geography;
+        if(id == 23) return R.drawable._history;
+        if(id == 24) return R.drawable._politics;
+        if(id == 25) return R.drawable._art;
+        if(id == 26) return R.drawable._celebrities;
+        if(id == 27) return R.drawable._animals;
+        if(id == 28) return R.drawable._vehicles;
+        if(id == 29) return R.drawable._comics;
+        if(id == 30) return R.drawable._gadgets;
+        if(id == 31) return R.drawable._anime;
+        if(id == 32) return R.drawable._cartoon;
+        return R.drawable.ic_four_o_four; //if match has not been found
     }
 }

@@ -3,12 +3,27 @@ package b.lf.triviaquiz.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import b.lf.triviaquiz.R;
+import com.google.gson.Gson;
+
+import b.lf.triviaquiz.model.Session;
 
 public class SharedPreferencesUtils {
 
-    public static final String PREF_FILE_NAME = "b.lf.triviaquiz.shp";
-    public static final String SHARED_PREF_USER = "user";
+    private static final String PREF_FILE_NAME = "b.lf.triviaquiz.shp";
+    private static final String SHARED_PREF_SESSION = "session";
+
+    public static void persistSession(Context context,Session session){
+        writeStringValue(context, SHARED_PREF_SESSION,new Gson().toJson(session));
+    }
+
+    public static Session retrieveSession(Context context) {
+        Session session = null;
+        String sessionInJson = SharedPreferencesUtils.readStringFromSharedPreferences(context, SharedPreferencesUtils.SHARED_PREF_SESSION);
+        if (sessionInJson != null) {
+            session = new Gson().fromJson(sessionInJson, Session.class);
+        }
+        return session;
+    }
 
     public static void writeStringValue(Context context, String prefName, String prefVal){
         SharedPreferences sharedPref = context.getSharedPreferences(PREF_FILE_NAME,Context.MODE_PRIVATE);

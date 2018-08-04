@@ -23,6 +23,11 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     private final View mHeader;
     private List<QuestionCategory> mCategoriesList;
 
+
+    public void setCategoriesList(List<QuestionCategory> mCategoriesList) {
+        this.mCategoriesList = mCategoriesList;
+    }
+
     public CategoryRecyclerViewAdapter(List<QuestionCategory> mCategoriesList, View header) {
         this.mCategoriesList = mCategoriesList;
         this.mHeader = header;
@@ -54,19 +59,19 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             return;
         }
         int minus = mHeader == null ? 0 : 1;
-        holder.mCategoryName.setText(mCategoriesList.get(position-minus).getmName());
-        holder.mCategoryImage.setImageResource(mCategoriesList.get(position-minus).getmIcon());
+        holder.mCategoryName.setText(mCategoriesList.get(position-minus).getName());
+        holder.mCategoryImage.setImageResource(mCategoriesList.get(position-minus).getIconId());
         setChosenAppearance(holder,mCategoriesList.get(position-minus));
     }
 
     private void setChosenAppearance(CategoryItemViewHolder holder, QuestionCategory questionCategory) {
-        if(questionCategory.getmCategoryIsChosen()){
-            holder.mCategoryName.setTextColor(holder.mCategoryName.getResources().getColor(R.color.colorPrimaryDark));
-            holder.mCategoryName.setTypeface(null, Typeface.BOLD);
-        }else{
-            holder.mCategoryName.setTextColor(holder.mCategoryName.getResources().getColor(android.R.color.black));
-            holder.mCategoryName.setTypeface(null, Typeface.NORMAL);
-        }
+//        if(questionCategory.getCategoryIsChosen()){
+//            holder.mCategoryName.setTextColor(holder.mCategoryName.getResources().getColor(R.color.colorPrimaryDark));
+//            holder.mCategoryName.setTypeface(null, Typeface.BOLD);
+//        }else{
+//            holder.mCategoryName.setTextColor(holder.mCategoryName.getResources().getColor(android.R.color.black));
+//            holder.mCategoryName.setTypeface(null, Typeface.NORMAL);
+//        }
     }
 
     @Override
@@ -95,15 +100,15 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
 
         @Override
         public void onClick(View view) {
-            QuestionCategory tappedCategory = ((ArrayList<QuestionCategory>) itemView.getTag()).get(getAdapterPosition()-1);
-            tappedCategory.setmCategoryIsChosen(!tappedCategory.getmCategoryIsChosen());
-            if(tappedCategory.getmCategoryIsChosen()){
-                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(R.color.colorPrimaryDark));
-                ((TextView) view.findViewById(R.id.textView_categoryName)).setTypeface(null, Typeface.BOLD);
-            }else{
-                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(android.R.color.black));
-                ((TextView) view.findViewById(R.id.textView_categoryName)).setTypeface(null, Typeface.NORMAL);
-            }
+//            QuestionCategory tappedCategory = ((ArrayList<QuestionCategory>) itemView.getTag()).get(getAdapterPosition()-1);
+//            tappedCategory.setCategoryIsChosen(!tappedCategory.getCategoryIsChosen());
+//            if(tappedCategory.getCategoryIsChosen()){
+//                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(R.color.colorPrimaryDark));
+//                ((TextView) view.findViewById(R.id.textView_categoryName)).setTypeface(null, Typeface.BOLD);
+//            }else{
+//                ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(android.R.color.black));
+//                ((TextView) view.findViewById(R.id.textView_categoryName)).setTypeface(null, Typeface.NORMAL);
+//            }
         }
     }
 }

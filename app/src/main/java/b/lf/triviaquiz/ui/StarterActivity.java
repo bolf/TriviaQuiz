@@ -19,25 +19,25 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import b.lf.triviaquiz.R;
+import b.lf.triviaquiz.model.Session;
 import b.lf.triviaquiz.model.User;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
 import b.lf.triviaquiz.viewModels.UserViewModel;
 
 public class StarterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    User mUser;
-    List<User> mUserLst;
+    private Session mSession;
+    private List<User> mUserLst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starter);
 
-        if (mUser == null) {
-            mUser = getCurrentUser();
-        }
+        mSession = SharedPreferencesUtils.retrieveSession(this);
 
-        if (mUser == null){ //there is no previously saved user
+        if (mSession == null){ //there is no previously saved session, let us choose user & open new session
             Intent intent = new Intent(StarterActivity.this, UserSetupActivity.class);
+            intent.putExtra("newSession", true);
             startActivity(intent);
             finish();
         }
@@ -48,25 +48,15 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onResume() {
         super.onResume();
-        if (mUser == null) {
-            mUser = getCurrentUser();
-        }
+        mSession = SharedPreferencesUtils.retrieveSession(this);
+
         processCurrentUserChange();
     }
 
     private void processCurrentUserChange(){
         ImageView curUserIV = findViewById(R.id.starter_iv_current_user);
-        curUserIV.setImageResource(mUser.getDrawableID());
-        ((TextView)findViewById(R.id.starter_current_user_nick)).setText(mUser.getNick());
-    }
-
-    private User getCurrentUser(){
-        User usr = null;
-        String userInJson = SharedPreferencesUtils.readStringFromSharedPreferences(this, SharedPreferencesUtils.SHARED_PREF_USER);
-        if (userInJson != null) {
-            usr = new Gson().fromJson(userInJson, User.class);
-        }
-        return usr;
+        curUserIV.setImageResource(mSession.getUser().getDrawableID());
+        ((TextView)findViewById(R.id.starter_current_user_nick)).setText(mSession.getUser().getNick());
     }
 
     private void setupViewModel() {
@@ -92,7 +82,7 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
             adapter.setDropDownViewResource(R.layout.spiner_item_textview);
             spinner.setAdapter(adapter);
             spinner.setOnItemSelectedListener(this);
-            spinner.setSelection(users.indexOf(mUser));
+            spinner.setSelection(users.indexOf(mSession.getUser()));
         }else{
             findViewById(R.id.starter_spinner_header).setVisibility(View.GONE);
             findViewById(R.id.starter_spinner_users).setVisibility(View.GONE);
@@ -102,8 +92,9 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mUser = mUserLst.get(position);
+        mSession.setUser(mUserLst.get(position));
         processCurrentUserChange();
+        SharedPreferencesUtils.persistSession(this, mSession);
     }
 
     @Override
@@ -119,6 +110,7 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
 
     public void addUser(View view) {
         Intent intent = new Intent(StarterActivity.this, UserSetupActivity.class);
+        intent.putExtra("newSession", true);
         startActivity(intent);
         finish();
     }

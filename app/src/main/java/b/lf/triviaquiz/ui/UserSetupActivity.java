@@ -1,22 +1,23 @@
 package b.lf.triviaquiz.ui;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.gson.Gson;
+import java.util.ArrayList;
 
 import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.database.TQ_DataBase;
-import b.lf.triviaquiz.database.UserDao;
+import b.lf.triviaquiz.model.QuestionCategory;
+import b.lf.triviaquiz.model.Session;
 import b.lf.triviaquiz.model.User;
-import b.lf.triviaquiz.utils.DiskIOExecutor;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
 
 public class UserSetupActivity extends AppCompatActivity {
-    User mUser;
+    private Session mSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,44 +29,58 @@ public class UserSetupActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        mUser = User.getDefaultUser();
-        setUIAccordingToUserObject();
+        Bundle intentExtras = getIntent().getExtras();
+        if(intentExtras != null && intentExtras.getBoolean("newSession",false)){
+            mSession = new Session(User.getDefaultUser(),new ArrayList<QuestionCategory>(),0,null);
+            getIntent().removeExtra("newSession");
+        }else{
+            mSession = SharedPreferencesUtils.retrieveSession(this);
+        }
+
+        setUIAccordingToSessionState();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        mUser.setNick(((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).getText().toString());
-        SharedPreferencesUtils.writeStringValue(this, SharedPreferencesUtils.SHARED_PREF_USER,new Gson().toJson(mUser));
+        mSession.getUser().setNick(((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).getText().toString());
+        SharedPreferencesUtils.persistSession(this, mSession);
         super.onSaveInstanceState(outState);
     }
 
-    private void setUIAccordingToUserObject() {
-        ((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).setText(mUser.getNick());
-        if (mUser.getAvatarId() == 0) {
+    private void setUIAccordingToSessionState() {
+        ((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).setText(mSession.getUser().getNick());
+        if (mSession.getUser().getAvatarId() == 0) {
             findViewById(R.id.user_setup_iv_first_girl).setBackground(getDrawable(R.drawable.two_dp_bottom_line));
-        } else if (mUser.getAvatarId() == 1) {
+        } else if (mSession.getUser().getAvatarId() == 1) {
             findViewById(R.id.user_setup_iv_second_girl).setBackground(getDrawable(R.drawable.two_dp_bottom_line));
-        } else if (mUser.getAvatarId() == 10) {
+        } else if (mSession.getUser().getAvatarId() == 10) {
             findViewById(R.id.user_setup_iv_first_man).setBackground(getDrawable(R.drawable.two_dp_bottom_line));
-        } else if (mUser.getAvatarId() == 11) {
+        } else if (mSession.getUser().getAvatarId() == 11) {
             findViewById(R.id.user_setup_iv_second_man).setBackground(getDrawable(R.drawable.two_dp_bottom_line));
         }
     }
 
     public void goToCategoryChoosing(View view) {
-        //save current user to SharedPref
-        mUser.setNick(((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).getText().toString());
-        SharedPreferencesUtils.writeStringValue(this, SharedPreferencesUtils.SHARED_PREF_USER,new Gson().toJson(mUser));
+        mSession.getUser().setNick(((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).getText().toString());
+        SharedPreferencesUtils.persistSession(this, mSession);
+
+        //here AsyncTask usage goes!
+        new AsyncTask<User,Void,Void>(){
+            @Override
+            protected Void doInBackground(User... users) {
+                TQ_DataBase.getInstance(UserSetupActivity.this).userDao().insertUser(users[0]);
+                return null;
+            }
+        }.execute(mSession.getUser());
 
         //save user to DB
-        final UserDao userDao = TQ_DataBase.getInstance(UserSetupActivity.this).userDao();
-
-        DiskIOExecutor.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                userDao.insertUser(mUser);
-            }
-        });
+        //final UserDao userDao = TQ_DataBase.getInstance(UserSetupActivity.this).userDao();
+//        DiskIOExecutor.getInstance().diskIO().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                userDao.insertUser(mSession.getUser());
+//            }
+//        });
 
         Intent intent = new Intent(this, ChoosingQuestionsCategoriesActivity.class);
         startActivity(intent);
@@ -81,13 +96,13 @@ public class UserSetupActivity extends AppCompatActivity {
         view.setBackground(getDrawable(R.drawable.two_dp_bottom_line));
 
         if(view.getId() == R.id.user_setup_iv_first_man){
-            mUser.setAvatarId(10);
+            mSession.getUser().setAvatarId(10);
         }else if(view.getId() == R.id.user_setup_iv_second_man){
-            mUser.setAvatarId(11);
+            mSession.getUser().setAvatarId(11);
         }else if(view.getId() == R.id.user_setup_iv_first_girl){
-            mUser.setAvatarId(0);
+            mSession.getUser().setAvatarId(0);
         }else if(view.getId() == R.id.user_setup_iv_second_girl){
-            mUser.setAvatarId(1);
+            mSession.getUser().setAvatarId(1);
         }
     }
 }

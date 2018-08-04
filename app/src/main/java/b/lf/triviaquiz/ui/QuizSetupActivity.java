@@ -20,9 +20,9 @@ public class QuizSetupActivity extends AppCompatActivity {
         RecyclerView categoryRecyclerView = findViewById(R.id.chosen_categories_rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         categoryRecyclerView.setLayoutManager(layoutManager);
-        CategoryRecyclerViewAdapter adapter = new CategoryRecyclerViewAdapter(ChoosingQuestionsCategoriesActivity.getFakeCategoryList(),null);
-        categoryRecyclerView.setHasFixedSize(true);
-        categoryRecyclerView.setAdapter(adapter);
+        //CategoryRecyclerViewAdapter adapter = new CategoryRecyclerViewAdapter(ChoosingQuestionsCategoriesActivity.getFakeCategoryList(),null);
+        //categoryRecyclerView.setHasFixedSize(true);
+        //categoryRecyclerView.setAdapter(adapter);
 
 
 

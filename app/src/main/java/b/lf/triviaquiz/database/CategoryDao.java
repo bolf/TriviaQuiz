@@ -7,13 +7,13 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import b.lf.triviaquiz.model.User;
+import b.lf.triviaquiz.model.QuestionCategory;
 
 @Dao
-public interface UserDao {
-    @Query("SELECT * FROM user ORDER BY id")
-    LiveData<List<User>> getAllUsers();
+public interface CategoryDao {
+    @Query("SELECT * FROM category ORDER BY id")
+    LiveData<List<QuestionCategory>> getAllCategories();
 
     @Insert
-    void insertUser(User user);
+    void insertCategory(QuestionCategory questionCategory);
 }

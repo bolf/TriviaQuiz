@@ -3,33 +3,17 @@ package b.lf.triviaquiz.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.Objects;
 
 import b.lf.triviaquiz.R;
 
 @Entity(tableName = "user")
-public class User implements Parcelable {
+public class User{
     @PrimaryKey
     private long id;
     private String nick;
     private int avatarId;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id);
-    }
 
     @Override
     public String toString() {
@@ -73,35 +57,19 @@ public class User implements Parcelable {
         this.id = System.currentTimeMillis();
     }
 
-    @Ignore
-    private User(Parcel in) {
-        nick = in.readString();
-        avatarId = in.readInt();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
     }
 
     @Override
-    public int describeContents() {
-        return 0;
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(nick);
-        dest.writeInt(avatarId);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     public int getDrawableID(){
         int id = -1;
@@ -114,7 +82,6 @@ public class User implements Parcelable {
         }else if(avatarId == 11){
             id = R.drawable.ic_man1;
         }
-
         return id;
     }
 }
