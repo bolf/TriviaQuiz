@@ -28,6 +28,10 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         this.mCategoriesList = mCategoriesList;
     }
 
+    public List<QuestionCategory> getmCategoriesList() {
+        return mCategoriesList;
+    }
+
     public CategoryRecyclerViewAdapter(List<QuestionCategory> mCategoriesList, View header) {
         this.mCategoriesList = mCategoriesList;
         this.mHeader = header;

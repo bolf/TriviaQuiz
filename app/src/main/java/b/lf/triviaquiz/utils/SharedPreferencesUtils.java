@@ -11,6 +11,7 @@ public class SharedPreferencesUtils {
 
     private static final String PREF_FILE_NAME = "b.lf.triviaquiz.shp";
     private static final String SHARED_PREF_SESSION = "session";
+    private static final String SHARED_PREF_CATEGORIES_GETTING_TIME = "LastCategoriesGettingTime";
 
     public static void persistSession(Context context,Session session){
         writeStringValue(context, SHARED_PREF_SESSION,new Gson().toJson(session));
@@ -32,10 +33,18 @@ public class SharedPreferencesUtils {
         editor.apply();
     }
 
-    public static void writeIntValue(Context context, String prefName, int prefVal){
+    public static void writeLastCategoriesGettingTime(Context context){
+       writeLongValue(context, SHARED_PREF_CATEGORIES_GETTING_TIME, System.currentTimeMillis());
+    }
+
+    public static long retrieveCategoriesGettingTime(Context context){
+        return SharedPreferencesUtils.readLongFromSharedPreferences(context, SHARED_PREF_CATEGORIES_GETTING_TIME);
+    }
+
+    public static void writeLongValue(Context context, String prefName, long prefVal){
         SharedPreferences sharedPref = context.getSharedPreferences(PREF_FILE_NAME,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt(prefName, prefVal);
+        editor.putLong(prefName, prefVal);
         editor.apply();
     }
 
@@ -44,9 +53,9 @@ public class SharedPreferencesUtils {
         return sharedPref.getString(prefName,null);
     }
 
-    public static  int readIntFromSharedPreferences(Context context, String prefName){
+    public static  long readLongFromSharedPreferences(Context context, String prefName){
         SharedPreferences sharedPref = context.getSharedPreferences(PREF_FILE_NAME,Context.MODE_PRIVATE);
-        return sharedPref.getInt(prefName,0);
+        return sharedPref.getLong(prefName,0);
     }
 
 }

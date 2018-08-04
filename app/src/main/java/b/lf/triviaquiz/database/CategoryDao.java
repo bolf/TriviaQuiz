@@ -14,6 +14,9 @@ public interface CategoryDao {
     @Query("SELECT * FROM category ORDER BY id")
     LiveData<List<QuestionCategory>> getAllCategories();
 
+    @Query("SELECT * FROM category WHERE id IN(:id)")
+    List<QuestionCategory> getCategoriesByIds(int[] id);
+
     @Insert
     void insertCategory(QuestionCategory questionCategory);
 }

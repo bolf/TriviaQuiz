@@ -4,6 +4,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.Objects;
+
 import b.lf.triviaquiz.R;
 
 @Entity(tableName = "category")
@@ -12,6 +14,20 @@ public class QuestionCategory{
     private int id;
     private String name;
     private int iconId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuestionCategory category = (QuestionCategory) o;
+        return id == category.id;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -46,7 +62,7 @@ public class QuestionCategory{
         iconId = getIconById(id);
     }
 
-    private static int getIconById(int id){
+    public static int getIconById(int id){
         if(id == 9) return R.drawable._general_knowledge;
         if(id == 10) return R.drawable._books;
         if(id == 11) return R.drawable._film;

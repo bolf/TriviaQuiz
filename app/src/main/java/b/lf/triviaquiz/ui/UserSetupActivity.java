@@ -73,15 +73,6 @@ public class UserSetupActivity extends AppCompatActivity {
             }
         }.execute(mSession.getUser());
 
-        //save user to DB
-        //final UserDao userDao = TQ_DataBase.getInstance(UserSetupActivity.this).userDao();
-//        DiskIOExecutor.getInstance().diskIO().execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                userDao.insertUser(mSession.getUser());
-//            }
-//        });
-
         Intent intent = new Intent(this, ChoosingQuestionsCategoriesActivity.class);
         startActivity(intent);
         finish();
