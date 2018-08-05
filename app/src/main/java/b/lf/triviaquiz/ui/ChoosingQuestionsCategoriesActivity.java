@@ -1,10 +1,8 @@
 package b.lf.triviaquiz.ui;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,9 +17,10 @@ import java.util.List;
 import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.database.CategoryDao;
 import b.lf.triviaquiz.database.TQ_DataBase;
+import b.lf.triviaquiz.database.UserDao;
 import b.lf.triviaquiz.model.QuestionCategory;
 import b.lf.triviaquiz.model.QuestionCategoryWrapper;
-import b.lf.triviaquiz.model.Session;
+import b.lf.triviaquiz.model.User;
 import b.lf.triviaquiz.ui.recyclerView.CategoryRecyclerViewAdapter;
 import b.lf.triviaquiz.utils.DiskIOExecutor;
 import b.lf.triviaquiz.utils.NetworkUtils;
@@ -32,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
-    private Session mSession;
+    private CategoriesViewModel mCategoriesViewModel;
     private GridLayoutManager mLayoutManager;
     private CategoryRecyclerViewAdapter mAdapter;
     private boolean shouldGetCategoriesFromNet = true;
@@ -42,15 +41,13 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choosing_questions_categories);
 
-        //mSession = SharedPreferencesUtils.retrieveSession(this);
-
         //recycler initialization
         mLayoutManager = new GridLayoutManager(this, 2);
         RecyclerView mCategoryRecyclerView = findViewById(R.id.recyclerView_categories);
         mCategoryRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new CategoryRecyclerViewAdapter(new ArrayList<QuestionCategory>(),LayoutInflater.from(this).inflate( //header within recycler view
-                R.layout.category_rv_header, mCategoryRecyclerView, false));;
+        mAdapter = new CategoryRecyclerViewAdapter(new ArrayList<>(),LayoutInflater.from(this).inflate( //header within recycler view
+                R.layout.category_rv_header, mCategoryRecyclerView, false));
 
         mCategoryRecyclerView.setHasFixedSize(true);
         mCategoryRecyclerView.setAdapter(mAdapter);
@@ -66,33 +63,35 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
     }
 
     private void setupViewModel() {
-        CategoriesViewModel categoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel.class);
-        categoriesViewModel.getAllCategories().observe(this, new Observer<List<QuestionCategory>>() {
-            @Override
-            public void onChanged(@Nullable List<QuestionCategory> questionCategories) {
-                //for correct setting appearance let us set the chosen field
-                List<QuestionCategory> tmpLst = mSession.getQuestionsCategories();
-                for(QuestionCategory sessionCategory : tmpLst){
-                    for(QuestionCategory categoryForAdapter : questionCategories) {
-                        if(categoryForAdapter.equals(sessionCategory)){
-                            categoryForAdapter.setChosen(true);
-                        }
+        mCategoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel.class);
+        mCategoriesViewModel.setLiveDataFilter(SharedPreferencesUtils.retrieveCurrentUserId(this));
+        mCategoriesViewModel.getUser().observe(this, user -> processGettingCurrentUserFromDb());
+    }
+
+    private void processGettingCurrentUserFromDb() {
+        mCategoriesViewModel.getAllCategories().observe(this, questionCategories -> {
+            //for correct setting appearance let us set the chosen field
+            List<QuestionCategory> tmpLst = mCategoriesViewModel.getUser().getValue().getChosenQuestionsCategories();
+            for (QuestionCategory chosenCategory : tmpLst) {
+                for (QuestionCategory categoryForAdapter : questionCategories) {
+                    if (categoryForAdapter.equals(chosenCategory)) {
+                        categoryForAdapter.setChosen(true);
                     }
                 }
-                mAdapter.setCategoriesList(questionCategories);
-                mAdapter.notifyDataSetChanged();
-                //if today we already have asked the remote server for categories then won't do this again
-                if ((System.currentTimeMillis() - SharedPreferencesUtils.retrieveCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this)) > 86400000)
-                    if (NetworkUtils.networkIsAvailable(ChoosingQuestionsCategoriesActivity.this)) {
-                        if (shouldGetCategoriesFromNet || questionCategories.size() == 0) {
-                            getCategoriesFromNet();
-                            SharedPreferencesUtils.writeLastCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this);
-                        }
-                    } else {
-                        String msg = "network is down now. can not get updates for categories";
-                        Snackbar.make(findViewById(R.id.recyclerView_categories), msg, Snackbar.LENGTH_LONG).show();
-                    }
             }
+            mAdapter.setCategoriesList(questionCategories);
+            mAdapter.notifyDataSetChanged();
+            //if today we already have asked the remote server for categories then won't do this again
+            if ((System.currentTimeMillis() - SharedPreferencesUtils.retrieveCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this)) > 86400000)
+                if (NetworkUtils.networkIsAvailable(ChoosingQuestionsCategoriesActivity.this)) {
+                    if (shouldGetCategoriesFromNet || questionCategories.size() == 0) {
+                        getCategoriesFromNet();
+                        SharedPreferencesUtils.writeLastCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this);
+                    }
+                } else {
+                    String msg = "network is down now. can not get updates for categories";
+                    Snackbar.make(findViewById(R.id.recyclerView_categories), msg, Snackbar.LENGTH_LONG).show();
+                }
         });
 
     }
@@ -114,12 +113,9 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
                     if (categoriesForDbPersistence.size() > 0) {
                         final CategoryDao categoryDao = TQ_DataBase.getInstance(ChoosingQuestionsCategoriesActivity.this).categoryDao();
                         for (final QuestionCategory category : categoriesForDbPersistence) {
-                            DiskIOExecutor.getInstance().diskIO().execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    category.setIconId(QuestionCategory.getIconById(category.getId()));
-                                    categoryDao.insertCategory(category);
-                                }
+                            DiskIOExecutor.getInstance().diskIO().execute(() -> {
+                                category.setIconId(QuestionCategory.getIconById(category.getId()));
+                                categoryDao.insertCategory(category);
                             });
                         }
                     }
@@ -136,32 +132,30 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //mSession = SharedPreferencesUtils.retrieveSession(this);
-    }
-
     public void goToStarterActivity(View view) {
-        fillSessionQuestionsCategories();
-        //SharedPreferencesUtils.persistSession(this, mSession);
+        commitChosenCategoriesToUserObject();
         Intent intent = new Intent(this,StarterActivity.class);
         startActivity(intent);
     }
 
-    private void fillSessionQuestionsCategories() {
-        mSession.getQuestionsCategories().clear();
+
+    private void commitChosenCategoriesToUserObject(){
+        User usr = mCategoriesViewModel.getUser().getValue();
+        usr.getChosenQuestionsCategories().clear();
         List<QuestionCategory> tmpLst = mAdapter.getmCategoriesList();
         for(QuestionCategory category : tmpLst){
             if(category.isChosen()){
-                mSession.getQuestionsCategories().add(category);
+                usr.getChosenQuestionsCategories().add(category);
             }
         }
+        final UserDao userDao = TQ_DataBase.getInstance(ChoosingQuestionsCategoriesActivity.this).userDao();
+        DiskIOExecutor.getInstance().diskIO().execute(() -> {
+            userDao.insertUser(usr);
+        });
     }
 
     public void goToQuizSetupActivity(View view) {
-        fillSessionQuestionsCategories();
-        //SharedPreferencesUtils.persistSession(this, mSession);
+        commitChosenCategoriesToUserObject();
         Intent intent = new Intent(this,QuizSetupActivity.class);
         startActivity(intent);
     }

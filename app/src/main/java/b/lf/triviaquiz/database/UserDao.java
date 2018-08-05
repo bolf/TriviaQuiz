@@ -3,6 +3,7 @@ package b.lf.triviaquiz.database;
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
@@ -14,9 +15,10 @@ public interface UserDao {
     @Query("SELECT * FROM user ORDER BY id")
     LiveData<List<User>> getAllUsers();
 
-    @Query("SELECT * FROM user WHERE id = :id")
+    @Query("SELECT * FROM user WHERE id =:id")
     LiveData<User> getUserById(long id);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(User user);
+
 }
