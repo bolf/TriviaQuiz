@@ -32,7 +32,7 @@ public class UserSetupActivity extends AppCompatActivity {
     }
 
     private void setUIAccordingToUserState() {
-        ((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).setText(mViewModel.getUser().getNick());
+        ((TextInputEditText)findViewById(R.id.user_setup_ti)).setText(mViewModel.getUser().getNick());
         if (mViewModel.getUser().getAvatarId() == 0) {
             findViewById(R.id.user_setup_iv_first_girl).setBackground(getDrawable(R.drawable.two_dp_bottom_line));
         } else if (mViewModel.getUser().getAvatarId() == 1) {
@@ -52,12 +52,12 @@ public class UserSetupActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        mViewModel.getUser().setNick(((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).getText().toString());
+        mViewModel.getUser().setNick(((TextInputEditText)findViewById(R.id.user_setup_ti)).getText().toString());
         super.onSaveInstanceState(outState);
     }
 
     public void goToCategoryChoosing(View view) {
-        mViewModel.getUser().setNick(((TextInputEditText)findViewById(R.id.user_setup_ti_nick)).getText().toString());
+        mViewModel.getUser().setNick(((TextInputEditText)findViewById(R.id.user_setup_ti)).getText().toString());
         SharedPreferencesUtils.persistCurrentUserId(this, mViewModel.getUser().getId());
 
         //here AsyncTask utilization goes!
