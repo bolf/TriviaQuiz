@@ -14,6 +14,9 @@ public interface UserDao {
     @Query("SELECT * FROM user ORDER BY id")
     LiveData<List<User>> getAllUsers();
 
+    @Query("SELECT * FROM user WHERE id = :id")
+    LiveData<User> getUserById(long id);
+
     @Insert
     void insertUser(User user);
 }

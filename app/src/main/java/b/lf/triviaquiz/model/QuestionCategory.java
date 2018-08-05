@@ -15,7 +15,7 @@ public class QuestionCategory{
     private String name;
     private int iconId;
     @Ignore
-    private boolean isChosen;
+    private transient boolean isChosen;
 
     public boolean isChosen() {
         return isChosen;

@@ -42,7 +42,7 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choosing_questions_categories);
 
-        mSession = SharedPreferencesUtils.retrieveSession(this);
+        //mSession = SharedPreferencesUtils.retrieveSession(this);
 
         //recycler initialization
         mLayoutManager = new GridLayoutManager(this, 2);
@@ -139,12 +139,12 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mSession = SharedPreferencesUtils.retrieveSession(this);
+        //mSession = SharedPreferencesUtils.retrieveSession(this);
     }
 
     public void goToStarterActivity(View view) {
         fillSessionQuestionsCategories();
-        SharedPreferencesUtils.persistSession(this, mSession);
+        //SharedPreferencesUtils.persistSession(this, mSession);
         Intent intent = new Intent(this,StarterActivity.class);
         startActivity(intent);
     }
@@ -161,7 +161,7 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
 
     public void goToQuizSetupActivity(View view) {
         fillSessionQuestionsCategories();
-        SharedPreferencesUtils.persistSession(this, mSession);
+        //SharedPreferencesUtils.persistSession(this, mSession);
         Intent intent = new Intent(this,QuizSetupActivity.class);
         startActivity(intent);
     }

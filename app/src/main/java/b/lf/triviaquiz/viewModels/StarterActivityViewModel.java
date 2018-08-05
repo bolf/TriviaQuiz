@@ -10,13 +10,23 @@ import java.util.List;
 import b.lf.triviaquiz.database.TQ_DataBase;
 import b.lf.triviaquiz.model.User;
 
-public class UserViewModel extends AndroidViewModel {
+public class StarterActivityViewModel extends AndroidViewModel {
     private LiveData<List<User>> usersList;
+    private User user;
 
-    public UserViewModel(@NonNull Application application) {
+
+    public StarterActivityViewModel(@NonNull Application application) {
         super(application);
         TQ_DataBase db = TQ_DataBase.getInstance(this.getApplication());
         usersList = db.userDao().getAllUsers();
+    }
+
+    public User getUser(){
+        return user;
+    }
+
+    public void setUser(User user){
+        this.user = user;
     }
 
     public LiveData<List<User>> getAllUsers(){

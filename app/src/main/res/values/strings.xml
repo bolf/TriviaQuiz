@@ -16,6 +16,7 @@
     <string name="navigation_drawer_close">Close DC</string>
     <string name="questions_quantity_difficulty"><![CDATA[Questions quantity & difficulty]]></string>
     <string name="questions_categories">Questions categories</string>
+    <string name="newUserBooleanIntentExtra">newUser</string>
 
     <string-array name="difficulties_array">
         <item></item>

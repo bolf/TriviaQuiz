@@ -1,12 +1,16 @@
 package b.lf.triviaquiz.model;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 import b.lf.triviaquiz.R;
+import b.lf.triviaquiz.database.CategoriesListToJsonStringConverter;
 
 @Entity(tableName = "user")
 public class User{
@@ -14,6 +18,11 @@ public class User{
     private long id;
     private String nick;
     private int avatarId;
+    @TypeConverters(CategoriesListToJsonStringConverter.class)
+    @ColumnInfo(name = "chosen_categories")
+    private List<QuestionCategory> chosenQuestionsCategories;
+    private int questionsQuantity;
+    private String difficulty;
 
     @Override
     public String toString() {
@@ -26,6 +35,30 @@ public class User{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<QuestionCategory> getChosenQuestionsCategories() {
+        return chosenQuestionsCategories;
+    }
+
+    public void setChosenQuestionsCategories(List<QuestionCategory> chosenQuestionsCategories) {
+        this.chosenQuestionsCategories = chosenQuestionsCategories;
+    }
+
+    public int getQuestionsQuantity() {
+        return questionsQuantity;
+    }
+
+    public void setQuestionsQuantity(int questionsQuantity) {
+        this.questionsQuantity = questionsQuantity;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
     }
 
     public String getNick() {
@@ -45,30 +78,19 @@ public class User{
     }
 
     public static User getDefaultUser(){
-        return new User("Mr.Fox", 10);
+        return new User("Mr.Fox", 10, null, 32);
     }
 
     public User(){}
 
     @Ignore
-    public User(String nick, int avatarId) {
+    public User(String nick, int avatarId, String difficulty, int questionsQuantity) {
         this.nick = nick;
         this.avatarId = avatarId;
         this.id = System.currentTimeMillis();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id);
+        this.difficulty = difficulty;
+        this.questionsQuantity = questionsQuantity;
+        this.chosenQuestionsCategories = new ArrayList<>();
     }
 
     public int getDrawableID(){
