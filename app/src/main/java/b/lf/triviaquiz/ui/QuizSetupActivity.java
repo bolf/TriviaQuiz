@@ -23,10 +23,8 @@ import b.lf.triviaquiz.utils.SharedPreferencesUtils;
 import b.lf.triviaquiz.viewModels.QuizSetupViewModel;
 
 public class QuizSetupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    QuizSetupViewModel mQuizSetupViewModel;
-
+    private QuizSetupViewModel mQuizSetupViewModel;
     private CategoryRecyclerViewAdapter mAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -74,7 +72,7 @@ public class QuizSetupActivity extends AppCompatActivity implements AdapterView.
     private void setupViewModel() {
         mQuizSetupViewModel = ViewModelProviders.of(this).get(QuizSetupViewModel.class);
         mQuizSetupViewModel.setLiveDataFilter(SharedPreferencesUtils.retrieveCurrentUserId(this));
-        mQuizSetupViewModel.getUser().observe(this, o -> processGettingCurrentUserFromDb());
+        mQuizSetupViewModel.getUser().observe(this, usr -> processGettingCurrentUserFromDb());
     }
 
     public void goToQuestionActivity(View view) {

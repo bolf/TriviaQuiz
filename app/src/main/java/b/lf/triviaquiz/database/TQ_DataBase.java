@@ -27,4 +27,6 @@ public abstract class TQ_DataBase extends RoomDatabase{
     public abstract UserDao userDao();
 
     public abstract CategoryDao categoryDao();
+
+    public abstract QuestionDao questionDao();
 }
