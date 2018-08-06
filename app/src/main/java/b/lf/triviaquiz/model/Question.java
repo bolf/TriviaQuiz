@@ -2,7 +2,10 @@ package b.lf.triviaquiz.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
+
+import b.lf.triviaquiz.database.StringArrayToJsonStringConverter;
 
 @Entity(tableName = "question")
 public class Question {
@@ -12,6 +15,7 @@ public class Question {
     private String category;
     private String difficulty;
     private String correct_answer;
+    @TypeConverters(StringArrayToJsonStringConverter.class)
     private String[] incorrect_answers;
 
     public Question() {

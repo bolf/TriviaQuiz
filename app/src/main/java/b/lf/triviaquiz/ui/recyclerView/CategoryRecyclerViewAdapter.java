@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import b.lf.triviaquiz.R;
@@ -47,10 +46,9 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         if (viewType == ITEM_VIEW_TYPE_HEADER) {
             return new CategoryItemViewHolder(mHeader);
         }
-        View layoutView = null;
+        View layoutView;
         if (mHeader != null) {
             layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_rv_item, parent, false);
-            layoutView.setTag(mCategoriesList);
         } else {
             layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.chosen_category_rv_item, parent, false);
         }
@@ -65,6 +63,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
         int minus = mHeader == null ? 0 : 1;
         holder.mCategoryName.setText(mCategoriesList.get(position-minus).getName());
         holder.mCategoryImage.setImageResource(mCategoriesList.get(position-minus).getIconId());
+        holder.mCategoriesList = mCategoriesList;
         setChosenAppearance(holder,mCategoriesList.get(position-minus));
     }
 
@@ -89,7 +88,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
     }
 
     class CategoryItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+        List<QuestionCategory> mCategoriesList;
         ImageView mCategoryImage;
         TextView mCategoryName;
 
@@ -104,8 +103,9 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
 
         @Override
         public void onClick(View view) {
-            QuestionCategory tappedCategory = ((ArrayList<QuestionCategory>) itemView.getTag()).get(getAdapterPosition()-1);
+            QuestionCategory tappedCategory = mCategoriesList.get(getAdapterPosition()-1);
             tappedCategory.setChosen(!tappedCategory.isChosen());
+
             if(tappedCategory.isChosen()){
                 ((TextView) view.findViewById(R.id.textView_categoryName)).setTextColor(view.getResources().getColor(R.color.colorPrimaryDark));
                 ((TextView) view.findViewById(R.id.textView_categoryName)).setTypeface(null, Typeface.BOLD);

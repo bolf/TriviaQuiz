@@ -5,10 +5,11 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import b.lf.triviaquiz.model.Question;
 import b.lf.triviaquiz.model.QuestionCategory;
 import b.lf.triviaquiz.model.User;
 
-@Database(entities = {User.class, QuestionCategory.class},version = 1, exportSchema = false)
+@Database(entities = {User.class, QuestionCategory.class, Question.class},version = 1, exportSchema = false)
 public abstract class TQ_DataBase extends RoomDatabase{
 
     private static final String DB_NAME = "trivia_quiz";
