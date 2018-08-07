@@ -15,6 +15,9 @@ public interface QuestionDao {
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     void insertQuestion(Question question);
 
+    @Insert (onConflict = OnConflictStrategy.REPLACE)
+    void bulkInsert(Question... questions);
+
     @Query("SELECT * FROM question WHERE category IN (:categories)")
     LiveData<List<Question>> getQuestionsByCategories(List<String> categories);
 }
