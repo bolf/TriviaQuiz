@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,7 +80,17 @@ public class QuestionActivity extends AppCompatActivity {
                 chosenCategories.add(category.getName());
             }
             mQuestionViewModel.setQuestionsLiveDataFilter(chosenCategories);
-            mQuestionViewModel.getQuestions().observe(this, questions -> processGettingQuestionsFromDb(questions));
+            mQuestionViewModel.setLimit(currUser.getQuestionsQuantity());
+            String[] difficulties = new String[3];
+            if(currUser.getDifficulty() != null  && !currUser.getDifficulty().isEmpty()){
+                difficulties[0] = currUser.getDifficulty().toLowerCase();
+            }else{
+                difficulties[0] = "easy";
+                difficulties[1] = "medium";
+                difficulties[2] = "hard";
+            }
+            mQuestionViewModel.setDifficulties(difficulties);
+            mQuestionViewModel.getQuestionsFromDb().observe(this, questions -> processGettingQuestionsFromDb(questions));
         }
     }
 
@@ -100,11 +112,15 @@ public class QuestionActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<QuestionWrapper> call, Response<QuestionWrapper> response) {
                     try {
-                        final List<Question> lst = response.body().getResults();
-                        mQuestionViewModel.getQuestionList().addAll(lst);
+                        List<Question> lst = response.body().getResults();
+                        mQuestionViewModel.getPlayingQuestionList().addAll(lst);
                         //persist questions
+                        final Question[] tmpQArray = new Question[lst.size()];
+                        for(int i = 0; i < tmpQArray.length; i++){
+                            tmpQArray[i] = lst.get(i);
+                        }
                         DiskIOExecutor.getInstance().diskIO().execute(() -> {
-                            TQ_DataBase.getInstance(QuestionActivity.this).questionDao().bulkInsert((Question[])lst.toArray());
+                            TQ_DataBase.getInstance(QuestionActivity.this).questionDao().bulkInsert(tmpQArray);
                         });
                     } catch (Exception e) {
                         Log.e(e.getClass().getName(), e.getMessage());
@@ -117,12 +133,29 @@ public class QuestionActivity extends AppCompatActivity {
                 }
             });
         }
+        setQuestionOnUi();
     }
 
+    private void setQuestionOnUi(){
+        User currUser = mQuestionViewModel.getUser().getValue();
+        Question currQuestion = mQuestionViewModel.getPlayingQuestionList().get(mQuestionViewModel.getCurrentQuestionIndex());
+        QuestionCategory currCategory = null;
+        for(QuestionCategory c : currUser.getChosenQuestionsCategories()){
+            if(c.getName().equals(currQuestion.getCategory())){
+                currCategory = c;
+            }
+        }
+
+        ((ImageView)findViewById(R.id.question_category_iv)).setImageResource(currCategory.getIconId());
+        ((TextView)findViewById(R.id.question_category_name_tv)).setText(currCategory.getName());
+        ((TextView)findViewById(R.id.question_difficulty_tv)).setText(currQuestion.getDifficulty());
+
+    }
 
     private void processGettingQuestionsFromDb(List<Question> questionsFromDB) {
-        mQuestionViewModel.getQuestions().removeObservers(this);
-        mQuestionViewModel.getQuestionList().addAll(questionsFromDB);
+        mQuestionViewModel.getQuestionsFromDb().removeObservers(this);
+        mQuestionViewModel.getPlayingQuestionList().addAll(questionsFromDB);
+        setQuestionOnUi();
     }
 
     public void goToNextQuestion(View view) {

@@ -20,25 +20,35 @@ public class QuestionViewModel extends AndroidViewModel {
     private LiveData<User> user;
     private MutableLiveData<Long> userLiveDataFilter = new MutableLiveData<>();
 
-    private LiveData<List<Question>> questions;
+    private LiveData<List<Question>> questionsFromDb;
     private MutableLiveData<List<String>> questionsLiveDataFilter = new MutableLiveData<>();
 
     private Map<QuestionCategory, Integer> questionsLoadingTask; //holds map - how many questions per each category
 
-    private List<Question> questionList;
+    private List<Question> playingQuestionList;
 
     private int currentQuestionIndex;
 
+    private Integer limit;
+    private String[] difficulties;
 
     public QuestionViewModel(@NonNull Application application) {
         super(application);
 
-        questionList = new ArrayList<>();
+        playingQuestionList = new ArrayList<>();
 
         TQ_DataBase db = TQ_DataBase.getInstance(this.getApplication());
         user = Transformations.switchMap(userLiveDataFilter, value -> db.userDao().getUserById(value));
 
-        questions = Transformations.switchMap(questionsLiveDataFilter, value -> db.questionDao().getQuestionsByCategories(value));
+        questionsFromDb = Transformations.switchMap(questionsLiveDataFilter, value -> db.questionDao().getQuestionsByCategories(value, limit, difficulties));
+    }
+
+    public void setDifficulties(String[] difficulties){
+        this.difficulties = difficulties;
+    }
+
+    public void setLimit(int q){
+        this.limit = q;
     }
 
     public void setUserLiveDataFilter(Long id){
@@ -53,8 +63,8 @@ public class QuestionViewModel extends AndroidViewModel {
         questionsLiveDataFilter.setValue(categories);
     }
 
-    public LiveData<List<Question>> getQuestions(){
-        return questions;
+    public LiveData<List<Question>> getQuestionsFromDb(){
+        return questionsFromDb;
     }
 
     public Map<QuestionCategory, Integer> getQuestionsLoadingTask() {
@@ -65,12 +75,12 @@ public class QuestionViewModel extends AndroidViewModel {
         this.questionsLoadingTask = questionsLoadingTask;
     }
 
-    public List<Question> getQuestionList() {
-        return questionList;
+    public List<Question> getPlayingQuestionList() {
+        return playingQuestionList;
     }
 
-    public void setQuestionList(List<Question> questionList) {
-        this.questionList = questionList;
+    public void setPlayingQuestionList(List<Question> questionList) {
+        this.playingQuestionList = questionList;
     }
 
     public int getCurrentQuestionIndex() {
@@ -80,4 +90,5 @@ public class QuestionViewModel extends AndroidViewModel {
     public void setCurrentQuestionIndex(int currentQuestionIndex) {
         this.currentQuestionIndex = currentQuestionIndex;
     }
+
 }

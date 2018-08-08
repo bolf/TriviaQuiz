@@ -18,6 +18,6 @@ public interface QuestionDao {
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     void bulkInsert(Question... questions);
 
-    @Query("SELECT * FROM question WHERE category IN (:categories)")
-    LiveData<List<Question>> getQuestionsByCategories(List<String> categories);
+    @Query("SELECT * FROM question WHERE category IN (:categories) AND difficulty IN(:difficulties) LIMIT :q")
+    LiveData<List<Question>> getQuestionsByCategories(List<String> categories, Integer q, String[] difficulties);
 }
