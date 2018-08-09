@@ -7,12 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import b.lf.triviaquiz.R;
@@ -122,6 +125,10 @@ public class QuestionActivity extends AppCompatActivity {
                         DiskIOExecutor.getInstance().diskIO().execute(() -> {
                             TQ_DataBase.getInstance(QuestionActivity.this).questionDao().bulkInsert(tmpQArray);
                         });
+
+                        if(mQuestionViewModel.getPlayingQuestionList().size() > 0 && ((TextView)findViewById(R.id.question_category_name_tv)).getText().equals("")) {
+                            setQuestionOnUi();
+                        }
                     } catch (Exception e) {
                         Log.e(e.getClass().getName(), e.getMessage());
                     }
@@ -133,11 +140,11 @@ public class QuestionActivity extends AppCompatActivity {
                 }
             });
         }
-        setQuestionOnUi();
     }
 
     private void setQuestionOnUi(){
         User currUser = mQuestionViewModel.getUser().getValue();
+
         Question currQuestion = mQuestionViewModel.getPlayingQuestionList().get(mQuestionViewModel.getCurrentQuestionIndex());
         QuestionCategory currCategory = null;
         for(QuestionCategory c : currUser.getChosenQuestionsCategories()){
@@ -146,20 +153,56 @@ public class QuestionActivity extends AppCompatActivity {
             }
         }
 
+        findViewById(R.id.radioButton0).setVisibility(View.GONE);
+        findViewById(R.id.radioButton0).setSelected(false);
+        findViewById(R.id.radioButton1).setVisibility(View.GONE);
+        findViewById(R.id.radioButton1).setSelected(false);
+        findViewById(R.id.radioButton2).setVisibility(View.GONE);
+        findViewById(R.id.radioButton2).setSelected(false);
+        findViewById(R.id.radioButton3).setVisibility(View.GONE);
+        findViewById(R.id.radioButton3).setSelected(false);
+
         ((ImageView)findViewById(R.id.question_category_iv)).setImageResource(currCategory.getIconId());
         ((TextView)findViewById(R.id.question_category_name_tv)).setText(currCategory.getName());
-        ((TextView)findViewById(R.id.question_difficulty_tv)).setText(currQuestion.getDifficulty());
+        ((TextView)findViewById(R.id.question_difficulty_tv)).setText("difficulty:".concat(currQuestion.getDifficulty()));
+        ((TextView)findViewById(R.id.question_question_number)).setText("Question ".concat(String.valueOf(mQuestionViewModel.getCurrentQuestionIndex() + 1)).concat(" of ").concat(String.valueOf(currUser.getQuestionsQuantity()))); //Question 16 of 32
+        ((TextView)findViewById(R.id.question_question_text)).setText(currQuestion.getQuestion().replace("&quot;", "\"").replace("&#039;","\'" ));
+
+        Random rand = new Random();
+        int currRandNumOfRightAnswer = rand.nextInt(currQuestion.getIncorrect_answers().length + 1);
+        ArrayList<String> tmpAnswersList = new ArrayList<>(Arrays.asList(currQuestion.getIncorrect_answers()));
+        tmpAnswersList.add(currRandNumOfRightAnswer, currQuestion.getCorrect_answer());
+
+
+        for(int i = 0; i < tmpAnswersList.size(); i++){
+            RadioButton cRb = (findViewById(getResources().getIdentifier("radioButton".concat(String.valueOf(i)), "id", getPackageName())));
+            if (i == currRandNumOfRightAnswer) {
+                cRb.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            } else {
+                cRb.setTextColor(getResources().getColor(R.color.black));
+            }
+            cRb.setText(tmpAnswersList.get(i));
+            cRb.setVisibility(View.VISIBLE);
+        }
 
     }
 
     private void processGettingQuestionsFromDb(List<Question> questionsFromDB) {
         mQuestionViewModel.getQuestionsFromDb().removeObservers(this);
         mQuestionViewModel.getPlayingQuestionList().addAll(questionsFromDB);
-        setQuestionOnUi();
+
+        if(mQuestionViewModel.getPlayingQuestionList().size() > 0) {
+            setQuestionOnUi();
+        }
     }
 
     public void goToNextQuestion(View view) {
         startActivity(new Intent(this,NavActivity.class));
 
+    }
+
+    public void showNextQuestion(View view) {
+        mQuestionViewModel.setCurrentQuestionIndex(mQuestionViewModel.getCurrentQuestionIndex()+1);
+        setQuestionOnUi();
     }
 }

@@ -89,7 +89,7 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
                         SharedPreferencesUtils.writeLastCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this);
                     }
                 } else {
-                    String msg = "network is down now. can not get updates for categories";
+                    String msg = "network is down now. can not get categories from net";
                     Snackbar.make(findViewById(R.id.recyclerView_categories), msg, Snackbar.LENGTH_LONG).show();
                 }
         });

@@ -67,11 +67,15 @@ public class UserSetupActivity extends AppCompatActivity {
                 TQ_DataBase.getInstance(UserSetupActivity.this).userDao().insertUser(users[0]);
                 return null;
             }
-        }.execute(mViewModel.getUser());
 
-        Intent intent = new Intent(this, ChoosingQuestionsCategoriesActivity.class);
-        startActivity(intent);
-        finish();
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Intent intent = new Intent(UserSetupActivity.this, ChoosingQuestionsCategoriesActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }.execute(mViewModel.getUser());
     }
 
     public void onChoosingAvatar(View view){
