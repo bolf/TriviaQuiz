@@ -32,4 +32,6 @@ public class StarterActivityViewModel extends AndroidViewModel {
     public LiveData<List<User>> getAllUsers(){
         return usersList;
     }
+
+
 }

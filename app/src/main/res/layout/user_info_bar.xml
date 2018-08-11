@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/user_info_bar_user_iv"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
@@ -17,23 +17,24 @@
         app:srcCompat="@drawable/ic_man1" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/user_info_bar_user_name_tvuser_info_bar_user"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_marginStart="8dp"
         android:text="Mr. Fox"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toTopOf="@+id/imageView6"
-        android:textAppearance="@style/userBar"/>
+        android:textAppearance="@style/userBar"
+        app:layout_constraintStart_toEndOf="@+id/user_info_bar_user_iv"
+        app:layout_constraintTop_toTopOf="@+id/user_info_bar_user_iv" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="13dp"
         android:layout_marginStart="8dp"
-        android:textAppearance="@style/userBar"
+        android:layout_marginTop="8dp"
         android:text="average accuracy: 98%"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-        app:layout_constraintStart_toEndOf="@+id/imageView6" />
+        android:textAppearance="@style/userBar"
+        app:layout_constraintStart_toEndOf="@+id/user_info_bar_user_iv"
+        app:layout_constraintTop_toBottomOf="@+id/user_info_bar_user_name_tvuser_info_bar_user" />
 
 </android.support.constraint.ConstraintLayout>

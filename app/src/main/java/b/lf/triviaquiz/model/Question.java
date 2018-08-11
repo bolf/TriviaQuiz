@@ -1,6 +1,7 @@
 package b.lf.triviaquiz.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
@@ -17,8 +18,18 @@ public class Question {
     private String correct_answer;
     @TypeConverters(StringArrayToJsonStringConverter.class)
     private String[] incorrect_answers;
+    @Ignore
+    private transient String currentAnswer;
 
     public Question() {
+    }
+
+    public String getCurrentAnswer() {
+        return currentAnswer;
+    }
+
+    public void setCurrentAnswer(String currentAnswer) {
+        this.currentAnswer = currentAnswer;
     }
 
     public String getQuestion() {

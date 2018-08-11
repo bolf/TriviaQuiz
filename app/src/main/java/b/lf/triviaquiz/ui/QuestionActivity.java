@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -154,13 +155,13 @@ public class QuestionActivity extends AppCompatActivity {
         }
 
         findViewById(R.id.radioButton0).setVisibility(View.GONE);
-        findViewById(R.id.radioButton0).setSelected(false);
+        ((RadioButton)findViewById(R.id.radioButton0)).setChecked(false);
         findViewById(R.id.radioButton1).setVisibility(View.GONE);
-        findViewById(R.id.radioButton1).setSelected(false);
+        ((RadioButton)findViewById(R.id.radioButton1)).setChecked(false);
         findViewById(R.id.radioButton2).setVisibility(View.GONE);
-        findViewById(R.id.radioButton2).setSelected(false);
+        ((RadioButton)findViewById(R.id.radioButton2)).setChecked(false);
         findViewById(R.id.radioButton3).setVisibility(View.GONE);
-        findViewById(R.id.radioButton3).setSelected(false);
+        ((RadioButton)findViewById(R.id.radioButton3)).setChecked(false);
 
         ((ImageView)findViewById(R.id.question_category_iv)).setImageResource(currCategory.getIconId());
         ((TextView)findViewById(R.id.question_category_name_tv)).setText(currCategory.getName());
@@ -202,7 +203,27 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void showNextQuestion(View view) {
+        RadioGroup rG = findViewById(R.id.radioGroup);
+        int checkedBntId = rG.getCheckedRadioButtonId();
+        if (checkedBntId != -1) {
+            RadioButton rB = rG.findViewById(checkedBntId);
+            (mQuestionViewModel.getPlayingQuestionList().get(mQuestionViewModel.getCurrentQuestionIndex())).setCorrect_answer(rB.getText().toString());
+        }
         mQuestionViewModel.setCurrentQuestionIndex(mQuestionViewModel.getCurrentQuestionIndex()+1);
+        setQuestionOnUi();
+    }
+
+    public void doneWithCurrentQuestionSet(View view) {
+    }
+
+    public void showPrevQuestion(View view) {
+        RadioGroup rG = findViewById(R.id.radioGroup);
+        int checkedBntId = rG.getCheckedRadioButtonId();
+        if (checkedBntId != -1) {
+            RadioButton rB = rG.findViewById(checkedBntId);
+            (mQuestionViewModel.getPlayingQuestionList().get(mQuestionViewModel.getCurrentQuestionIndex())).setCorrect_answer(rB.getText().toString());
+        }
+        mQuestionViewModel.setCurrentQuestionIndex(mQuestionViewModel.getCurrentQuestionIndex()-1);
         setQuestionOnUi();
     }
 }
