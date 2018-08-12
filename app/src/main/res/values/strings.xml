@@ -17,6 +17,10 @@
     <string name="questions_quantity_difficulty"><![CDATA[Questions quantity & difficulty]]></string>
     <string name="questions_categories">Questions categories</string>
     <string name="newUserBooleanIntentExtra">newUser</string>
+    <string name="ButtonPreviousVisibility">ButtonPreviousVisibility</string>
+    <string name="current_player">Current player</string>
+    <string name="available_users">Available users</string>
+    <string name="new_user">new user</string>
 
     <string-array name="difficulties_array">
         <item></item>

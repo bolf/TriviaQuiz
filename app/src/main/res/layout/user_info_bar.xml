@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,7 +16,7 @@
         app:srcCompat="@drawable/ic_man1" />
 
     <TextView
-        android:id="@+id/user_info_bar_user_name_tvuser_info_bar_user"
+        android:id="@+id/user_info_bar_user_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_marginStart="8dp"
@@ -35,6 +34,6 @@
         android:text="average accuracy: 98%"
         android:textAppearance="@style/userBar"
         app:layout_constraintStart_toEndOf="@+id/user_info_bar_user_iv"
-        app:layout_constraintTop_toBottomOf="@+id/user_info_bar_user_name_tvuser_info_bar_user" />
+        app:layout_constraintTop_toBottomOf="@+id/user_info_bar_user_name_tv" />
 
 </android.support.constraint.ConstraintLayout>

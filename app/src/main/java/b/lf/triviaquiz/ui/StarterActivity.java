@@ -87,13 +87,24 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void processCurrentUserChange(){
-        ImageView curUserNav_IV = findViewById(R.id.user_info_bar_user_iv);
-        curUserNav_IV.setImageResource(mViewModel.getUser().getDrawableID());
-        ((TextView)findViewById(R.id.user_info_bar_user_name_tvuser_info_bar_user)).setText(mViewModel.getUser().getNick());
-
         ImageView curUserIV = findViewById(R.id.starter_iv_current_user);
         curUserIV.setImageResource(mViewModel.getUser().getDrawableID());
         ((TextView)findViewById(R.id.starter_current_user_nick)).setText(mViewModel.getUser().getNick());
+
+
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+        ((TextView)header.findViewById(R.id.user_info_bar_user_name_tv)).setText("жопа!");
+//        email = (TextView)header.findViewById(R.id.email);
+//        name.setText(personName);
+//        email.setText(personEmail);
+
+
+//        ImageView curUserNav_IV = findViewById(R.id.user_info_bar_user_iv);
+//        if (curUserNav_IV == null) return;
+//        curUserNav_IV.setImageResource(mViewModel.getUser().getDrawableID());
+//        ((TextView)findViewById(R.id.user_info_bar_user_name_tv)).setText(mViewModel.getUser().getNick());
     }
 
 
@@ -111,7 +122,7 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
 
     public void goToCategoryChoosing(View view) {
         Intent intent = new Intent(this, ChoosingQuestionsCategoriesActivity.class);
-        intent.putExtra("ButtonPreviousVisibility", View.VISIBLE);
+        intent.putExtra(getString(R.string.ButtonPreviousVisibility), View.VISIBLE);
         startActivity(intent);
     }
 
@@ -135,14 +146,14 @@ public class StarterActivity extends AppCompatActivity implements AdapterView.On
         } else if (id == R.id.nav_reset_total) {
             Snackbar.make(findViewById(R.id.coordinator),"Total scores are reset" , Snackbar.LENGTH_LONG);
         } else if (id == R.id.nav_about) {
-
+            startActivity(new Intent(StarterActivity.this, AboutActivity.class));
         } else if (id == R.id.nav_set_questions_categories) {
             startActivity(new Intent(StarterActivity.this,ChoosingQuestionsCategoriesActivity.class));
         } else if (id == R.id.nav_set_questions_quantity_difficulty) {
             startActivity(new Intent(StarterActivity.this,QuizSetupActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

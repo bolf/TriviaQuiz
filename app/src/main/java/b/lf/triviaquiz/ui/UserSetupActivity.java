@@ -1,16 +1,14 @@
 package b.lf.triviaquiz.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import b.lf.triviaquiz.R;
-import b.lf.triviaquiz.database.TQ_DataBase;
 import b.lf.triviaquiz.model.User;
+import b.lf.triviaquiz.utils.InsertUserToDbAsyncTask;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
 import b.lf.triviaquiz.viewModels.UserSetupActivityViewModel;
 
@@ -61,21 +59,7 @@ public class UserSetupActivity extends AppCompatActivity {
         SharedPreferencesUtils.persistCurrentUserId(this, mViewModel.getUser().getId());
 
         //here AsyncTask utilization goes!
-        new AsyncTask<User,Void,Void>(){
-            @Override
-            protected Void doInBackground(User... users) {
-                TQ_DataBase.getInstance(UserSetupActivity.this).userDao().insertUser(users[0]);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                Intent intent = new Intent(UserSetupActivity.this, ChoosingQuestionsCategoriesActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }.execute(mViewModel.getUser());
+        new InsertUserToDbAsyncTask(this).execute(mViewModel.getUser());
     }
 
     public void onChoosingAvatar(View view){

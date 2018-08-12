@@ -10,13 +10,43 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <include
-        android:id="@+id/include2"
-        layout="@layout/user_info_bar"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
+        app:layout_constraintTop_toBottomOf="@+id/include">
 
+        <ImageView
+            android:id="@+id/user_info_bar_user_iv"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_man1" />
+
+        <TextView
+            android:id="@+id/user_info_bar_user_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginStart="8dp"
+            android:text="Mr. Fox"
+            android:textAppearance="@style/userBar"
+            app:layout_constraintStart_toEndOf="@+id/user_info_bar_user_iv"
+            app:layout_constraintTop_toTopOf="@+id/user_info_bar_user_iv" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="average accuracy: 98%"
+            android:textAppearance="@style/userBar"
+            app:layout_constraintStart_toEndOf="@+id/user_info_bar_user_iv"
+            app:layout_constraintTop_toBottomOf="@+id/user_info_bar_user_name_tv" />
+
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>

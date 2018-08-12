@@ -3,13 +3,21 @@ package b.lf.triviaquiz.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
+public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private CategoriesViewModel mCategoriesViewModel;
     private GridLayoutManager mLayoutManager;
     private CategoryRecyclerViewAdapter mAdapter;
@@ -40,6 +48,20 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choosing_questions_categories);
+
+        Toolbar toolbar = findViewById(R.id.app_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
 
         //recycler initialization
         mLayoutManager = new GridLayoutManager(this, 2);
@@ -69,6 +91,10 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
     }
 
     private void processGettingCurrentUserFromDb() {
+        ImageView curUserNav_IV = findViewById(R.id.user_info_bar_user_iv);
+        curUserNav_IV.setImageResource(mCategoriesViewModel.getUser().getValue().getDrawableID());
+        ((TextView)findViewById(R.id.user_info_bar_user_name_tv)).setText(mCategoriesViewModel.getUser().getValue().getNick());
+
         mCategoriesViewModel.getAllCategories().observe(this, questionCategories -> {
             //for correct setting appearance let us set the chosen field
             List<QuestionCategory> tmpLst = mCategoriesViewModel.getUser().getValue().getChosenQuestionsCategories();
@@ -158,5 +184,30 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity {
         commitChosenCategoriesToUserObject();
         Intent intent = new Intent(this,QuizSetupActivity.class);
         startActivity(intent);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_achievements) {
+            startActivity(new Intent(ChoosingQuestionsCategoriesActivity.this,NavActivity.class));
+        } else if (id == R.id.nav_restart_current) {
+
+        } else if (id == R.id.nav_reset_total) {
+            Snackbar.make(findViewById(R.id.coordinator),"Total scores are reset" , Snackbar.LENGTH_LONG);
+        } else if (id == R.id.nav_about) {
+
+        } else if (id == R.id.nav_set_questions_categories) {
+            startActivity(new Intent(ChoosingQuestionsCategoriesActivity.this,ChoosingQuestionsCategoriesActivity.class));
+        } else if (id == R.id.nav_set_questions_quantity_difficulty) {
+            startActivity(new Intent(ChoosingQuestionsCategoriesActivity.this,QuizSetupActivity.class));
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

@@ -35,12 +35,10 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="Current player"
+                android:text="@string/current_player"
                 android:textAppearance="@style/TextViewDisplay1"
-
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/include" />
+                app:layout_constraintStart_toStartOf="parent" />
 
 
             <ImageView
@@ -52,7 +50,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/starter_tv_header"
-                app:srcCompat="@drawable/ic_girl0" />
+                tools:src="@drawable/ic_girl0" />
 
             <TextView
                 android:id="@+id/starter_current_user_nick"
@@ -61,7 +59,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="TextView"
+                tools:text="@string/nick"
                 android:textAppearance="@style/black_20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +86,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:popupBackground="@android:color/holo_green_dark"
-                android:text="Available users"
+                android:text="@string/available_users"
                 android:textAppearance="@style/black_20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +102,7 @@
                 android:layout_marginTop="32dp"
                 android:background="@color/app_background_color"
                 android:onClick="addUser"
-                android:text="new user"
+                android:text="@string/new_user"
                 android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
