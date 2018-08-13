@@ -78,7 +78,7 @@ public class StarterActivity extends TriviaQuizBaseActivity implements AdapterVi
             adapter.setDropDownViewResource(R.layout.spiner_item_textview);
             spinner.setAdapter(adapter);
             spinner.setOnItemSelectedListener(this);
-            spinner.setSelection(users.indexOf(mViewModel.getUser()));
+            spinner.setSelection(users.indexOf(mViewModel.getUser().getValue()));
         }else{
             findViewById(R.id.starter_spinner_header).setVisibility(View.GONE);
             findViewById(R.id.starter_spinner_users).setVisibility(View.GONE);
@@ -91,12 +91,7 @@ public class StarterActivity extends TriviaQuizBaseActivity implements AdapterVi
         ((TextView)findViewById(R.id.starter_current_user_nick)).setText(mViewModel.getUser().getValue().getNick());
 
         //setting curr.user data in the navigation view
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        View header = navigationView.getHeaderView(0);
-
-        ((TextView)header.findViewById(R.id.user_info_bar_user_name_tv)).setText(mViewModel.getUser().getValue().getNick());
-        ((ImageView)header.findViewById(R.id.user_info_bar_user_iv)).setImageResource(mViewModel.getUser().getValue().getDrawableID());
+        setNavigationViewUserInfo(((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0),mViewModel);
     }
 
     @Override

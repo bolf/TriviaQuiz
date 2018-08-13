@@ -7,14 +7,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.viewModels.TriviaQuizBaseViewModel;
 
+
+//implements OnNavigationItemSelectedListener
 public class TriviaQuizBaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
-    TriviaQuizBaseViewModel mViewModel;
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -39,4 +41,10 @@ public class TriviaQuizBaseActivity extends AppCompatActivity implements Navigat
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    void setNavigationViewUserInfo(View header, TriviaQuizBaseViewModel viewModel){
+        ((TextView)header.findViewById(R.id.user_info_bar_user_name_tv)).setText(viewModel.getUser().getValue().getNick());
+        ((ImageView)header.findViewById(R.id.user_info_bar_user_iv)).setImageResource(viewModel.getUser().getValue().getDrawableID());
+    }
+
 }

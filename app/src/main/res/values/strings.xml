@@ -21,6 +21,7 @@
     <string name="current_player">Current player</string>
     <string name="available_users">Available users</string>
     <string name="new_user">new user</string>
+    <string name="network_s_dowm_warning">network is down now. can not update categories list from net</string>
 
     <string-array name="difficulties_array">
         <item></item>

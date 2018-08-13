@@ -5,19 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +33,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class ChoosingQuestionsCategoriesActivity extends TriviaQuizBaseActivity{
     private CategoriesViewModel mCategoriesViewModel;
     private GridLayoutManager mLayoutManager;
     private CategoryRecyclerViewAdapter mAdapter;
-    private boolean shouldGetCategoriesFromNet = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +55,6 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity imple
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         //recycler initialization
         mLayoutManager = new GridLayoutManager(this, 2);
@@ -86,14 +79,13 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity imple
 
     private void setupViewModel() {
         mCategoriesViewModel = ViewModelProviders.of(this).get(CategoriesViewModel.class);
-        mCategoriesViewModel.setLiveDataFilter(SharedPreferencesUtils.retrieveCurrentUserId(this));
+        mCategoriesViewModel.setUserLiveDataFilter(SharedPreferencesUtils.retrieveCurrentUserId(this));
         mCategoriesViewModel.getUser().observe(this, user -> processGettingCurrentUserFromDb());
     }
 
     private void processGettingCurrentUserFromDb() {
-        ImageView curUserNav_IV = findViewById(R.id.user_info_bar_user_iv);
-        curUserNav_IV.setImageResource(mCategoriesViewModel.getUser().getValue().getDrawableID());
-        ((TextView)findViewById(R.id.user_info_bar_user_name_tv)).setText(mCategoriesViewModel.getUser().getValue().getNick());
+        //setting curr.user data in the navigation view
+        setNavigationViewUserInfo(((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0),mCategoriesViewModel);
 
         mCategoriesViewModel.getAllCategories().observe(this, questionCategories -> {
             //for correct setting appearance let us set the chosen field
@@ -108,14 +100,12 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity imple
             mAdapter.setCategoriesList(questionCategories);
             mAdapter.notifyDataSetChanged();
             //if today we already have asked the remote server for categories then won't do this again
-            if ((System.currentTimeMillis() - SharedPreferencesUtils.retrieveCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this)) > 86400000)
+            if (questionCategories.size() == 0 || (System.currentTimeMillis() - SharedPreferencesUtils.retrieveCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this)) > 86400000)
                 if (NetworkUtils.networkIsAvailable(ChoosingQuestionsCategoriesActivity.this)) {
-                    if (shouldGetCategoriesFromNet || questionCategories.size() == 0) {
-                        getCategoriesFromNet();
-                        SharedPreferencesUtils.writeLastCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this);
-                    }
+                    getCategoriesFromNet();
+                    SharedPreferencesUtils.writeLastCategoriesGettingTime(ChoosingQuestionsCategoriesActivity.this);
                 } else {
-                    String msg = "network is down now. can not get categories from net";
+                    String msg = getString(R.string.network_s_dowm_warning);
                     Snackbar.make(findViewById(R.id.recyclerView_categories), msg, Snackbar.LENGTH_LONG).show();
                 }
         });
@@ -123,6 +113,8 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity imple
     }
 
     private void getCategoriesFromNet() {
+        findViewById(R.id.progressBar_loadingCategories).setVisibility(View.VISIBLE);
+
         Call<QuestionCategoryWrapper> wrapperCall = NetworkUtils.getNetworkService().getCategories();
         wrapperCall.enqueue(new Callback<QuestionCategoryWrapper>() {
             @Override
@@ -156,6 +148,7 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity imple
                 Log.e(t.getClass().getName(),t.getMessage());
             }
         });
+        findViewById(R.id.progressBar_loadingCategories).setVisibility(View.GONE);
     }
 
     public void goToStarterActivity(View view) {
@@ -184,30 +177,5 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity imple
         commitChosenCategoriesToUserObject();
         Intent intent = new Intent(this,QuizSetupActivity.class);
         startActivity(intent);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_achievements) {
-            startActivity(new Intent(ChoosingQuestionsCategoriesActivity.this,AchievementsActivity.class));
-        } else if (id == R.id.nav_restart_current) {
-
-        } else if (id == R.id.nav_reset_total) {
-            Snackbar.make(findViewById(R.id.coordinator),"Total scores are reset" , Snackbar.LENGTH_LONG);
-        } else if (id == R.id.nav_about) {
-
-        } else if (id == R.id.nav_set_questions_categories) {
-            startActivity(new Intent(ChoosingQuestionsCategoriesActivity.this,ChoosingQuestionsCategoriesActivity.class));
-        } else if (id == R.id.nav_set_questions_quantity_difficulty) {
-            startActivity(new Intent(ChoosingQuestionsCategoriesActivity.this,QuizSetupActivity.class));
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }

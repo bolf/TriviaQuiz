@@ -18,7 +18,7 @@ public class TriviaQuizBaseViewModel extends AndroidViewModel {
 
     private LiveData<List<User>> usersList;
 
-    public TriviaQuizBaseViewModel(@NonNull Application application) {
+    TriviaQuizBaseViewModel(@NonNull Application application) {
         super(application);
         TQ_DataBase db = TQ_DataBase.getInstance(this.getApplication());
         user = Transformations.switchMap(userLiveDataFilter, value -> db.userDao().getUserById(value));

@@ -22,106 +22,114 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.constraint.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:focusableInTouchMode="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_marginTop="?attr/actionBarSize"
+            android:fillViewport="true">
 
-            <TextView
-                android:id="@+id/starter_tv_header"
-                android:layout_width="wrap_content"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/current_player"
-                android:textAppearance="@style/TextViewDisplay1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:focusableInTouchMode="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <TextView
+                    android:id="@+id/starter_tv_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/current_player"
+                    android:textAppearance="@style/TextViewDisplay1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-            <ImageView
-                android:id="@+id/starter_iv_current_user"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/first_girl_avatar_descr"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/starter_tv_header"
-                tools:src="@drawable/ic_girl0" />
+                <ImageView
+                    android:id="@+id/starter_iv_current_user"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="16dp"
+                    android:contentDescription="@string/first_girl_avatar_descr"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/starter_tv_header"
+                    tools:src="@drawable/ic_girl0" />
 
-            <TextView
-                android:id="@+id/starter_current_user_nick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                tools:text="@string/nick"
-                android:textAppearance="@style/black_20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/starter_iv_current_user" />
+                <TextView
+                    android:id="@+id/starter_current_user_nick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="@style/black_20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/starter_iv_current_user"
+                    tools:text="@string/nick" />
 
-            <Spinner
-                android:id="@+id/starter_spinner_users"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="center"
-                android:theme="@style/customSpinnerTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/starter_spinner_header" />
+                <Spinner
+                    android:id="@+id/starter_spinner_users"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textAlignment="center"
+                    android:theme="@style/customSpinnerTheme"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/starter_spinner_header" />
 
-            <TextView
-                android:id="@+id/starter_spinner_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:popupBackground="@android:color/holo_green_dark"
-                android:text="@string/available_users"
-                android:textAppearance="@style/black_20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button3" />
+                <TextView
+                    android:id="@+id/starter_spinner_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    android:popupBackground="@android:color/holo_green_dark"
+                    android:text="@string/available_users"
+                    android:textAppearance="@style/black_20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button3" />
 
-            <Button
-                android:id="@+id/button3"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
-                android:background="@color/app_background_color"
-                android:onClick="addUser"
-                android:text="@string/new_user"
-                android:textColor="@color/colorPrimaryDark"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/starter_current_user_nick" />
+                <Button
+                    android:id="@+id/button3"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@color/app_background_color"
+                    android:onClick="addUser"
+                    android:text="@string/new_user"
+                    android:textColor="@color/colorPrimaryDark"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/starter_current_user_nick" />
 
-            <ImageView
-                android:id="@+id/starter_iv_move_to_next_screen"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:layout_marginBottom="48dp"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="@app:string/next_button_text"
-                android:elevation="4dp"
-                android:onClick="goToCategoryChoosing"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/ic_move_to_next" />
+                <ImageView
+                    android:id="@+id/starter_iv_move_to_next_screen"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_marginBottom="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@app:string/next_button_text"
+                    android:elevation="4dp"
+                    android:onClick="goToCategoryChoosing"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/ic_move_to_next" />
 
-        </android.support.constraint.ConstraintLayout>
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 
