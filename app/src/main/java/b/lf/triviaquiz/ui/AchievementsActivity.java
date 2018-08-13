@@ -22,12 +22,12 @@ import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.ui.achievements_fragments.CurrentAchievementsFragment;
 import b.lf.triviaquiz.ui.achievements_fragments.TotalAchievementsFragment;
 
-public class NavActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class AchievementsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nav);
+        setContentView(R.layout.activity_achievemnts);
 
         Toolbar toolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);

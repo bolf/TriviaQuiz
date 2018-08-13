@@ -193,7 +193,7 @@ public class ChoosingQuestionsCategoriesActivity extends AppCompatActivity imple
         int id = item.getItemId();
 
         if (id == R.id.nav_achievements) {
-            startActivity(new Intent(ChoosingQuestionsCategoriesActivity.this,NavActivity.class));
+            startActivity(new Intent(ChoosingQuestionsCategoriesActivity.this,AchievementsActivity.class));
         } else if (id == R.id.nav_restart_current) {
 
         } else if (id == R.id.nav_reset_total) {

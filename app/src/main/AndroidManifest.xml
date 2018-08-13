@@ -23,8 +23,7 @@
         <activity android:name=".ui.ChoosingQuestionsCategoriesActivity" />
         <activity android:name=".ui.QuizSetupActivity" />
         <activity android:name=".ui.QuestionActivity" />
-        <activity android:name=".ui.ScoreActivity" />
-        <activity android:name=".ui.NavActivity" />
+        <activity android:name=".ui.AchievementsActivity" />
         <activity android:name=".ui.AboutActivity"></activity>
     </application>
 

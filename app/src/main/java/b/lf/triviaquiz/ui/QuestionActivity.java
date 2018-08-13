@@ -198,7 +198,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void goToNextQuestion(View view) {
-        startActivity(new Intent(this,NavActivity.class));
+        startActivity(new Intent(this,AchievementsActivity.class));
 
     }
 
