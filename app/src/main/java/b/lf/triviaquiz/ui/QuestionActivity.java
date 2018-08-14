@@ -2,8 +2,10 @@ package b.lf.triviaquiz.ui;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,6 +42,15 @@ public class QuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+            float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+            if (dpWidth < 700) {
+                int padding = (int) dpWidth / 4;
+                findViewById(R.id.question_layout_root).setPadding(padding, 0, padding, 0);
+            }
+        }
 
         setUpViewModel();
     }

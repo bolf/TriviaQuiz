@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<include
-    layout="@layout/toolbar_base"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    <include
+        layout="@layout/toolbar_base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/question_layout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
@@ -24,31 +25,6 @@
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <!--<ImageView-->
-                <!--android:id="@+id/imageView8"-->
-                <!--android:layout_width="34dp"-->
-                <!--android:layout_height="34dp"-->
-                <!--android:layout_marginBottom="48dp"-->
-                <!--android:layout_marginEnd="8dp"-->
-                <!--android:contentDescription="@app:string/next_button_text"-->
-                <!--android:elevation="4dp"-->
-                <!--android:onClick="goToNextQuestion"-->
-                <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"-->
-                <!--app:srcCompat="@drawable/ic_move_to_next" />-->
-
-            <!--<ImageView-->
-                <!--android:id="@+id/imageView7"-->
-                <!--android:layout_width="34dp"-->
-                <!--android:layout_height="34dp"-->
-                <!--android:layout_marginBottom="48dp"-->
-                <!--android:layout_marginStart="8dp"-->
-                <!--android:contentDescription="@app:string/prev_button_text"-->
-                <!--android:onClick="goToUserSetUpActivity"-->
-                <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:srcCompat="@drawable/ic_move_to_prev" />-->
 
 
             <TextView
@@ -165,15 +141,15 @@
                 android:id="@+id/question_done_btn"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/done_nav_button"
                 android:onClick="doneWithCurrentQuestionSet"
                 android:text="done"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
             <ImageView
                 android:id="@+id/question_category_iv"
