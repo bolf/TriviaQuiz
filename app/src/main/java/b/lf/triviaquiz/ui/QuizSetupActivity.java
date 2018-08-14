@@ -3,10 +3,13 @@ package b.lf.triviaquiz.ui;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,10 +23,10 @@ import b.lf.triviaquiz.database.UserDao;
 import b.lf.triviaquiz.ui.recyclerView.CategoryRecyclerViewAdapter;
 import b.lf.triviaquiz.utils.DiskIOExecutor;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
-import b.lf.triviaquiz.viewModels.QuizSetupViewModel;
+import b.lf.triviaquiz.viewModels.TriviaQuizBaseViewModel;
 
-public class QuizSetupActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    private QuizSetupViewModel mQuizSetupViewModel;
+public class QuizSetupActivity extends TriviaQuizBaseActivity implements AdapterView.OnItemSelectedListener{
+    private TriviaQuizBaseViewModel mQuizSetupViewModel;
     private CategoryRecyclerViewAdapter mAdapter;
 
     @Override
@@ -37,6 +40,19 @@ public class QuizSetupActivity extends AppCompatActivity implements AdapterView.
         mAdapter = new CategoryRecyclerViewAdapter(new ArrayList<>(),null);
         categoryRecyclerView.setHasFixedSize(true);
         categoryRecyclerView.setAdapter(mAdapter);
+
+        Toolbar toolbar = findViewById(R.id.app_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         setupViewModel();
     }
@@ -65,13 +81,14 @@ public class QuizSetupActivity extends AppCompatActivity implements AdapterView.
         }
 
         ((TextInputEditText) findViewById(R.id.quiz_setup_ti)).setText(String.valueOf(mQuizSetupViewModel.getUser().getValue().getQuestionsQuantity()));
-
+        //setting curr.user data in the navigation view
+        setNavigationViewUserInfo(((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0),mQuizSetupViewModel);
         mQuizSetupViewModel.getUser().removeObservers(this);
     }
 
     private void setupViewModel() {
-        mQuizSetupViewModel = ViewModelProviders.of(this).get(QuizSetupViewModel.class);
-        mQuizSetupViewModel.setLiveDataFilter(SharedPreferencesUtils.retrieveCurrentUserId(this));
+        mQuizSetupViewModel = ViewModelProviders.of(this).get(TriviaQuizBaseViewModel.class);
+        mQuizSetupViewModel.setUserLiveDataFilter(SharedPreferencesUtils.retrieveCurrentUserId(this));
         mQuizSetupViewModel.getUser().observe(this, usr -> processGettingCurrentUserFromDb());
     }
 
@@ -102,5 +119,4 @@ public class QuizSetupActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
-
 }

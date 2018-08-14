@@ -22,6 +22,9 @@
     <string name="available_users">Available users</string>
     <string name="new_user">new user</string>
     <string name="network_s_dowm_warning">network is down now. can not update categories list from net</string>
+    <string name="questions_difficulty">Questions difficulty</string>
+    <string name="chosen_categories">Chosen categories</string>
+    <string name="quantity_of_questions">Quantity of questions</string>
 
     <string-array name="difficulties_array">
         <item></item>

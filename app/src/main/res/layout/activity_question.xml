@@ -1,209 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<android.support.v4.widget.NestedScrollView
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:orientation="vertical">
+<include
+    layout="@layout/toolbar_base"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".ui.QuestionActivity">
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true">
 
-        <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_marginBottom="48dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="@app:string/next_button_text"
-            android:elevation="4dp"
-            android:onClick="goToNextQuestion"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_move_to_next" />
-
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_marginBottom="48dp"
-            android:layout_marginStart="8dp"
-            android:contentDescription="@app:string/prev_button_text"
-            android:onClick="goToUserSetUpActivity"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_move_to_prev" />
-
-        <include
-            android:id="@+id/include"
-            layout="@layout/toolbar_base"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:focusableInTouchMode="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/question_question_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:textAppearance="@style/TextViewDisplay1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/question_category_iv"
-            tools:text="Question 16 of 32" />
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginBottom="48dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@app:string/next_button_text"
+                android:elevation="4dp"
+                android:onClick="goToNextQuestion"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_move_to_next" />
 
-        <TextView
-            android:id="@+id/question_difficulty_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:textAppearance="@style/userBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/question_category_name_tv"
-            app:layout_constraintTop_toBottomOf="@+id/question_category_name_tv"
-            tools:text="Difficulty - medium" />
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginBottom="48dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@app:string/prev_button_text"
+                android:onClick="goToUserSetUpActivity"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_move_to_prev" />
 
-        <TextView
-            android:id="@+id/question_category_name_tv"
-            android:layout_width="0dp"
-            android:layout_height="19dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="8dp"
-            android:textAppearance="@style/userBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/question_category_iv"
-            app:layout_constraintTop_toTopOf="@+id/question_category_iv"
-            tools:text="Animals" />
 
-        <TextView
-            android:id="@+id/question_question_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextViewDisplay1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/question_question_number"
-            tools:text="What was the name given  to Android 4.3" />
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/question_question_text">
-
-            <RadioButton
-                android:id="@+id/radioButton0"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/question_question_number"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@android:color/black"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                android:visibility="gone"
-                tools:text="RadioButton"
-                tools:visibility="visible" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:textAppearance="@style/TextViewDisplay1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/question_category_iv"
+                tools:text="Question 16 of 32" />
 
-            <RadioButton
-                android:id="@+id/radioButton1"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/question_difficulty_tv"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textAppearance="@style/userBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/question_category_name_tv"
+                app:layout_constraintTop_toBottomOf="@+id/question_category_name_tv"
+                tools:text="Difficulty - medium" />
+
+            <TextView
+                android:id="@+id/question_category_name_tv"
+                android:layout_width="0dp"
+                android:layout_height="19dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="8dp"
+                android:textAppearance="@style/userBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/question_category_iv"
+                app:layout_constraintTop_toTopOf="@+id/question_category_iv"
+                tools:text="Animals" />
+
+            <TextView
+                android:id="@+id/question_question_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:buttonTint="@android:color/black"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                android:visibility="gone"
-                tools:text="RadioButton"
-                tools:visibility="visible" />
+                android:textAppearance="@style/TextViewDisplay1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/question_question_number"
+                tools:text="What was the name given  to Android 4.3" />
 
-            <RadioButton
-                android:id="@+id/radioButton2"
-                android:layout_width="match_parent"
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:buttonTint="@android:color/black"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                android:visibility="gone"
-                tools:text="RadioButton"
-                tools:visibility="visible" />
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/question_question_text">
 
-            <RadioButton
-                android:id="@+id/radioButton3"
-                android:layout_width="match_parent"
+                <RadioButton
+                    android:id="@+id/radioButton0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@android:color/black"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"
+                    android:visibility="gone"
+                    tools:text="RadioButton"
+                    tools:visibility="visible" />
+
+                <RadioButton
+                    android:id="@+id/radioButton1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:buttonTint="@android:color/black"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"
+                    android:visibility="gone"
+                    tools:text="RadioButton"
+                    tools:visibility="visible" />
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:buttonTint="@android:color/black"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"
+                    android:visibility="gone"
+                    tools:text="RadioButton"
+                    tools:visibility="visible" />
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:buttonTint="@android:color/black"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"
+                    android:visibility="gone"
+                    tools:text="RadioButton"
+                    tools:visibility="visible" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/question_done_btn"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:buttonTint="@android:color/black"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                android:visibility="gone"
-                tools:text="RadioButton"
-                tools:visibility="visible" />
-        </RadioGroup>
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/done_nav_button"
+                android:onClick="doneWithCurrentQuestionSet"
+                android:text="done"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView7" />
 
-        <Button
-            android:id="@+id/question_done_btn"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/done_nav_button"
-            android:onClick="doneWithCurrentQuestionSet"
-            android:text="done"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView7" />
+            <ImageView
+                android:id="@+id/question_category_iv"
+                android:layout_width="58dp"
+                android:layout_height="53dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/_cartoon" />
 
-        <ImageView
-            android:id="@+id/question_category_iv"
-            android:layout_width="58dp"
-            android:layout_height="53dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include"
-            tools:src="@drawable/_cartoon" />
+            <Button
+                android:id="@+id/question_go_to_prev_btn"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/prev_nav_button"
+                android:onClick="showPrevQuestion"
+                android:text="Prev.Q"
+                app:layout_constraintEnd_toStartOf="@+id/question_done_btn"
+                app:layout_constraintTop_toTopOf="@+id/question_done_btn" />
 
-        <Button
-            android:id="@+id/question_go_to_prev_btn"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/prev_nav_button"
-            android:onClick="showPrevQuestion"
-            android:text="Prev.Q"
-            app:layout_constraintEnd_toStartOf="@+id/question_done_btn"
-            app:layout_constraintTop_toTopOf="@+id/question_done_btn" />
+            <Button
+                android:id="@+id/question_go_to_next_btn"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/next_nav_button"
+                android:onClick="showNextQuestion"
+                android:text="Next Q"
+                app:layout_constraintStart_toEndOf="@+id/question_done_btn"
+                app:layout_constraintTop_toTopOf="@+id/question_done_btn" />
 
-        <Button
-            android:id="@+id/question_go_to_next_btn"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/next_nav_button"
-            android:onClick="showNextQuestion"
-            android:text="Next Q"
-            app:layout_constraintStart_toEndOf="@+id/question_done_btn"
-            app:layout_constraintTop_toTopOf="@+id/question_done_btn" />
-
-    </android.support.constraint.ConstraintLayout>
-</android.support.v4.widget.NestedScrollView>
-</android.support.design.widget.CoordinatorLayout>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>
