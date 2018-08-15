@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -165,6 +166,18 @@ public class QuestionActivity extends AppCompatActivity {
             }
         }
 
+        if(mQuestionViewModel.getPlayingQuestionList().indexOf(currQuestion) == currUser.getQuestionsQuantity() - 1){
+            findViewById(R.id.question_go_to_next_btn).setVisibility(View.GONE);
+        }else{
+            findViewById(R.id.question_go_to_next_btn).setVisibility(View.VISIBLE);
+        }
+
+        if(mQuestionViewModel.getPlayingQuestionList().indexOf(currQuestion) == 0){
+            findViewById(R.id.question_go_to_prev_btn).setVisibility(View.GONE);
+        }else{
+            findViewById(R.id.question_go_to_prev_btn).setVisibility(View.VISIBLE);
+        }
+
         findViewById(R.id.radioButton0).setVisibility(View.GONE);
         ((RadioButton)findViewById(R.id.radioButton0)).setChecked(false);
         findViewById(R.id.radioButton1).setVisibility(View.GONE);
@@ -208,11 +221,6 @@ public class QuestionActivity extends AppCompatActivity {
         }
     }
 
-    public void goToNextQuestion(View view) {
-        startActivity(new Intent(this,AchievementsActivity.class));
-
-    }
-
     public void showNextQuestion(View view) {
         RadioGroup rG = findViewById(R.id.radioGroup);
         int checkedBntId = rG.getCheckedRadioButtonId();
@@ -225,6 +233,16 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void doneWithCurrentQuestionSet(View view) {
+        new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                .setIcon(R.drawable.ic_quiz)
+                .setTitle("Are you sure you want to leave current quiz?")
+                .setMessage("There are unanswered questions left")
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    startActivity(new Intent(this, AchievementsActivity.class));
+                    mQuestionViewModel.getPlayingQuestionList().clear();
+                })
+                .setNegativeButton("No", (dialogInterface, i) -> {
+                }).show();
     }
 
     public void showPrevQuestion(View view) {

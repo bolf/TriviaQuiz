@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -53,6 +55,24 @@ public class QuizSetupActivity extends TriviaQuizBaseActivity implements Adapter
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ((TextInputEditText)findViewById(R.id.quiz_setup_ti)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String questQuantity = ((TextInputEditText) findViewById(R.id.quiz_setup_ti)).getText().toString();
+                if(questQuantity.isEmpty()){
+                    mQuizSetupViewModel.getUser().getValue().setQuestionsQuantity(0);
+                }else {
+                    mQuizSetupViewModel.getUser().getValue().setQuestionsQuantity(Integer.parseInt(questQuantity));
+                }
+            }
+        });
 
         setupViewModel();
     }
