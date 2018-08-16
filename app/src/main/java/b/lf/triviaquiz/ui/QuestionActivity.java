@@ -38,6 +38,7 @@ import retrofit2.Response;
 
 public class QuestionActivity extends AppCompatActivity {
     private QuestionViewModel mQuestionViewModel;
+    private boolean clearCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,12 @@ public class QuestionActivity extends AppCompatActivity {
                 findViewById(R.id.question_layout_root).setPadding(padding, 0, padding, 0);
             }
         }
-
+        RadioGroup rG = findViewById(R.id.radioGroup);
+        rG.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId != -1 && !clearCheck) {
+                mQuestionViewModel.getPlayingQuestionList().get(mQuestionViewModel.getCurrentQuestionIndex()).setCurrentAnswer(((RadioButton) findViewById(checkedId)).getText().toString());
+            }else clearCheck = false;
+        });
         setUpViewModel();
     }
 
@@ -140,6 +146,7 @@ public class QuestionActivity extends AppCompatActivity {
                         });
 
                         if(mQuestionViewModel.getPlayingQuestionList().size() > 0 && ((TextView)findViewById(R.id.question_category_name_tv)).getText().equals("")) {
+                            clearCheck = false;
                             setQuestionOnUi();
                         }
                     } catch (Exception e) {
@@ -179,13 +186,11 @@ public class QuestionActivity extends AppCompatActivity {
         }
 
         findViewById(R.id.radioButton0).setVisibility(View.GONE);
-        ((RadioButton)findViewById(R.id.radioButton0)).setChecked(false);
         findViewById(R.id.radioButton1).setVisibility(View.GONE);
-        ((RadioButton)findViewById(R.id.radioButton1)).setChecked(false);
         findViewById(R.id.radioButton2).setVisibility(View.GONE);
-        ((RadioButton)findViewById(R.id.radioButton2)).setChecked(false);
         findViewById(R.id.radioButton3).setVisibility(View.GONE);
-        ((RadioButton)findViewById(R.id.radioButton3)).setChecked(false);
+
+        ((RadioGroup)findViewById(R.id.radioGroup)).clearCheck();
 
         ((ImageView)findViewById(R.id.question_category_iv)).setImageResource(currCategory.getIconId());
         ((TextView)findViewById(R.id.question_category_name_tv)).setText(currCategory.getName());
@@ -208,6 +213,10 @@ public class QuestionActivity extends AppCompatActivity {
             }
             cRb.setText(tmpAnswersList.get(i));
             cRb.setVisibility(View.VISIBLE);
+            if(tmpAnswersList.get(i) == currQuestion.getCurrentAnswer()){
+                clearCheck = true;
+                cRb.setChecked(true);
+            }
         }
 
     }
@@ -217,42 +226,44 @@ public class QuestionActivity extends AppCompatActivity {
         mQuestionViewModel.getPlayingQuestionList().addAll(questionsFromDB);
 
         if(mQuestionViewModel.getPlayingQuestionList().size() > 0) {
+            clearCheck = false;
             setQuestionOnUi();
         }
     }
 
     public void showNextQuestion(View view) {
-        RadioGroup rG = findViewById(R.id.radioGroup);
-        int checkedBntId = rG.getCheckedRadioButtonId();
-        if (checkedBntId != -1) {
-            RadioButton rB = rG.findViewById(checkedBntId);
-            (mQuestionViewModel.getPlayingQuestionList().get(mQuestionViewModel.getCurrentQuestionIndex())).setCorrect_answer(rB.getText().toString());
-        }
         mQuestionViewModel.setCurrentQuestionIndex(mQuestionViewModel.getCurrentQuestionIndex()+1);
+        clearCheck = true;
         setQuestionOnUi();
     }
 
     public void doneWithCurrentQuestionSet(View view) {
-        new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)
-                .setIcon(R.drawable.ic_quiz)
-                .setTitle("Are you sure you want to leave current quiz?")
-                .setMessage("There are unanswered questions left")
-                .setPositiveButton("Yes", (dialogInterface, i) -> {
-                    startActivity(new Intent(this, AchievementsActivity.class));
-                    mQuestionViewModel.getPlayingQuestionList().clear();
-                })
-                .setNegativeButton("No", (dialogInterface, i) -> {
-                }).show();
+        for(Question q : mQuestionViewModel.getPlayingQuestionList()){
+            if(q.getCurrentAnswer() == null || q.getCurrentAnswer().isEmpty()){
+                new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)
+                        .setIcon(R.drawable.ic_quiz)
+                        .setTitle("Are you sure you want to leave current quiz?")
+                        .setMessage("There are unanswered questions left")
+                        .setPositiveButton("Yes", (dialogInterface, i) -> {
+
+
+                            //persist current quiz to db
+                            startActivity(new Intent(this, AchievementsActivity.class));
+                            mQuestionViewModel.getPlayingQuestionList().clear();
+                        })
+                        .setNegativeButton("No", (dialogInterface, i) -> {
+                        }).show();
+                return;
+            }
+        }
+        //persist current quiz to db
+        startActivity(new Intent(this, AchievementsActivity.class));
+        mQuestionViewModel.getPlayingQuestionList().clear();
     }
 
     public void showPrevQuestion(View view) {
-        RadioGroup rG = findViewById(R.id.radioGroup);
-        int checkedBntId = rG.getCheckedRadioButtonId();
-        if (checkedBntId != -1) {
-            RadioButton rB = rG.findViewById(checkedBntId);
-            (mQuestionViewModel.getPlayingQuestionList().get(mQuestionViewModel.getCurrentQuestionIndex())).setCorrect_answer(rB.getText().toString());
-        }
         mQuestionViewModel.setCurrentQuestionIndex(mQuestionViewModel.getCurrentQuestionIndex()-1);
+        clearCheck = true;
         setQuestionOnUi();
     }
 }
