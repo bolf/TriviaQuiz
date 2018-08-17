@@ -12,10 +12,10 @@ import b.lf.triviaquiz.database.StringArrayToJsonStringConverter;
 public class Question {
     @PrimaryKey
     @NonNull
-    private String question;
-    private String category;
+    String question;
+    String category;
+    String correct_answer;
     private String difficulty;
-    private String correct_answer;
     @TypeConverters(StringArrayToJsonStringConverter.class)
     private String[] incorrect_answers;
     @Ignore

@@ -24,6 +24,7 @@ import java.util.Set;
 
 import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.database.TQ_DataBase;
+import b.lf.triviaquiz.model.AnsweredQuestion;
 import b.lf.triviaquiz.model.Question;
 import b.lf.triviaquiz.model.QuestionCategory;
 import b.lf.triviaquiz.model.QuestionWrapper;
@@ -238,16 +239,37 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     public void doneWithCurrentQuestionSet(View view) {
-        for(Question q : mQuestionViewModel.getPlayingQuestionList()){
-            if(q.getCurrentAnswer() == null || q.getCurrentAnswer().isEmpty()){
+        for (Question q : mQuestionViewModel.getPlayingQuestionList()) {
+            if (q.getCurrentAnswer() == null || q.getCurrentAnswer().isEmpty()) {
                 new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)
                         .setIcon(R.drawable.ic_quiz)
                         .setTitle("Are you sure you want to leave current quiz?")
                         .setMessage("There are unanswered questions left")
                         .setPositiveButton("Yes", (dialogInterface, i) -> {
-
-
                             //persist current quiz to db
+
+                            //first set "current" to false in the db
+                            DiskIOExecutor.getInstance().diskIO().execute(() -> {
+                                TQ_DataBase.getInstance(QuestionActivity.this).answeredQuestionDao().getAnsweredQuestionsCurrent()
+                                        .observe(QuestionActivity.this, answeredQuestions -> {
+                                            AnsweredQuestion[] tmpArr = new AnsweredQuestion[answeredQuestions.size()];
+                                            for (int ind = 0; ind < answeredQuestions.size(); ind++) {
+                                                tmpArr[ind] = answeredQuestions.get(ind);
+                                                tmpArr[ind].setCurrent(false);
+                                            }
+                                            if (tmpArr.length > 0) {
+                                                TQ_DataBase.getInstance(QuestionActivity.this).answeredQuestionDao().bulkInsert(tmpArr)
+                                                        .observe(QuestionActivity.this, v -> {
+                                                            //persist answered questions here
+                                                            TQ_DataBase.getInstance(QuestionActivity.this).answeredQuestionDao().bulkInsert(getCurrentAnsweredQuestionsArray());
+                                                        });
+                                            }else{//there were no previously persisted answered questions
+                                                TQ_DataBase.getInstance(QuestionActivity.this).answeredQuestionDao().bulkInsert(getCurrentAnsweredQuestionsArray());
+                                            }
+                                        });
+                            });
+
+
                             startActivity(new Intent(this, AchievementsActivity.class));
                             mQuestionViewModel.getPlayingQuestionList().clear();
                         })
@@ -265,5 +287,20 @@ public class QuestionActivity extends AppCompatActivity {
         mQuestionViewModel.setCurrentQuestionIndex(mQuestionViewModel.getCurrentQuestionIndex()-1);
         clearCheck = true;
         setQuestionOnUi();
+    }
+
+    AnsweredQuestion[] getCurrentAnsweredQuestionsArray(){
+        AnsweredQuestion[] tmpAr = new AnsweredQuestion[mQuestionViewModel.getPlayingQuestionList().size()];
+        for (int ind = 0; ind < mQuestionViewModel.getPlayingQuestionList().size(); ind++) {
+            Question question = mQuestionViewModel.getPlayingQuestionList().get(ind);
+            if(question.getCurrentAnswer() == null || question.getCurrentAnswer().isEmpty()) continue;
+            AnsweredQuestion aQTmp = new AnsweredQuestion(
+                    question.getCurrentAnswer(),
+                    question.getCurrentAnswer().equals(question.getCorrect_answer()),
+                    true,
+                    mQuestionViewModel.getUser().getValue().getId());
+            tmpAr[ind] = aQTmp;
+        }
+        return tmpAr;
     }
 }
