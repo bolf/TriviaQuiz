@@ -29,6 +29,7 @@ import b.lf.triviaquiz.model.Question;
 import b.lf.triviaquiz.model.QuestionCategory;
 import b.lf.triviaquiz.model.QuestionWrapper;
 import b.lf.triviaquiz.model.User;
+import b.lf.triviaquiz.utils.CurrentQuizPersistService;
 import b.lf.triviaquiz.utils.DiskIOExecutor;
 import b.lf.triviaquiz.utils.NetworkUtils;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
@@ -246,32 +247,7 @@ public class QuestionActivity extends AppCompatActivity {
                         .setTitle("Are you sure you want to leave current quiz?")
                         .setMessage("There are unanswered questions left")
                         .setPositiveButton("Yes", (dialogInterface, i) -> {
-                            //persist current quiz to db
 
-                            //first set "current" to false in the db
-                            DiskIOExecutor.getInstance().diskIO().execute(() -> {
-                                TQ_DataBase.getInstance(QuestionActivity.this).answeredQuestionDao().getAnsweredQuestionsCurrent()
-                                        .observe(QuestionActivity.this, answeredQuestions -> {
-                                            AnsweredQuestion[] tmpArr = new AnsweredQuestion[answeredQuestions.size()];
-                                            for (int ind = 0; ind < answeredQuestions.size(); ind++) {
-                                                tmpArr[ind] = answeredQuestions.get(ind);
-                                                tmpArr[ind].setCurrent(false);
-                                            }
-                                            if (tmpArr.length > 0) {
-                                                TQ_DataBase.getInstance(QuestionActivity.this).answeredQuestionDao().bulkInsert(tmpArr)
-                                                        .observe(QuestionActivity.this, v -> {
-                                                            //persist answered questions here
-                                                            TQ_DataBase.getInstance(QuestionActivity.this).answeredQuestionDao().bulkInsert(getCurrentAnsweredQuestionsArray());
-                                                        });
-                                            }else{//there were no previously persisted answered questions
-                                                TQ_DataBase.getInstance(QuestionActivity.this).answeredQuestionDao().bulkInsert(getCurrentAnsweredQuestionsArray());
-                                            }
-                                        });
-                            });
-
-
-                            startActivity(new Intent(this, AchievementsActivity.class));
-                            mQuestionViewModel.getPlayingQuestionList().clear();
                         })
                         .setNegativeButton("No", (dialogInterface, i) -> {
                         }).show();
@@ -279,8 +255,9 @@ public class QuestionActivity extends AppCompatActivity {
             }
         }
         //persist current quiz to db
-        startActivity(new Intent(this, AchievementsActivity.class));
-        mQuestionViewModel.getPlayingQuestionList().clear();
+        Intent intent = new Intent(this,CurrentQuizPersistService.class);
+        intent.putParcelableArrayListExtra("currentQuizQuestions", getCurrentAnsweredQuestionsList());
+        startService(intent);
     }
 
     public void showPrevQuestion(View view) {
@@ -289,8 +266,8 @@ public class QuestionActivity extends AppCompatActivity {
         setQuestionOnUi();
     }
 
-    AnsweredQuestion[] getCurrentAnsweredQuestionsArray(){
-        AnsweredQuestion[] tmpAr = new AnsweredQuestion[mQuestionViewModel.getPlayingQuestionList().size()];
+    ArrayList<AnsweredQuestion> getCurrentAnsweredQuestionsList(){
+        ArrayList<AnsweredQuestion> tmpLst = new ArrayList<>();
         for (int ind = 0; ind < mQuestionViewModel.getPlayingQuestionList().size(); ind++) {
             Question question = mQuestionViewModel.getPlayingQuestionList().get(ind);
             if(question.getCurrentAnswer() == null || question.getCurrentAnswer().isEmpty()) continue;
@@ -299,8 +276,12 @@ public class QuestionActivity extends AppCompatActivity {
                     question.getCurrentAnswer().equals(question.getCorrect_answer()),
                     true,
                     mQuestionViewModel.getUser().getValue().getId());
-            tmpAr[ind] = aQTmp;
+            aQTmp.setCategory(question.getCategory());
+            aQTmp.setCorrect_answer(question.getCorrect_answer());
+            aQTmp.setDifficulty(question.getDifficulty());
+            aQTmp.setQuestion(question.getQuestion());
+            tmpLst.add(aQTmp);
         }
-        return tmpAr;
+        return tmpLst;
     }
 }

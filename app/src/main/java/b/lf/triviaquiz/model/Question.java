@@ -15,7 +15,7 @@ public class Question {
     String question;
     String category;
     String correct_answer;
-    private String difficulty;
+    String difficulty;
     @TypeConverters(StringArrayToJsonStringConverter.class)
     private String[] incorrect_answers;
     @Ignore

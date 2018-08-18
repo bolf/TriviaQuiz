@@ -21,6 +21,6 @@ public interface AnsweredQuestionDao {
     @Query("SELECT * FROM answered_question WHERE userId = :userId")
     LiveData<List<AnsweredQuestion>> getAnsweredQuestionsByUserId(long userId);
 
-    @Query("SELECT * FROM answered_question WHERE current")
-    LiveData<List<AnsweredQuestion>> getAnsweredQuestionsCurrent();
+    @Query("SELECT * FROM answered_question WHERE current = 1 AND userId = :userId")
+    List<AnsweredQuestion> getAnsweredQuestionsCurrent(long userId);
 }

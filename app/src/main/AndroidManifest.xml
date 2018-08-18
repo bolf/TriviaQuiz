@@ -24,7 +24,20 @@
         <activity android:name=".ui.QuizSetupActivity" />
         <activity android:name=".ui.QuestionActivity" />
         <activity android:name=".ui.AchievementsActivity" />
-        <activity android:name=".ui.AboutActivity"></activity>
+        <activity android:name=".ui.AboutActivity"/>
+
+        <service
+            android:name=".utils.CurrentQuizPersistService"
+            android:exported="false"/>
+
+        <receiver
+            android:name=".utils.AfterSavingQuizResultsReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="AfterSavingQuizResultsReceiver"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
