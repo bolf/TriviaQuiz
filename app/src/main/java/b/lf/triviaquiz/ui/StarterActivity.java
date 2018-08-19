@@ -19,6 +19,7 @@ import java.util.List;
 
 import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.model.User;
+import b.lf.triviaquiz.model.UserAchievements;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
 import b.lf.triviaquiz.viewModels.TriviaQuizBaseViewModel;
 
@@ -43,10 +44,12 @@ public class StarterActivity extends TriviaQuizBaseActivity implements AdapterVi
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        setupViewModel();
+    }
+
+    private void setupViewModel() {
         mViewModel = ViewModelProviders.of(this).get(TriviaQuizBaseViewModel.class);
-        mViewModel.getAllUsers().observe(this, users -> {
-            processUsersListFromDb(users);
-        });
+        mViewModel.getAllUsers().observe(this, this::processUsersListFromDb);
     }
 
     private void processUsersListFromDb(List<User> users) {
@@ -63,12 +66,19 @@ public class StarterActivity extends TriviaQuizBaseActivity implements AdapterVi
             processCurrentUserChange();
             processExistingUsersList(users);
 
+            mViewModel.setUserLiveDataFilter(currentUserId);
+            mViewModel.getUserWithAchievements().observe(this, this::processUserAchievementsGetting);
         }else{ //app is used for the 1-t time
             Intent intent = new Intent(StarterActivity.this, UserSetupActivity.class);
             intent.putExtra(getString(R.string.newUserBooleanIntentExtra), true);
             startActivity(intent);
             finish();
         }
+    }
+
+    private void processUserAchievementsGetting(UserAchievements userAchievements) {
+        //setting curr.user data in the navigation view
+        setNavigationViewUserInfo(((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0),mViewModel);
     }
 
     private void processExistingUsersList(List<User> users) {
@@ -89,16 +99,14 @@ public class StarterActivity extends TriviaQuizBaseActivity implements AdapterVi
         ImageView curUserIV = findViewById(R.id.starter_iv_current_user);
         curUserIV.setImageResource(mViewModel.getUser().getValue().getDrawableID());
         ((TextView)findViewById(R.id.starter_current_user_nick)).setText(mViewModel.getUser().getValue().getNick());
-
-        //setting curr.user data in the navigation view
-        setNavigationViewUserInfo(((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0),mViewModel);
+        mViewModel.setUserLiveDataFilter(mViewModel.getUser().getValue().getId());
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         ((MutableLiveData<User>)mViewModel.getUser()).setValue(mViewModel.getAllUsers().getValue().get(position));
-        processCurrentUserChange();
         SharedPreferencesUtils.persistCurrentUserId(this, mViewModel.getAllUsers().getValue().get(position).getId());
+        processCurrentUserChange();
     }
 
     @Override

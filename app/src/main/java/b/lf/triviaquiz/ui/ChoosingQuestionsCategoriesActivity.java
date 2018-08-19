@@ -24,6 +24,7 @@ import b.lf.triviaquiz.database.UserDao;
 import b.lf.triviaquiz.model.QuestionCategory;
 import b.lf.triviaquiz.model.QuestionCategoryWrapper;
 import b.lf.triviaquiz.model.User;
+import b.lf.triviaquiz.model.UserAchievements;
 import b.lf.triviaquiz.ui.recyclerView.CategoryRecyclerViewAdapter;
 import b.lf.triviaquiz.utils.DiskIOExecutor;
 import b.lf.triviaquiz.utils.NetworkUtils;
@@ -84,8 +85,7 @@ public class ChoosingQuestionsCategoriesActivity extends TriviaQuizBaseActivity{
     }
 
     private void processGettingCurrentUserFromDb() {
-        //setting curr.user data in the navigation view
-        setNavigationViewUserInfo(((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0),mCategoriesViewModel);
+        mCategoriesViewModel.getUserWithAchievements().observe(this, this::processUserAchievementsGetting);
 
         mCategoriesViewModel.getAllCategories().observe(this, questionCategories -> {
             //for correct setting appearance let us set the chosen field
@@ -110,6 +110,11 @@ public class ChoosingQuestionsCategoriesActivity extends TriviaQuizBaseActivity{
                 }
         });
 
+    }
+
+    private void processUserAchievementsGetting(UserAchievements userAchievements) {
+        //setting curr.user data in the navigation view
+        setNavigationViewUserInfo(((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0),mCategoriesViewModel);
     }
 
     private void getCategoriesFromNet() {

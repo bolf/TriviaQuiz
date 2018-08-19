@@ -94,14 +94,18 @@ public class User{
     }
 
     public int getDrawableID(){
+        return convertUserIconIdToDrawableID(avatarId);
+    }
+
+    public static int convertUserIconIdToDrawableID(int userIconId){
         int id = -1;
-        if(avatarId == 0){
+        if(userIconId == 0){
             id = R.drawable.ic_girl0;
-        }else if(avatarId == 1){
+        }else if(userIconId == 1){
             id = R.drawable.ic_girl1;
-        }else if(avatarId == 10){
+        }else if(userIconId == 10){
             id = R.drawable.ic_man0;
-        }else if(avatarId == 11){
+        }else if(userIconId == 11){
             id = R.drawable.ic_man1;
         }
         return id;

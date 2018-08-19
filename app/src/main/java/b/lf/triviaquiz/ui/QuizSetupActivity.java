@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.database.TQ_DataBase;
 import b.lf.triviaquiz.database.UserDao;
+import b.lf.triviaquiz.model.UserAchievements;
 import b.lf.triviaquiz.ui.recyclerView.CategoryRecyclerViewAdapter;
 import b.lf.triviaquiz.utils.DiskIOExecutor;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
@@ -101,9 +102,13 @@ public class QuizSetupActivity extends TriviaQuizBaseActivity implements Adapter
         }
 
         ((TextInputEditText) findViewById(R.id.quiz_setup_ti)).setText(String.valueOf(mQuizSetupViewModel.getUser().getValue().getQuestionsQuantity()));
+
+        mQuizSetupViewModel.getUserWithAchievements().observe(this,this::processUserAchievementsGetting);
+    }
+
+    private void processUserAchievementsGetting(UserAchievements userAchievements) {
         //setting curr.user data in the navigation view
         setNavigationViewUserInfo(((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0),mQuizSetupViewModel);
-        mQuizSetupViewModel.getUser().removeObservers(this);
     }
 
     private void setupViewModel() {

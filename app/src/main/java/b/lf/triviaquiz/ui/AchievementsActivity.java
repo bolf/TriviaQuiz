@@ -62,7 +62,8 @@ public class AchievementsActivity extends TriviaQuizBaseActivity implements Navi
     private void setupViewModel() {
         mViewModel = ViewModelProviders.of(this).get(TriviaQuizBaseViewModel.class);
         mViewModel.setUserLiveDataFilter(SharedPreferencesUtils.retrieveCurrentUserId(this));
-        mViewModel.getUser().observe(this, usr -> processGettingCurrentUserFromDb());
+        mViewModel.getUserWithAchievements().observe(this, usr -> processGettingCurrentUserFromDb());
+        //mViewModel.getUser().observe(this, usr -> processGettingCurrentUserFromDb());
     }
 
     private void processGettingCurrentUserFromDb(){

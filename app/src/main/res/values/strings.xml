@@ -25,6 +25,7 @@
     <string name="questions_difficulty">Questions difficulty</string>
     <string name="chosen_categories">Chosen categories</string>
     <string name="quantity_of_questions">Quantity of questions</string>
+    <string name="user_accuracy">"accuracy: %1$d%%"</string>
 
     <string-array name="difficulties_array">
         <item></item>

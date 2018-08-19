@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import b.lf.triviaquiz.R;
+import b.lf.triviaquiz.model.AnsweredQuestion;
+import b.lf.triviaquiz.model.User;
+import b.lf.triviaquiz.model.UserAchievements;
 import b.lf.triviaquiz.viewModels.TriviaQuizBaseViewModel;
 
 
@@ -43,10 +46,37 @@ public class TriviaQuizBaseActivity extends AppCompatActivity implements Navigat
     }
 
     void setNavigationViewUserInfo(View header, TriviaQuizBaseViewModel viewModel){
-        ((TextView)header.findViewById(R.id.user_info_bar_user_name_tv)).setText(viewModel.getUser().getValue().getNick());
-        ((ImageView)header.findViewById(R.id.user_info_bar_user_iv)).setImageResource(viewModel.getUser().getValue().getDrawableID());
+        UserAchievements userAchievements = viewModel.getUserWithAchievements().getValue();
+        //set picture & text
+        ((TextView)header.findViewById(R.id.user_info_bar_user_name_tv)).setText(userAchievements.getNick());
+        ((ImageView)header.findViewById(R.id.user_info_bar_user_iv)).setImageResource(User.convertUserIconIdToDrawableID(userAchievements.getAvatarId()));
 
+        //calculate achievements
+        float currentTotalQuestions = 0;
+        float currentCorrectAnswers = 0;
 
+        float totalTotalQuestions = userAchievements.getAnsweredQuestions().size();
+        float totalCorrectAnswers = 0;
+
+        for(AnsweredQuestion aQ : userAchievements.getAnsweredQuestions()){
+            if(aQ.isCurrent()){
+                currentTotalQuestions++;
+            }
+
+            if(aQ.isCurrent() && aQ.isCorrect()){
+                currentCorrectAnswers++;
+            }
+
+            if(aQ.isCorrect()){
+                totalCorrectAnswers++;
+            }
+        }
+
+        if(totalTotalQuestions > 0){
+            ((TextView)header.findViewById(R.id.user_info_bar_user_accuracy)).setText(getString(R.string.user_accuracy, (int)(totalCorrectAnswers / (totalTotalQuestions/100))));
+        }else {
+            ((TextView)header.findViewById(R.id.user_info_bar_user_accuracy)).setText("");
+        }
     }
 
 }
