@@ -1,19 +1,16 @@
 package b.lf.triviaquiz.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +18,11 @@ import java.util.List;
 import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.ui.achievements_fragments.CurrentAchievementsFragment;
 import b.lf.triviaquiz.ui.achievements_fragments.TotalAchievementsFragment;
+import b.lf.triviaquiz.utils.SharedPreferencesUtils;
+import b.lf.triviaquiz.viewModels.TriviaQuizBaseViewModel;
 
-public class AchievementsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class AchievementsActivity extends TriviaQuizBaseActivity implements NavigationView.OnNavigationItemSelectedListener{
+    private TriviaQuizBaseViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,14 @@ public class AchievementsActivity extends AppCompatActivity implements Navigatio
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         //tabs
@@ -48,42 +56,20 @@ public class AchievementsActivity extends AppCompatActivity implements Navigatio
         tabLayout.setupWithViewPager(viewPager);
 
 
-
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        setupViewModel();
     }
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        View v = findViewById(R.id.coordinator);
 
-//        if (id == R.id.nav_set_categories) {
-//            Snackbar.make(v, "Set categories!", Snackbar.LENGTH_SHORT).show();
-//        } else if (id == R.id.nav_gallery) {
-//            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_SHORT).show();
-//        } else if (id == R.id.nav_slideshow) {
-//            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_SHORT).show();
-//        } else if (id == R.id.nav_manage) {
-//            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_SHORT).show();
-//        } else if (id == R.id.nav_share) {
-//            Snackbar.make(v, "Replace with your own action", Snackbar.LENGTH_SHORT).show();
-//        } else if (id == R.id.nav_send) {
-//
-        //}
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    private void setupViewModel() {
+        mViewModel = ViewModelProviders.of(this).get(TriviaQuizBaseViewModel.class);
+        mViewModel.setUserLiveDataFilter(SharedPreferencesUtils.retrieveCurrentUserId(this));
+        mViewModel.getUser().observe(this, usr -> processGettingCurrentUserFromDb());
     }
+
+    private void processGettingCurrentUserFromDb(){
+        setNavigationViewUserInfo(((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0),mViewModel);
+        mViewModel.getUser().removeObservers(this);
+    }
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

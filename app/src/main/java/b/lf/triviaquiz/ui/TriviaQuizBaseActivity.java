@@ -45,6 +45,8 @@ public class TriviaQuizBaseActivity extends AppCompatActivity implements Navigat
     void setNavigationViewUserInfo(View header, TriviaQuizBaseViewModel viewModel){
         ((TextView)header.findViewById(R.id.user_info_bar_user_name_tv)).setText(viewModel.getUser().getValue().getNick());
         ((ImageView)header.findViewById(R.id.user_info_bar_user_iv)).setImageResource(viewModel.getUser().getValue().getDrawableID());
+
+
     }
 
 }
