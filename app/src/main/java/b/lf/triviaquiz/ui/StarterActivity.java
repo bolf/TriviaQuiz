@@ -60,6 +60,7 @@ public class StarterActivity extends TriviaQuizBaseActivity implements AdapterVi
                     MutableLiveData<User> usr = new MutableLiveData<>();
                     usr.setValue(u);
                     mViewModel.setUser(usr);
+                    SharedPreferencesUtils.persistCurrentUserNick(this, u.getNick());
                     break;
                 }
             }
@@ -106,6 +107,7 @@ public class StarterActivity extends TriviaQuizBaseActivity implements AdapterVi
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         ((MutableLiveData<User>)mViewModel.getUser()).setValue(mViewModel.getAllUsers().getValue().get(position));
         SharedPreferencesUtils.persistCurrentUserId(this, mViewModel.getAllUsers().getValue().get(position).getId());
+        SharedPreferencesUtils.persistCurrentUserNick(this, mViewModel.getAllUsers().getValue().get(position).getNick());
         processCurrentUserChange();
     }
 

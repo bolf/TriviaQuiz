@@ -7,6 +7,8 @@ public class SharedPreferencesUtils {
 
     private static final String PREF_FILE_NAME = "b.lf.triviaquiz.shp";
     private static final String SHARED_PREF_CURR_USER_ID = "currUserId";
+    private static final String SHARED_PREF_CURR_USER_NICK = "currUserNick";
+    private static final String SHARED_PREF_CURR_USER_ACCURACY = "currUserAccuracy";
     private static final String SHARED_PREF_CATEGORIES_GETTING_TIME = "lastCategoriesGettingTime";
 
     public static void persistCurrentUserId(Context context, long id) {
@@ -15,6 +17,22 @@ public class SharedPreferencesUtils {
 
     public static long retrieveCurrentUserId(Context context) {
         return readLongFromSharedPreferences(context, SHARED_PREF_CURR_USER_ID);
+    }
+
+    public static void persistCurrentUserNick(Context context, String nick) {
+        writeStringValue(context, SHARED_PREF_CURR_USER_NICK, nick);
+    }
+
+    public static String retrieveCurrentUserNick(Context context) {
+        return readStringFromSharedPreferences(context, SHARED_PREF_CURR_USER_NICK);
+    }
+
+    public static void persistCurrentUserAccuracy(Context context, long accuracy){
+        writeLongValue(context, SHARED_PREF_CURR_USER_ACCURACY, accuracy);
+    }
+
+    public static long retrieveCurrentUserAccuracy(Context context){
+        return readLongFromSharedPreferences(context, SHARED_PREF_CURR_USER_ACCURACY);
     }
 
     public static void writeLastCategoriesGettingTime(Context context){

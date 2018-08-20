@@ -60,6 +60,7 @@ public class UserSetupActivity extends AppCompatActivity {
     public void goToCategoryChoosing(View view) {
         mViewModel.getUser().getValue().setNick(((TextInputEditText)findViewById(R.id.user_setup_ti)).getText().toString());
         SharedPreferencesUtils.persistCurrentUserId(this, mViewModel.getUser().getValue().getId());
+        SharedPreferencesUtils.persistCurrentUserNick(this, mViewModel.getUser().getValue().getNick());
 
         //here AsyncTask utilization goes!
         new InsertUserToDbAsyncTask(this).execute(mViewModel.getUser().getValue());
