@@ -3,6 +3,7 @@ package b.lf.triviaquiz.utils;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
@@ -19,7 +20,8 @@ public class TriviaQuizWidgetProvider extends AppWidgetProvider {
         for (int i=0; i<N; i++) {
             RemoteViews rvs = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
             rvs.setTextViewText(R.id.widget_user_name, SharedPreferencesUtils.retrieveCurrentUserNick(context));
-            rvs.setTextViewText(R.id.widget_user_accuracy, "accuracy: 97%");
+            rvs.setTextViewText(R.id.widget_user_accuracy, context.getString(R.string.user_accuracy,
+                    SharedPreferencesUtils.retrieveCurrentUserAccuracy(context) == -1 ? 0 :  SharedPreferencesUtils.retrieveCurrentUserAccuracy(context)));
 
             int appWidgetId = appWidgetIds[i];
             Intent intent = new Intent(context, StarterActivity.class);
@@ -33,5 +35,11 @@ public class TriviaQuizWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
 
+        RemoteViews rvs = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+        rvs.setTextViewText(R.id.widget_user_name, SharedPreferencesUtils.retrieveCurrentUserNick(context));
+        rvs.setTextViewText(R.id.widget_user_accuracy, context.getString(R.string.user_accuracy,
+                SharedPreferencesUtils.retrieveCurrentUserAccuracy(context) == -1 ? 0 :  SharedPreferencesUtils.retrieveCurrentUserAccuracy(context)));
+        AppWidgetManager.getInstance(context).updateAppWidget(
+                new ComponentName(context, TriviaQuizWidgetProvider.class),rvs);
     }
 }

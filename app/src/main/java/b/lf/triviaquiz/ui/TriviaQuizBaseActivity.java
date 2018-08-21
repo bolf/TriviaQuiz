@@ -1,5 +1,6 @@
 package b.lf.triviaquiz.ui;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.model.AnsweredQuestion;
 import b.lf.triviaquiz.model.User;
 import b.lf.triviaquiz.model.UserAchievements;
+import b.lf.triviaquiz.utils.SharedPreferencesUtils;
 import b.lf.triviaquiz.viewModels.TriviaQuizBaseViewModel;
 
 
@@ -52,28 +54,22 @@ public class TriviaQuizBaseActivity extends AppCompatActivity implements Navigat
         ((ImageView)header.findViewById(R.id.user_info_bar_user_iv)).setImageResource(User.convertUserIconIdToDrawableID(userAchievements.getAvatarId()));
 
         //calculate achievements
-        float currentTotalQuestions = 0;
-        float currentCorrectAnswers = 0;
-
         float totalTotalQuestions = userAchievements.getAnsweredQuestions().size();
         float totalCorrectAnswers = 0;
 
         for(AnsweredQuestion aQ : userAchievements.getAnsweredQuestions()){
-            if(aQ.isCurrent()){
-                currentTotalQuestions++;
-            }
-
-            if(aQ.isCurrent() && aQ.isCorrect()){
-                currentCorrectAnswers++;
-            }
-
             if(aQ.isCorrect()){
                 totalCorrectAnswers++;
             }
         }
 
         if(totalTotalQuestions > 0){
-            ((TextView)header.findViewById(R.id.user_info_bar_user_accuracy)).setText(getString(R.string.user_accuracy, (int)(totalCorrectAnswers / (totalTotalQuestions/100))));
+            long accuracy = (long)(totalCorrectAnswers / (totalTotalQuestions/100));
+            ((TextView)header.findViewById(R.id.user_info_bar_user_accuracy)).setText(getString(R.string.user_accuracy, accuracy));
+
+            SharedPreferencesUtils.persistCurrentUserAccuracy(getApplicationContext(), accuracy);
+            Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            sendBroadcast(updateIntent);
         }else {
             ((TextView)header.findViewById(R.id.user_info_bar_user_accuracy)).setText("");
         }

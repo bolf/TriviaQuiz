@@ -42,7 +42,6 @@ public class AchievementsActivity extends TriviaQuizBaseActivity implements Navi
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         //tabs
         ViewPager viewPager = findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
