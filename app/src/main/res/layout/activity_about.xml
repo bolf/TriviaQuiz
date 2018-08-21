@@ -38,11 +38,12 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_share" />
+        app:srcCompat="@drawable/ic_share"
+        android:focusable="true" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -51,5 +52,5 @@
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintStart_toStartOf="parent" />
+        ads:layout_constraintStart_toStartOf="parent"/>
 </android.support.constraint.ConstraintLayout>
