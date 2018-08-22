@@ -7,14 +7,19 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.model.User;
 import b.lf.triviaquiz.utils.InsertUserToDbAsyncTask;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
+import b.lf.triviaquiz.utils.TQ_Application;
 import b.lf.triviaquiz.viewModels.TriviaQuizBaseViewModel;
 
 public class UserSetupActivity extends AppCompatActivity {
     private TriviaQuizBaseViewModel mViewModel;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,11 @@ public class UserSetupActivity extends AppCompatActivity {
             mViewModel.setUser(usr);
             getIntent().removeExtra(getString(R.string.newUserBooleanIntentExtra));
         }
+
+        // Obtain the shared Tracker instance.
+        TQ_Application application = (TQ_Application) getApplication();
+        mTracker = application.getDefaultTracker();
+
     }
 
     private void setUIAccordingToUserState() {
@@ -49,6 +59,13 @@ public class UserSetupActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setUIAccordingToUserState();
+
+        mTracker.setScreenName("About~activity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("Share")
+                .build());
     }
 
     @Override
