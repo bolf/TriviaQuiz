@@ -145,7 +145,7 @@
                 android:layout_marginStart="8dp"
                 android:background="@drawable/done_nav_button"
                 android:onClick="doneWithCurrentQuestionSet"
-                android:text="done"
+                android:text="@string/done_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -157,7 +157,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:src="@drawable/_cartoon" />
+                tools:src="@drawable/_cartoon"
+                android:contentDescription="@string/question_category_img" />
 
             <Button
                 android:id="@+id/question_go_to_prev_btn"
@@ -166,7 +167,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/prev_nav_button"
                 android:onClick="showPrevQuestion"
-                android:text="Prev.Q"
+                android:text="@string/prev_q_btn"
                 app:layout_constraintEnd_toStartOf="@+id/question_done_btn"
                 app:layout_constraintTop_toTopOf="@+id/question_done_btn" />
 
@@ -177,7 +178,7 @@
                 android:layout_marginStart="8dp"
                 android:background="@drawable/next_nav_button"
                 android:onClick="showNextQuestion"
-                android:text="Next Q"
+                android:text="@string/next_q_btn"
                 app:layout_constraintStart_toEndOf="@+id/question_done_btn"
                 app:layout_constraintTop_toTopOf="@+id/question_done_btn" />
 

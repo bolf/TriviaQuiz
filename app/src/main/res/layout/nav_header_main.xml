@@ -8,7 +8,8 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingStart="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <android.support.constraint.ConstraintLayout
@@ -26,7 +27,8 @@
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_man1" />
+            tools:src="@drawable/ic_man1"
+            android:contentDescription="@string/user_icon" />
 
         <TextView
             android:id="@+id/user_info_bar_user_name_tv"

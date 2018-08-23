@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -114,7 +115,7 @@ public class QuestionActivity extends AppCompatActivity {
                 difficulties[2] = "hard";
             }
             mQuestionViewModel.setDifficulties(difficulties);
-            mQuestionViewModel.getQuestionsFromDb().observe(this, questions -> processGettingQuestionsFromDb(questions));
+            mQuestionViewModel.getQuestionsFromDb().observe(this, this::processGettingQuestionsFromDb);
         }
     }
 
@@ -134,7 +135,7 @@ public class QuestionActivity extends AppCompatActivity {
             Call<QuestionWrapper> wrapperCall = NetworkUtils.getNetworkService().getQuestions(queryParams);
             wrapperCall.enqueue(new Callback<QuestionWrapper>() {
                 @Override
-                public void onResponse(Call<QuestionWrapper> call, Response<QuestionWrapper> response) {
+                public void onResponse(@NonNull Call<QuestionWrapper> call, @NonNull Response<QuestionWrapper> response) {
                     try {
                         List<Question> lst = response.body().getResults();
                         mQuestionViewModel.getPlayingQuestionList().addAll(lst);
@@ -143,9 +144,7 @@ public class QuestionActivity extends AppCompatActivity {
                         for(int i = 0; i < tmpQArray.length; i++){
                             tmpQArray[i] = lst.get(i);
                         }
-                        DiskIOExecutor.getInstance().diskIO().execute(() -> {
-                            TQ_DataBase.getInstance(QuestionActivity.this).questionDao().bulkInsert(tmpQArray);
-                        });
+                        DiskIOExecutor.getInstance().diskIO().execute(() -> TQ_DataBase.getInstance(QuestionActivity.this).questionDao().bulkInsert(tmpQArray));
 
                         if(mQuestionViewModel.getPlayingQuestionList().size() > 0 && ((TextView)findViewById(R.id.question_category_name_tv)).getText().equals("")) {
                             clearCheck = false;
@@ -157,7 +156,7 @@ public class QuestionActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<QuestionWrapper> call, Throwable t) {
+                public void onFailure(@NonNull Call<QuestionWrapper> call, @NonNull Throwable t) {
                     Log.e(t.getClass().getName(), t.getMessage());
                 }
             });
@@ -196,9 +195,13 @@ public class QuestionActivity extends AppCompatActivity {
 
         ((ImageView)findViewById(R.id.question_category_iv)).setImageResource(currCategory.getIconId());
         ((TextView)findViewById(R.id.question_category_name_tv)).setText(currCategory.getName());
-        ((TextView)findViewById(R.id.question_difficulty_tv)).setText("difficulty:".concat(currQuestion.getDifficulty()));
-        ((TextView)findViewById(R.id.question_question_number)).setText("Question ".concat(String.valueOf(mQuestionViewModel.getCurrentQuestionIndex() + 1)).concat(" of ").concat(String.valueOf(currUser.getQuestionsQuantity()))); //Question 16 of 32
-        ((TextView)findViewById(R.id.question_question_text)).setText(currQuestion.getQuestion().replace("&quot;", "\"").replace("&#039;","\'" ));
+        ((TextView)findViewById(R.id.question_difficulty_tv)).setText(getString(R.string.difficulty_title).concat(currQuestion.getDifficulty()));
+        ((TextView)findViewById(R.id.question_question_number)).setText(getString(R.string.question_title).concat(String.valueOf(mQuestionViewModel.getCurrentQuestionIndex() + 1)).concat(" of ").concat(String.valueOf(currUser.getQuestionsQuantity()))); //Question 16 of 32
+        ((TextView)findViewById(R.id.question_question_text)).setText(currQuestion.getQuestion().
+                replace("&quot;", "\"").replace("&#039;","\'" ).
+                replace("&pi;", "PI").replace("&Eacute;","e").
+                replace("&eacute;", "e").replace("&ldquo;", "\"").
+                replace("&rdquo;", "\""));
 
         Random rand = new Random();
         int currRandNumOfRightAnswer = rand.nextInt(currQuestion.getIncorrect_answers().length + 1);
@@ -215,7 +218,7 @@ public class QuestionActivity extends AppCompatActivity {
             }
             cRb.setText(tmpAnswersList.get(i));
             cRb.setVisibility(View.VISIBLE);
-            if(tmpAnswersList.get(i) == currQuestion.getCurrentAnswer()){
+            if(tmpAnswersList.get(i).equals(currQuestion.getCurrentAnswer())){
                 clearCheck = true;
                 cRb.setChecked(true);
             }
