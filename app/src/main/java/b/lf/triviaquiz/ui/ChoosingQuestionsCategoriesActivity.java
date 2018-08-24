@@ -1,5 +1,6 @@
 package b.lf.triviaquiz.ui;
 
+import android.app.ActivityOptions;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -181,6 +182,9 @@ public class ChoosingQuestionsCategoriesActivity extends TriviaQuizBaseActivity{
     public void goToQuizSetupActivity(View view) {
         commitChosenCategoriesToUserObject();
         Intent intent = new Intent(this,QuizSetupActivity.class);
-        startActivity(intent);
+        //startActivity(intent);
+
+        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+        startActivity(intent,bundle);
     }
 }

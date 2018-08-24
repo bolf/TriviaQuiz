@@ -1,6 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'trivia_quiz'
+            keyPassword 'abcABC123'
+            storeFile file('/home/blf/tmp/TriviaQuiz/app/trivia_quiz.jks')
+            storePassword 'abcABC123'
+        }
+        config1 {
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "b.lf.triviaquiz"
@@ -15,6 +25,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config1
         }
     }
     compileOptions {
@@ -47,6 +61,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     //
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
-
     implementation 'com.google.android.gms:play-services-analytics:16.0.1'
 }

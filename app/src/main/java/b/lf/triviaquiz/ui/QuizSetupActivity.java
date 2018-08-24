@@ -1,5 +1,6 @@
 package b.lf.triviaquiz.ui;
 
+import android.app.ActivityOptions;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -120,7 +121,9 @@ public class QuizSetupActivity extends TriviaQuizBaseActivity implements Adapter
     public void goToQuestionActivity(View view) {
         final UserDao userDao = TQ_DataBase.getInstance(this).userDao();
         DiskIOExecutor.getInstance().diskIO().execute(() -> userDao.insertUser(mQuizSetupViewModel.getUser().getValue()));
-        startActivity(new Intent(this,QuestionActivity.class));
+        //transition
+        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
+        startActivity(new Intent(this,QuestionActivity.class),bundle);
     }
 
     public void goToCategoryChoosingFromQuizSetup(View view) {

@@ -10,6 +10,11 @@
         <!-- font settings -->
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="fontFamily">@font/roboto_regular</item>
+
+        <item name="android:windowExitTransition">
+            @transition/question_setup_exit
+        </item>
+
     </style>
 
     <style name="TextViewDisplay1" parent="@style/TextAppearance.AppCompat.Display1">
