@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -33,13 +34,14 @@ import b.lf.triviaquiz.model.User;
 import b.lf.triviaquiz.utils.CurrentQuizPersistService;
 import b.lf.triviaquiz.utils.DiskIOExecutor;
 import b.lf.triviaquiz.utils.NetworkUtils;
+import b.lf.triviaquiz.utils.NoticeDialogFragment;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
 import b.lf.triviaquiz.viewModels.QuestionViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity implements NoticeDialogFragment.NoticeDialogListener{
     private QuestionViewModel mQuestionViewModel;
     private boolean clearCheck;
 
@@ -68,6 +70,16 @@ public class QuestionActivity extends AppCompatActivity {
     private void setUpViewModel() {
         mQuestionViewModel = ViewModelProviders.of(this).get(QuestionViewModel.class);
         mQuestionViewModel.setUserLiveDataFilter(SharedPreferencesUtils.retrieveCurrentUserId(this));
+
+        mQuestionViewModel.setRequestsMade(0);
+        if (mQuestionViewModel.getQuestionsFromDb().getValue() != null)
+            mQuestionViewModel.getQuestionsFromDb().getValue().clear();
+        if (mQuestionViewModel.getQuestionsLoadingTask() != null)
+            mQuestionViewModel.getQuestionsLoadingTask().clear();
+        if (mQuestionViewModel.getPlayingQuestionList() != null)
+            mQuestionViewModel.getPlayingQuestionList().clear();
+        mQuestionViewModel.setCurrentQuestionIndex(0);
+
         mQuestionViewModel.getUser().observe(this, usr -> processGettingCurrentUserFromDb());
     }
 
@@ -94,7 +106,7 @@ public class QuestionActivity extends AppCompatActivity {
             }
 
         mQuestionViewModel.setQuestionsLoadingTask(questionsLoadingTask);
-
+        findViewById(R.id.question_progressBar).setVisibility(View.VISIBLE);
         //2. if network is down then get questions from db otherwise get questions from remote server
         if (NetworkUtils.networkIsAvailable(this)) {
             loadQuestionsFromNet();
@@ -145,13 +157,15 @@ public class QuestionActivity extends AppCompatActivity {
                             tmpQArray[i] = lst.get(i);
                         }
                         DiskIOExecutor.getInstance().diskIO().execute(() -> TQ_DataBase.getInstance(QuestionActivity.this).questionDao().bulkInsert(tmpQArray));
-
-                        if(mQuestionViewModel.getPlayingQuestionList().size() > 0 && ((TextView)findViewById(R.id.question_category_name_tv)).getText().equals("")) {
+                        mQuestionViewModel.setRequestsMade(mQuestionViewModel.getRequestsMade() + 1);
+                        if(mQuestionViewModel.getPlayingQuestionList().size() > 0 && ((TextView)findViewById(R.id.question_category_name_tv)).getText().equals("") &&
+                                mQuestionViewModel.getRequestsMade() == mQuestionViewModel.getQuestionsLoadingTask().size()) {
                             clearCheck = false;
                             setQuestionOnUi();
                         }
                     } catch (Exception e) {
                         Log.e(e.getClass().getName(), e.getMessage());
+                        mQuestionViewModel.setRequestsMade(mQuestionViewModel.getRequestsMade() + 1);
                     }
                 }
 
@@ -174,7 +188,7 @@ public class QuestionActivity extends AppCompatActivity {
             }
         }
 
-        if(mQuestionViewModel.getPlayingQuestionList().indexOf(currQuestion) == currUser.getQuestionsQuantity() - 1){
+        if(mQuestionViewModel.getPlayingQuestionList().indexOf(currQuestion) == mQuestionViewModel.getPlayingQuestionList().size() - 1){
             findViewById(R.id.question_go_to_next_btn).setVisibility(View.GONE);
         }else{
             findViewById(R.id.question_go_to_next_btn).setVisibility(View.VISIBLE);
@@ -196,12 +210,8 @@ public class QuestionActivity extends AppCompatActivity {
         ((ImageView)findViewById(R.id.question_category_iv)).setImageResource(currCategory.getIconId());
         ((TextView)findViewById(R.id.question_category_name_tv)).setText(currCategory.getName());
         ((TextView)findViewById(R.id.question_difficulty_tv)).setText(getString(R.string.difficulty_title).concat(currQuestion.getDifficulty()));
-        ((TextView)findViewById(R.id.question_question_number)).setText(getString(R.string.question_title).concat(" " + String.valueOf(mQuestionViewModel.getCurrentQuestionIndex() + 1)).concat(" of ").concat(String.valueOf(currUser.getQuestionsQuantity()))); //Question 16 of 32
-        ((TextView)findViewById(R.id.question_question_text)).setText(currQuestion.getQuestion().
-                replace("&quot;", "\"").replace("&#039;","\'" ).
-                replace("&pi;", "PI").replace("&Eacute;","e").
-                replace("&eacute;", "e").replace("&ldquo;", "\"").
-                replace("&rdquo;", "\""));
+        ((TextView)findViewById(R.id.question_question_number)).setText(getString(R.string.question_title).concat(" " + String.valueOf(mQuestionViewModel.getCurrentQuestionIndex() + 1)).concat(" of ").concat(String.valueOf(mQuestionViewModel.getPlayingQuestionList().size()))); //Question 16 of 32
+        ((TextView)findViewById(R.id.question_question_text)).setText(cleanString(currQuestion.getQuestion()));
 
         Random rand = new Random();
         int currRandNumOfRightAnswer = rand.nextInt(currQuestion.getIncorrect_answers().length + 1);
@@ -212,18 +222,27 @@ public class QuestionActivity extends AppCompatActivity {
         for(int i = 0; i < tmpAnswersList.size(); i++){
             RadioButton cRb = (findViewById(getResources().getIdentifier("radioButton".concat(String.valueOf(i)), "id", getPackageName())));
             if (i == currRandNumOfRightAnswer) {
-                cRb.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                cRb.setTextColor(getResources().getColor(R.color.dark_green));
             } else {
                 cRb.setTextColor(getResources().getColor(R.color.black));
             }
-            cRb.setText(tmpAnswersList.get(i));
+            cRb.setText(cleanString(tmpAnswersList.get(i)));
             cRb.setVisibility(View.VISIBLE);
             if(tmpAnswersList.get(i).equals(currQuestion.getCurrentAnswer())){
                 clearCheck = true;
                 cRb.setChecked(true);
             }
         }
+        findViewById(R.id.question_progressBar).setVisibility(View.GONE);
+    }
 
+    String cleanString(String s){
+        return s.replace("&quot;", "\"").replace("&#039;","\'" ).
+                replace("&pi;", "PI").replace("&Eacute;","e").
+                replace("&eacute;", "e").replace("&ldquo;", "\"").
+                replace("&rdquo;", "\"").replace("&ecirc;", "e").
+                replace("&ouml;", "o").replace("&amp;", "&").
+                replace("&ntilde;", "~").replace("&aacute;","a");
     }
 
     private void processGettingQuestionsFromDb(List<Question> questionsFromDB) {
@@ -234,6 +253,7 @@ public class QuestionActivity extends AppCompatActivity {
             clearCheck = false;
             setQuestionOnUi();
         }
+        findViewById(R.id.question_progressBar).setVisibility(View.GONE);
     }
 
     public void showNextQuestion(View view) {
@@ -245,22 +265,54 @@ public class QuestionActivity extends AppCompatActivity {
     public void doneWithCurrentQuestionSet(View view) {
         for (Question q : mQuestionViewModel.getPlayingQuestionList()) {
             if (q.getCurrentAnswer() == null || q.getCurrentAnswer().isEmpty()) {
-                new AlertDialog.Builder(this, R.style.Theme_AppCompat_Light_Dialog_Alert)
-                        .setIcon(R.drawable.ic_quiz)
-                        .setTitle("Are you sure you want to leave current quiz?")
-                        .setMessage("There are unanswered questions left")
-                        .setPositiveButton("Yes", (dialogInterface, i) -> {
-
-                        })
-                        .setNegativeButton("No", (dialogInterface, i) -> {
-                        }).show();
+                DialogFragment dialog = new NoticeDialogFragment();
+                dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
                 return;
             }
         }
+        findViewById(R.id.question_progressBar).setVisibility(View.VISIBLE);
+        findViewById(R.id.question_done_btn).setVisibility(View.GONE);
         //persist current quiz to db
         Intent intent = new Intent(this,CurrentQuizPersistService.class);
         intent.putParcelableArrayListExtra("currentQuizQuestions", getCurrentAnsweredQuestionsList());
         startService(intent);
+        startActivity(new Intent(this, AchievementsActivity.class));
+        finish();
+    }
+
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the NoticeDialogFragment.NoticeDialogListener interface
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // User touched the dialog's positive button
+        findViewById(R.id.question_progressBar).setVisibility(View.VISIBLE);
+        findViewById(R.id.question_done_btn).setVisibility(View.GONE);
+        //persist current quiz to db
+        if (getCurrentAnsweredQuestionsList().size() > 0) {
+            Intent intent = new Intent(this, CurrentQuizPersistService.class);
+            intent.putParcelableArrayListExtra("currentQuizQuestions", getCurrentAnsweredQuestionsList());
+            startService(intent);
+        }
+        startActivity(new Intent(this, AchievementsActivity.class));
+        finish();
+    }
+
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // User touched the dialog's negative button
+        Snackbar.make(findViewById(R.id.question_done_btn), "let's continue! =)",Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public String getDialogMessage() {
+        return "There are unanswered questions left";
+    }
+
+    @Override
+    public String getDialogTitle() {
+        return "Are you sure you want to leave current quiz?";
     }
 
     public void showPrevQuestion(View view) {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
@@ -9,24 +8,20 @@
         <item
             android:id="@+id/nav_achievements"
             android:icon="@drawable/ic_show_chart_black"
-            android:title="My achievements" />
-        <item
-            android:id="@+id/nav_restart_current"
-            android:icon="@drawable/ic_restart_black"
-            android:title="Restart current quiz" />
+            android:title="@string/my_achievements_menu_point" />
 
         <item
             android:id="@+id/nav_reset_total"
             android:icon="@drawable/ic_clear_all_black"
-            android:title="Reset total scores" />
+            android:title="@string/reset_total_scores_menu_point" />
 
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_outline_black"
-            android:title="About TriviaQuiz" />
+            android:title="@string/about_triviaquiz_menu_point" />
     </group>
 
-    <item android:title="Settings">
+    <item android:title="@string/settings_menu_header">
         <menu>
             <item
                 android:id="@+id/nav_set_questions_categories"

@@ -31,6 +31,7 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <TextView
@@ -47,7 +48,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:id="@+id/activity_main"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="8dp"
@@ -57,18 +57,15 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView11">
 
-
                     <android.support.design.widget.TabLayout
                         android:id="@+id/tabs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:minHeight="?attr/actionBarSize"
                         app:tabGravity="fill"
                         app:tabMode="fixed"
                         app:tabSelectedTextColor="@color/colorPrimaryDark"
                         app:tabTextColor="#000" />
-
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/pager"
@@ -79,7 +76,6 @@
 
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
-
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
@@ -91,6 +87,4 @@
         android:theme="@style/Base.Theme.AppCompat.Light.DarkActionBar"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
-
-
 </android.support.v4.widget.DrawerLayout>

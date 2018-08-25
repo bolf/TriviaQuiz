@@ -14,16 +14,17 @@
         tools:context=".ui.UserSetupActivity">
 
         <ImageView
-            android:id="@+id/user_setup_iv_move_to_next_screen"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="48dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginStart="24dp"
             android:contentDescription="@app:string/next_button_text"
             android:elevation="4dp"
             android:onClick="goToCategoryChoosing"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/user_setup_ti_layout"
             app:srcCompat="@drawable/ic_move_to_next" />
 
         <include

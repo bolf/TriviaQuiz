@@ -23,4 +23,7 @@ public interface AnsweredQuestionDao {
 
     @Query("SELECT * FROM answered_question WHERE current = 1 AND userId = :userId")
     List<AnsweredQuestion> getAnsweredQuestionsCurrent(long userId);
+
+    @Query("DELETE FROM answered_question WHERE userId = :userId")
+    void deleteByUserId(long userId);
 }

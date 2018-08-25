@@ -28,6 +28,8 @@ public class QuestionViewModel extends TriviaQuizBaseViewModel {
     private Integer limit;
     private String[] difficulties;
 
+    private int requestsMade;
+
     public QuestionViewModel(@NonNull Application application) {
         super(application);
 
@@ -76,6 +78,14 @@ public class QuestionViewModel extends TriviaQuizBaseViewModel {
 
     public void setCurrentQuestionIndex(int currentQuestionIndex) {
         this.currentQuestionIndex = currentQuestionIndex;
+    }
+
+    public int getRequestsMade() {
+        return requestsMade;
+    }
+
+    public void setRequestsMade(int requestsMade) {
+        this.requestsMade = requestsMade;
     }
 
 }

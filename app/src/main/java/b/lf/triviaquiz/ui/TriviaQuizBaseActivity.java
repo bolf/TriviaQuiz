@@ -3,7 +3,7 @@ package b.lf.triviaquiz.ui;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,15 +13,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import b.lf.triviaquiz.R;
+import b.lf.triviaquiz.database.TQ_DataBase;
 import b.lf.triviaquiz.model.AnsweredQuestion;
 import b.lf.triviaquiz.model.User;
 import b.lf.triviaquiz.model.UserAchievements;
+import b.lf.triviaquiz.utils.DiskIOExecutor;
+import b.lf.triviaquiz.utils.NoticeDialogFragment;
 import b.lf.triviaquiz.utils.SharedPreferencesUtils;
 import b.lf.triviaquiz.viewModels.TriviaQuizBaseViewModel;
 
 
 //implements OnNavigationItemSelectedListener
-public class TriviaQuizBaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class TriviaQuizBaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, NoticeDialogFragment.NoticeDialogListener{
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -30,10 +33,11 @@ public class TriviaQuizBaseActivity extends AppCompatActivity implements Navigat
 
         if (id == R.id.nav_achievements) {
             startActivity(new Intent(this,AchievementsActivity.class));
-        } else if (id == R.id.nav_restart_current) {
-
         } else if (id == R.id.nav_reset_total) {
-            Snackbar.make(findViewById(R.id.coordinator),"Total scores are reset" , Snackbar.LENGTH_LONG);
+
+            DialogFragment dialog = new NoticeDialogFragment();
+            dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
         } else if (id == R.id.nav_set_questions_categories) {
@@ -75,4 +79,29 @@ public class TriviaQuizBaseActivity extends AppCompatActivity implements Navigat
         }
     }
 
+    // The dialog fragment receives a reference to this Activity through the
+    // Fragment.onAttach() callback, which it uses to call the following methods
+    // defined by the NoticeDialogFragment.NoticeDialogListener interface
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // User touched the dialog's positive button
+        DiskIOExecutor.getInstance().diskIO().execute(() -> TQ_DataBase.getInstance(this).answeredQuestionDao().deleteByUserId(SharedPreferencesUtils.retrieveCurrentUserId(this)));
+
+    }
+
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // User touched the dialog's negative button
+    }
+
+    @Override
+    public String getDialogMessage() {
+        return getString(R.string.should_delete_history);
+    }
+
+    @Override
+    public String getDialogTitle() {
+        return getString(R.string.sure);
+    }
 }

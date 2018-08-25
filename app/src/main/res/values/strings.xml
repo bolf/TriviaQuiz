@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Trivia Quiz</string>
-    <string name="default_users_name">Mr.Fox</string>
     <string name="next_button_text">Next button</string>
     <string name="prev_button_text">Previous button</string>
     <string name="choose_your_avatar">Choose your avatar</string>
@@ -24,7 +23,7 @@
     <string name="network_s_dowm_warning">network is down now. can not update categories list from net</string>
     <string name="questions_difficulty">Questions difficulty</string>
     <string name="chosen_categories">Chosen categories</string>
-    <string name="quantity_of_questions">Quantity of questions</string>
+    <string name="quantity_of_questions">Max. questions</string>
     <string name="user_accuracy">"accuracy: %1$d%%"</string>
     <string name="user_results">"%1$d correct answers of %2$d"</string>
     <string name="about_string">All questions kindly provided by The Open Trivia Database  opentdb.com\n\nAll pictures kindly provided by www.flaticon.com\n\nMany thanks to Udacity and Google for provided opportunity and inspiration! =)</string>
@@ -39,6 +38,14 @@
     <string name="difficulty_title">difficulty:</string>
     <string name="question_title">Question</string>
     <string name="total_num_of_verified_questions">Total verified questions: </string>
+    <string name="my_achievements_menu_point">My achievements</string>
+    <string name="reset_total_scores_menu_point">Reset total scores</string>
+    <string name="about_triviaquiz_menu_point">About TriviaQuiz</string>
+    <string name="settings_menu_header">Settings</string>
+    <string name="should_delete_history">Now we\'ll delete all history for current user</string>
+    <string name="sure">Are you sure?</string>
+    <string name="should_choose_categories_before">You should choose categories before getting questions.)</string>
+    <string name="make_max_questions_greater">make max.questions be greater then quantity of categories.</string>
 
     <string-array name="difficulties_array">
         <item>""</item>

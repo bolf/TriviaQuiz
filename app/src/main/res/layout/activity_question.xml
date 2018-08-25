@@ -69,8 +69,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:textAppearance="@style/TextViewDisplay1"
-                android:textColor="@color/dark_green"
+                android:textAppearance="@style/QuestionAppearance"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/question_question_number"
@@ -181,6 +180,21 @@
                 android:text="@string/next_q_btn"
                 app:layout_constraintStart_toEndOf="@+id/question_done_btn"
                 app:layout_constraintTop_toTopOf="@+id/question_done_btn" />
+
+            <ProgressBar
+                android:id="@+id/question_progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/question_done_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,6 @@ public class ChoosingQuestionsCategoriesActivity extends TriviaQuizBaseActivity{
                 return mAdapter.isHeader(position) ? mLayoutManager.getSpanCount() : 1;
             }
         });
-
         setupViewModel();
     }
 
@@ -119,8 +119,7 @@ public class ChoosingQuestionsCategoriesActivity extends TriviaQuizBaseActivity{
     }
 
     private void getCategoriesFromNet() {
-        findViewById(R.id.progressBar_loadingCategories).setVisibility(View.VISIBLE);
-
+        ((ProgressBar)findViewById(R.id.progressBar_loadingCategories)).setVisibility(View.VISIBLE);
         Call<QuestionCategoryWrapper> wrapperCall = NetworkUtils.getNetworkService().getCategories();
         wrapperCall.enqueue(new Callback<QuestionCategoryWrapper>() {
             @Override
@@ -154,7 +153,7 @@ public class ChoosingQuestionsCategoriesActivity extends TriviaQuizBaseActivity{
                 Log.e(t.getClass().getName(),t.getMessage());
             }
         });
-        findViewById(R.id.progressBar_loadingCategories).setVisibility(View.GONE);
+        ((ProgressBar)findViewById(R.id.progressBar_loadingCategories)).setVisibility(View.GONE);
     }
 
     public void goToStarterActivity(View view) {

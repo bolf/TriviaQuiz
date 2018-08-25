@@ -6,8 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -42,7 +41,11 @@ public class TotalAchievementsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_total_achievemts, container, false);
     }
 
-    private void processGettingCurrentUserFromDb(UserAchievements userAchievements){
+    private void processGettingCurrentUserFromDb(UserAchievements userAchievements) {
+        if (getActivity().findViewById(R.id.achievements_total_result_tv).getVisibility() == View.VISIBLE) {
+            return;
+        }
+
         Map<String, ResultHolder> categoryMap = new HashMap<>();
 
         for (AnsweredQuestion aQ : userAchievements.getAnsweredQuestions()) {
@@ -57,20 +60,28 @@ public class TotalAchievementsFragment extends Fragment {
             }
         }
 
+        LinearLayout lL = getActivity().findViewById(R.id.achievements_total_category_ll);
+
         String[] categoriesResult = new String[categoryMap.size()];
         int ind = 0;
         int questionsNum = 0;
         int correctAnswers = 0;
-        for(Map.Entry<String,ResultHolder> entry : categoryMap.entrySet()){
+        for (Map.Entry<String, ResultHolder> entry : categoryMap.entrySet()) {
             categoriesResult[ind] = entry.getKey().concat(": ").concat(String.valueOf(entry.getValue().correctAnswers)).concat(" of ").concat(String.valueOf(entry.getValue().totalQuestions));
+
+
+            TextView tV = new TextView(getActivity());
+            tV.setId(ind);
+            tV.setText(categoriesResult[ind]);
+            tV.setTextColor(getResources().getColor(R.color.black));
+            tV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            lL.addView(tV);
+
             ind++;
-            questionsNum   = questionsNum + entry.getValue().totalQuestions;
+            questionsNum = questionsNum + entry.getValue().totalQuestions;
             correctAnswers = correctAnswers + entry.getValue().correctAnswers;
         }
-
-        ListView lv = getActivity().findViewById(R.id.achievements_total_category_lv);
-        lv.setAdapter(new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,categoriesResult));
-
-        ((TextView)getActivity().findViewById(R.id.achievements_total_result_tv)).setText(getString(R.string.user_results,correctAnswers,questionsNum));
+        getActivity().findViewById(R.id.achievements_total_result_tv).setVisibility(View.VISIBLE);
+        ((TextView) getActivity().findViewById(R.id.achievements_total_result_tv)).setText(getString(R.string.user_results, correctAnswers, questionsNum));
     }
 }

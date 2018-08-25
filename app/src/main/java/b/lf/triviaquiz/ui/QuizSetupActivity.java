@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -75,7 +76,6 @@ public class QuizSetupActivity extends TriviaQuizBaseActivity implements Adapter
                 }
             }
         });
-
         setupViewModel();
     }
 
@@ -119,6 +119,16 @@ public class QuizSetupActivity extends TriviaQuizBaseActivity implements Adapter
     }
 
     public void goToQuestionActivity(View view) {
+        if(mAdapter.getItemCount() == 0){
+            Snackbar.make(view, R.string.should_choose_categories_before, Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(mAdapter.getItemCount() > mQuizSetupViewModel.getUser().getValue().getQuestionsQuantity()){
+            Snackbar.make(view, R.string.make_max_questions_greater, Snackbar.LENGTH_SHORT).show();
+            return;
+        }
+
         final UserDao userDao = TQ_DataBase.getInstance(this).userDao();
         DiskIOExecutor.getInstance().diskIO().execute(() -> userDao.insertUser(mQuizSetupViewModel.getUser().getValue()));
         //transition
