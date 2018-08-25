@@ -38,6 +38,7 @@
     <string name="app_icon">app icon</string>
     <string name="difficulty_title">difficulty:</string>
     <string name="question_title">Question</string>
+    <string name="total_num_of_verified_questions">Total verified questions: </string>
 
     <string-array name="difficulties_array">
         <item>""</item>

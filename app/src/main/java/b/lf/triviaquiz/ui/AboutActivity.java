@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.Tracker;
 
+import java.lang.ref.WeakReference;
+
 import b.lf.triviaquiz.R;
+import b.lf.triviaquiz.utils.GlobalQuestionCountAsyncTask;
 
 public class AboutActivity extends AppCompatActivity {
     private AdView mAdView;
@@ -37,5 +42,17 @@ public class AboutActivity extends AppCompatActivity {
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
         });
+
+        new GlobalQuestionCountAsyncTask(new WeakReference<>(this)).execute();
+
     }
+
+    public void updateGlobalQuestionCount(String count) {
+        if (count != null) {
+            ((TextView) findViewById(R.id.total_num_of_verified_questions)).setText(getString(R.string.total_num_of_verified_questions).concat(" " + count));
+        } else {
+            findViewById(R.id.total_num_of_verified_questions).setVisibility(View.GONE);
+        }
+    }
+
 }

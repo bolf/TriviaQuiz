@@ -53,4 +53,14 @@
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/total_num_of_verified_questions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textAppearance="@style/black_20sp"
+        app:layout_constraintStart_toStartOf="@+id/about_tv"
+        app:layout_constraintTop_toBottomOf="@+id/about_tv"
+        tools:text="Total questions: 7777" />
 </android.support.constraint.ConstraintLayout>

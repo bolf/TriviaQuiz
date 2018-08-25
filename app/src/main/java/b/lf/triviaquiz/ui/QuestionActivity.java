@@ -196,7 +196,7 @@ public class QuestionActivity extends AppCompatActivity {
         ((ImageView)findViewById(R.id.question_category_iv)).setImageResource(currCategory.getIconId());
         ((TextView)findViewById(R.id.question_category_name_tv)).setText(currCategory.getName());
         ((TextView)findViewById(R.id.question_difficulty_tv)).setText(getString(R.string.difficulty_title).concat(currQuestion.getDifficulty()));
-        ((TextView)findViewById(R.id.question_question_number)).setText(getString(R.string.question_title).concat(String.valueOf(mQuestionViewModel.getCurrentQuestionIndex() + 1)).concat(" of ").concat(String.valueOf(currUser.getQuestionsQuantity()))); //Question 16 of 32
+        ((TextView)findViewById(R.id.question_question_number)).setText(getString(R.string.question_title).concat(" " + String.valueOf(mQuestionViewModel.getCurrentQuestionIndex() + 1)).concat(" of ").concat(String.valueOf(currUser.getQuestionsQuantity()))); //Question 16 of 32
         ((TextView)findViewById(R.id.question_question_text)).setText(currQuestion.getQuestion().
                 replace("&quot;", "\"").replace("&#039;","\'" ).
                 replace("&pi;", "PI").replace("&Eacute;","e").

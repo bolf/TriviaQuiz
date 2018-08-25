@@ -5,10 +5,8 @@ android {
         config {
             keyAlias 'trivia_quiz'
             keyPassword 'abcABC123'
-            storeFile file('/home/blf/tmp/TriviaQuiz/app/trivia_quiz.jks')
+            storeFile file('./trivia_quiz.jks')
             storePassword 'abcABC123'
-        }
-        config1 {
         }
     }
     compileSdkVersion 26
@@ -20,21 +18,26 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
+            useProguard true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+            proguardFile './proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.config1
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    productFlavors {
+    }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {

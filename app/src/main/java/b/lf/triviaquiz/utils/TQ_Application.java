@@ -19,11 +19,13 @@ public class TQ_Application extends Application {
     }
 
     synchronized public Tracker getDefaultTracker() {
-        // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
         if (sTracker == null) {
             sTracker = sAnalytics.newTracker(R.xml.global_tracker);
         }
 
         return sTracker;
     }
+
+
+
 }
