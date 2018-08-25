@@ -60,11 +60,11 @@ public class UserSetupActivity extends AppCompatActivity {
         super.onResume();
         setUIAccordingToUserState();
 
-        mTracker.setScreenName("About~activity");
+        mTracker.setScreenName(getString(R.string.About_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Action")
-                .setAction("Share")
+                .setCategory(getString(R.string.action))
+                .setAction(getString(R.string.action_sh))
                 .build());
     }
 

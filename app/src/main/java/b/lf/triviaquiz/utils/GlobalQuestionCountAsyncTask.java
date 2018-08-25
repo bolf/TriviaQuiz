@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import b.lf.triviaquiz.R;
 import b.lf.triviaquiz.ui.AboutActivity;
 
 public class GlobalQuestionCountAsyncTask extends AsyncTask<Void,Void,String> {
@@ -28,7 +29,7 @@ public class GlobalQuestionCountAsyncTask extends AsyncTask<Void,Void,String> {
     protected String doInBackground(Void... voids) {
         String num = null;
         try {
-            URL url = new URL("https://opentdb.com/api_count_global.php");
+            URL url = new URL(weakActivity.get().getResources().getString(R.string.count_global_url));
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             InputStream stream = new BufferedInputStream(urlConnection.getInputStream());
@@ -41,8 +42,8 @@ public class GlobalQuestionCountAsyncTask extends AsyncTask<Void,Void,String> {
             }
 
             JSONObject topLevel = new JSONObject(builder.toString());
-            JSONObject main = topLevel.getJSONObject("overall");
-            num = String.valueOf(main.getInt("total_num_of_verified_questions"));
+            JSONObject main = topLevel.getJSONObject(weakActivity.get().getResources().getString(R.string.overall));
+            num = String.valueOf(main.getInt(weakActivity.get().getResources().getString(R.string.total_num_of_verified_questions_)));
 
             urlConnection.disconnect();
         } catch (IOException | JSONException e) {

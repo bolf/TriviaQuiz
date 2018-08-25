@@ -46,6 +46,34 @@
     <string name="sure">Are you sure?</string>
     <string name="should_choose_categories_before">You should choose categories before getting questions.)</string>
     <string name="make_max_questions_greater">make max.questions be greater then quantity of categories.</string>
+    <string name="share_body">I use TriviaQuiz App =)!</string>
+    <string name="share_extra">Did you know?</string>
+    <string name="share_via">Share via</string>
+    <string name="share_type">text/plain</string>
+    <string name="current_frag">Current</string>
+    <string name="total_frag">Total</string>
+    <string name="easy">easy</string>
+    <string name="medium">medium</string>
+    <string name="hard">hard</string>
+    <string name="category">category</string>
+    <string name="amount">amount</string>
+    <string name="difficulty">difficulty</string>
+    <string name="radioButton">radioButton</string>
+    <string name="id">id</string>
+    <string name="NoticeDialogFragment_tag">NoticeDialogFragment</string>
+    <string name="currentQuizQuestions">currentQuizQuestions</string>
+    <string name="lets">let\'s continue! =)</string>
+    <string name="unanswered">There are unanswered questions left</string>
+    <string name="live_curr_quiz">Are you sure you want to leave current quiz?</string>
+    <string name="About_activity">About~activity</string>
+    <string name="action">Action</string>
+    <string name="action_sh">Share</string>
+    <string name="overall">overall</string>
+    <string name="count_global_url">https://opentdb.com/api_count_global.php</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="must_implement">must implement NoticeDialogListener</string>
+    <string name="total_num_of_verified_questions_">total_num_of_verified_questions</string>
 
     <string-array name="difficulties_array">
         <item>""</item>

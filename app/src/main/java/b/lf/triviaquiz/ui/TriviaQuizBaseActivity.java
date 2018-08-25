@@ -36,7 +36,7 @@ public class TriviaQuizBaseActivity extends AppCompatActivity implements Navigat
         } else if (id == R.id.nav_reset_total) {
 
             DialogFragment dialog = new NoticeDialogFragment();
-            dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+            dialog.show(getSupportFragmentManager(), getString(R.string.NoticeDialogFragment_tag));
 
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
@@ -88,7 +88,6 @@ public class TriviaQuizBaseActivity extends AppCompatActivity implements Navigat
         DiskIOExecutor.getInstance().diskIO().execute(() -> TQ_DataBase.getInstance(this).answeredQuestionDao().deleteByUserId(SharedPreferencesUtils.retrieveCurrentUserId(this)));
 
     }
-
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {

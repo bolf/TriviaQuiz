@@ -47,8 +47,8 @@ public class AchievementsActivity extends TriviaQuizBaseActivity implements Navi
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         // Add Fragments to adapter one by one
-        adapter.addFragment(new CurrentAchievementsFragment(), "Current");
-        adapter.addFragment(new TotalAchievementsFragment(), "Total");
+        adapter.addFragment(new CurrentAchievementsFragment(), getString(R.string.current_frag));
+        adapter.addFragment(new TotalAchievementsFragment(), getString(R.string.total_frag));
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);

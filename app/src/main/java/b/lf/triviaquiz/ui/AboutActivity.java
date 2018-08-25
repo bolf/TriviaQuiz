@@ -36,11 +36,11 @@ public class AboutActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(view -> {
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            String shareBody = "I use TriviaQuiz App =)!";
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Did you know?");
+            sharingIntent.setType(getString(R.string.share_type));
+            String shareBody = getString(R.string.share_body);
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.share_extra));
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)));
         });
 
         new GlobalQuestionCountAsyncTask(new WeakReference<>(this)).execute();

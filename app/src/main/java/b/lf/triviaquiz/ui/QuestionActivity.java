@@ -122,9 +122,9 @@ public class QuestionActivity extends AppCompatActivity implements NoticeDialogF
             if(currUser.getDifficulty() != null  && !currUser.getDifficulty().isEmpty()){
                 difficulties[0] = currUser.getDifficulty().toLowerCase();
             }else{
-                difficulties[0] = "easy";
-                difficulties[1] = "medium";
-                difficulties[2] = "hard";
+                difficulties[0] = getString(R.string.easy);
+                difficulties[1] = getString(R.string.medium);
+                difficulties[2] = getString(R.string.hard);
             }
             mQuestionViewModel.setDifficulties(difficulties);
             mQuestionViewModel.getQuestionsFromDb().observe(this, this::processGettingQuestionsFromDb);
@@ -135,13 +135,13 @@ public class QuestionActivity extends AppCompatActivity implements NoticeDialogF
         for (Map.Entry<QuestionCategory, Integer> entry : mQuestionViewModel.getQuestionsLoadingTask().entrySet()) {
             Map<String, String> queryParams = new HashMap<>();
             //category param
-            queryParams.put("category", String.valueOf(entry.getKey().getId()));
+            queryParams.put(getString(R.string.category), String.valueOf(entry.getKey().getId()));
             //number of questions
-            queryParams.put("amount", entry.getValue().toString());
+            queryParams.put(getString(R.string.amount), entry.getValue().toString());
             //difficulty
             String difficulty = mQuestionViewModel.getUser().getValue().getDifficulty();
             if (difficulty != null && !difficulty.isEmpty()) {
-                queryParams.put("difficulty", difficulty.toLowerCase());
+                queryParams.put(getString(R.string.difficulty), difficulty.toLowerCase());
             }
 
             Call<QuestionWrapper> wrapperCall = NetworkUtils.getNetworkService().getQuestions(queryParams);
@@ -220,7 +220,7 @@ public class QuestionActivity extends AppCompatActivity implements NoticeDialogF
 
 
         for(int i = 0; i < tmpAnswersList.size(); i++){
-            RadioButton cRb = (findViewById(getResources().getIdentifier("radioButton".concat(String.valueOf(i)), "id", getPackageName())));
+            RadioButton cRb = (findViewById(getResources().getIdentifier(getString(R.string.radioButton).concat(String.valueOf(i)), getString(R.string.id), getPackageName())));
             if (i == currRandNumOfRightAnswer) {
                 cRb.setTextColor(getResources().getColor(R.color.dark_green));
             } else {
@@ -266,7 +266,7 @@ public class QuestionActivity extends AppCompatActivity implements NoticeDialogF
         for (Question q : mQuestionViewModel.getPlayingQuestionList()) {
             if (q.getCurrentAnswer() == null || q.getCurrentAnswer().isEmpty()) {
                 DialogFragment dialog = new NoticeDialogFragment();
-                dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+                dialog.show(getSupportFragmentManager(), getString(R.string.NoticeDialogFragment_tag));
                 return;
             }
         }
@@ -274,7 +274,7 @@ public class QuestionActivity extends AppCompatActivity implements NoticeDialogF
         findViewById(R.id.question_done_btn).setVisibility(View.GONE);
         //persist current quiz to db
         Intent intent = new Intent(this,CurrentQuizPersistService.class);
-        intent.putParcelableArrayListExtra("currentQuizQuestions", getCurrentAnsweredQuestionsList());
+        intent.putParcelableArrayListExtra(getString(R.string.currentQuizQuestions), getCurrentAnsweredQuestionsList());
         startService(intent);
         startActivity(new Intent(this, AchievementsActivity.class));
         finish();
@@ -291,7 +291,7 @@ public class QuestionActivity extends AppCompatActivity implements NoticeDialogF
         //persist current quiz to db
         if (getCurrentAnsweredQuestionsList().size() > 0) {
             Intent intent = new Intent(this, CurrentQuizPersistService.class);
-            intent.putParcelableArrayListExtra("currentQuizQuestions", getCurrentAnsweredQuestionsList());
+            intent.putParcelableArrayListExtra(getString(R.string.currentQuizQuestions), getCurrentAnsweredQuestionsList());
             startService(intent);
         }
         startActivity(new Intent(this, AchievementsActivity.class));
@@ -302,17 +302,17 @@ public class QuestionActivity extends AppCompatActivity implements NoticeDialogF
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         // User touched the dialog's negative button
-        Snackbar.make(findViewById(R.id.question_done_btn), "let's continue! =)",Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(findViewById(R.id.question_done_btn), R.string.lets,Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public String getDialogMessage() {
-        return "There are unanswered questions left";
+        return getString(R.string.unanswered);
     }
 
     @Override
     public String getDialogTitle() {
-        return "Are you sure you want to leave current quiz?";
+        return getString(R.string.live_curr_quiz);
     }
 
     public void showPrevQuestion(View view) {
